@@ -181,42 +181,71 @@ export default {
           //     }
           //   })
           // }
-          else if (that.ruleForm.type === 'student') {
-            let form = {sid: that.ruleForm.id, password: that.ruleForm.password}
-            axios.post("http://localhost:10086/student/login", form).then(function (resp) {
-              console.log("学生登陆验证信息：" + resp.data)
-              check = resp.data
-              if (check === true) {
-                axios.get("http://localhost:10086/student/findById/" + that.ruleForm.id).then(function (resp) {
-                  console.log("登陆页正在获取用户信息" + resp.data)
-                  name = resp.data.sname
+          else if (that.ruleForm.type === 'student'){
+            let form = {sno: that.ruleForm.id, password: that.ruleForm.password}
+            console.log(form)
 
+            axios.post("/student/login",form).then(function (resp){
+              //这里resp返回的是bool值,没有进行封装所以resp返回的是没有封装的数据，用resp.data即可访问
+              console.log("学生登陆验证信息：" + resp.data)
+              check = resp.data.data
+              if (check !== null ) {
+                axios.get("/student/getbysno",{params:{sno: that.ruleForm.id}}
+                ).then(function (resp){
+                  /**  这里的resp被封装成了Result对象，
+                   * 这个对象有三个属性分别为data，code，msg，所以要用resp.data.data访问数据
+                   * */
+                  console.log("登陆页正在获取用户信息" + resp.data.data)
+                  name = resp.data.data.sname
+//test
+                  /** 按照模板复制粘贴即可，后端没有返回token没有鉴权，没屁用*/
                   sessionStorage.setItem("token", 'true')
                   sessionStorage.setItem("type", that.ruleForm.type)
                   sessionStorage.setItem("name", name)
-                  sessionStorage.setItem("sid", resp.data.sid)
+                  sessionStorage.setItem("sid", resp.data.data.sid)
+                  that.$router.push('/student')
+                  console.log('管理员姓名: ' + name + ' ' + that.ruleForm.type + ' ' + resp.data.data.uid)
 
                   that.$message({
-                    showClose: true,
-                    message: '登陆成功，欢迎 ' + name + '!',
-                    type: 'success'
-                  });
-
-                  console.log('正在跳转：' + '/' + that.ruleForm.type)
-
-                  // 3. 路由跳转
-                  that.$router.push({
-                    path: '/' + that.ruleForm.type,
-                    query: {}
-                  })
+                                showClose: true,
+                                message: '登陆成功，欢迎 ' + name + '!',
+                                type: 'success'
+                              });
                 })
               }
-              else {
-                that.$message({
-                  showClose: true,
-                  message: '账号密码错误，请联系管理员',
-                  type: 'error'
-                });
+            })
+          }
+          else if (that.ruleForm.type === 'teacher'){
+            let form = {tid: that.ruleForm.id, password: that.ruleForm.password}
+            console.log(form)
+
+            axios.post("/teacher/login",form).then(function (resp){
+              //这里resp返回的是bool值,没有进行封装所以resp返回的是没有封装的数据，用resp.data即可访问
+              console.log("老师登陆验证信息：" + resp.data)
+              check = resp.data.data
+              if (check !== null ) {
+                axios.get("/teacher/getbytid",{params:{tid: that.ruleForm.id}}
+                ).then(function (resp){
+                  /**  这里的resp被封装成了Result对象，
+                   * 这个对象有三个属性分别为data，code，msg，所以要用resp.data.data访问数据
+                   * */
+                  console.log("登陆页正在获取用户信息" + resp.data.data)
+                  name = resp.data.data.tname
+//test
+                  /** 按照模板复制粘贴即可，后端没有返回token没有鉴权，没屁用*/
+                  sessionStorage.setItem("token", 'true')
+                  sessionStorage.setItem("type", that.ruleForm.type)
+                  sessionStorage.setItem("name", name)
+                  sessionStorage.setItem("tid", resp.data.data.tid)
+                  that.$router.push('/teacher')
+                  console.log('管理员姓名: ' + name + ' ' + that.ruleForm.type + ' ' + resp.data.data.sid)
+
+                  that.$message({
+                                showClose: true,
+                                message: '登陆成功，欢迎 ' + name + '!',
+                                type: 'success'
+                              });
+                })
               }
             })
           }
