@@ -44,7 +44,6 @@
 <script>
 export default {
   data() {
-    //test
     return {
       ruleForm: {
         id: null,
@@ -90,15 +89,21 @@ export default {
           if (that.ruleForm.type === 'admin'){
             let form = {uid: that.ruleForm.id, password: that.ruleForm.password}
             console.log(form)
-            axios.post("http://localhost:8080/admin/login",form).then(function (resp){
-              console.log("教师登陆验证信息：" + resp.data)
+
+            axios.post("/admin/login",form).then(function (resp){
+              //这里resp返回的是bool值,没有进行封装所以resp返回的是没有封装的数据，用resp.data即可访问
+              console.log("管理员登陆验证信息：" + resp.data)
               check = resp.data
               if (check === true) {
-                axios.get("http://localhost:8080/admin/getbyuid",{params:{uid: that.ruleForm.id}}
+                axios.get("/admin/getbyuid",{params:{uid: that.ruleForm.id}}
                 ).then(function (resp){
+                  /**  这里的resp被封装成了Result对象，
+                   * 这个对象有三个属性分别为data，code，msg，所以要用resp.data.data访问数据
+                   * */
                   console.log("登陆页正在获取用户信息" + resp.data.data)
                   name = resp.data.data.name
 //test
+                  /** 按照模板复制粘贴即可，后端没有返回token没有鉴权，没屁用*/
                   sessionStorage.setItem("token", 'true')
                   sessionStorage.setItem("type", that.ruleForm.type)
                   sessionStorage.setItem("name", name)
