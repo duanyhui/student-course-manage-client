@@ -80,6 +80,11 @@ export default {
             sessionStorage.setItem("ForbidCourseSelection", resp.data)
           })
 
+          /**
+           * author:duanyhui
+           * build at 2022-5-4
+           *
+           */
           //
           if (that.ruleForm.type === 'admin'){
             let form = {uid: that.ruleForm.id, password: that.ruleForm.password}
@@ -90,16 +95,21 @@ export default {
               if (check === true) {
                 axios.get("http://localhost:8080/admin/getbyuid",{params:{uid: that.ruleForm.id}}
                 ).then(function (resp){
-                  console.log("登陆页正在获取用户信息" + resp.data)
+                  console.log("登陆页正在获取用户信息" + resp.data.data)
                   name = resp.data.data.name
 
                   sessionStorage.setItem("token", 'true')
                   sessionStorage.setItem("type", that.ruleForm.type)
                   sessionStorage.setItem("name", name)
-                  sessionStorage.setItem("tid", resp.data.uid)
+                  sessionStorage.setItem("uid", resp.data.data.uid)
+                  that.$router.push('/admin')
+                  console.log('管理员姓名: ' + name + ' ' + that.ruleForm.type + ' ' + resp.data.data.uid)
 
-                  console.log('name: ' + name + ' ' + that.ruleForm.type + ' ' + resp.data.tid)
-
+                  that.$message({
+                                showClose: true,
+                                message: '登陆成功，欢迎 ' + name + '!',
+                                type: 'success'
+                              });
                 })
               }
             })
@@ -113,58 +123,58 @@ export default {
               //
 
 
-          if (that.ruleForm.type === 'admin' || that.ruleForm.type === 'teacher') {
-            let form = {tid: that.ruleForm.id, password: that.ruleForm.password}
-            console.log(form)
-            axios.post("http://localhost:10086/teacher/login", form).then(function (resp) {
-              console.log("教师登陆验证信息：" + resp.data)
-              check = resp.data
-              if (check === true) {
-                axios.get("http://localhost:10086/teacher/findById/" + that.ruleForm.id).then(function (resp) {
-                  console.log("登陆页正在获取用户信息" + resp.data)
-                  name = resp.data.tname
-
-                  sessionStorage.setItem("token", 'true')
-                  sessionStorage.setItem("type", that.ruleForm.type)
-                  sessionStorage.setItem("name", name)
-                  sessionStorage.setItem("tid", resp.data.tid)
-
-                  console.log('name: ' + name + ' ' + that.ruleForm.type + ' ' + resp.data.tid)
-
-                  if (that.ruleForm.type === 'admin' || name === 'admin') {
-                    that.$message({
-                      showClose: true,
-                      message: '登陆成功，欢迎 ' + name + '!',
-                      type: 'success'
-                    });
-                    that.$router.push('/admin')
-                  }
-                  else if(that.ruleForm.type === 'teacher' && name !== 'admin') {
-                    that.$message({
-                      showClose: true,
-                      message: '登陆成功，欢迎 ' + name + '!',
-                      type: 'success'
-                    });
-                    that.$router.push('/teacher')
-                  }
-                  else {
-                    that.$message({
-                      showClose: true,
-                      message: 'admin 登陆失败，检查登陆类型',
-                      type: 'error'
-                    });
-                  }
-                })
-              }
-              else {
-                that.$message({
-                  showClose: true,
-                  message: '登陆失败，检查账号密码',
-                  type: 'error'
-                });
-              }
-            })
-          }
+          // if (that.ruleForm.type === 'admin' || that.ruleForm.type === 'teacher') {
+          //   let form = {tid: that.ruleForm.id, password: that.ruleForm.password}
+          //   console.log(form)
+          //   axios.post("http://localhost:10086/teacher/login", form).then(function (resp) {
+          //     console.log("教师登陆验证信息：" + resp.data)
+          //     check = resp.data
+          //     if (check === true) {
+          //       axios.get("http://localhost:10086/teacher/findById/" + that.ruleForm.id).then(function (resp) {
+          //         console.log("登陆页正在获取用户信息" + resp.data)
+          //         name = resp.data.tname
+          //
+          //         sessionStorage.setItem("token", 'true')
+          //         sessionStorage.setItem("type", that.ruleForm.type)
+          //         sessionStorage.setItem("name", name)
+          //         sessionStorage.setItem("tid", resp.data.tid)
+          //
+          //         console.log('name: ' + name + ' ' + that.ruleForm.type + ' ' + resp.data.tid)
+          //
+          //         if (that.ruleForm.type === 'admin' || name === 'admin') {
+          //           that.$message({
+          //             showClose: true,
+          //             message: '登陆成功，欢迎 ' + name + '!',
+          //             type: 'success'
+          //           });
+          //           that.$router.push('/admin')
+          //         }
+          //         else if(that.ruleForm.type === 'teacher' && name !== 'admin') {
+          //           that.$message({
+          //             showClose: true,
+          //             message: '登陆成功，欢迎 ' + name + '!',
+          //             type: 'success'
+          //           });
+          //           that.$router.push('/teacher')
+          //         }
+          //         else {
+          //           that.$message({
+          //             showClose: true,
+          //             message: 'admin 登陆失败，检查登陆类型',
+          //             type: 'error'
+          //           });
+          //         }
+          //       })
+          //     }
+          //     else {
+          //       that.$message({
+          //         showClose: true,
+          //         message: '登陆失败，检查账号密码',
+          //         type: 'error'
+          //       });
+          //     }
+          //   })
+          // }
           else if (that.ruleForm.type === 'student') {
             let form = {sid: that.ruleForm.id, password: that.ruleForm.password}
             axios.post("http://localhost:10086/student/login", form).then(function (resp) {
@@ -204,6 +214,7 @@ export default {
               }
             })
           }
+
           else {
             console.log("! error type")
           }
