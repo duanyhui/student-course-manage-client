@@ -8,7 +8,7 @@ import './plugins/element.js'
 Vue.config.productionTip = false
 
 
-axios.defaults.baseURL='http://192.168.66.88:8080';
+axios.defaults.baseURL='http://localhost:10086';
 // Vue.prototype.$axios = axios;
 
 

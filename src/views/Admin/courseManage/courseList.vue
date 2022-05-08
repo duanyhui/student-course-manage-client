@@ -58,12 +58,13 @@ export default {
     },
     deleteTeacher(row) {
       const that = this
-      axios.get('http://localhost:10086/course/deleteById/' + row.cid).then(function (resp) {
+      axios.get('course/delbycno/' + row.cid).then(function (resp) {
+        let message = resp.data.message;
         console.log(resp)
-        if (resp.data === true) {
+        if (resp.data.data === 200) {//200代表操作执行成功
           that.$message({
             showClose: true,
-            message: '删除成功',
+            message: message,
             type: 'success'
           });
           window.location.reload()
@@ -71,14 +72,14 @@ export default {
         else {
           that.$message({
             showClose: true,
-            message: '删除出错，请查询数据库连接',
+            message: message,
             type: 'error'
           });
         }
       }).catch(function (error) {
         that.$message({
           showClose: true,
-          message: '删除出错，存在外键依赖',
+          message: message,
           type: 'error'
         });
       })
@@ -89,7 +90,7 @@ export default {
       const term = sessionStorage.getItem("currentTerm")
 
       const that = this
-      axios.get('http://localhost:10086/courseTeacher/insert/' + cid + '/' + tid + '/' + term).then(function (resp) {
+      axios.get('courseTeacher/insert/' + cid + '/' + tid + '/' + term).then(function (resp) {
         if (resp.data === true) {
           that.$message({
             showClose: true,

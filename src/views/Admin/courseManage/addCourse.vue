@@ -1,6 +1,9 @@
 <template>
   <div>
     <el-form style="width: 60%" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+      <el-form-item label="课程号" prop="cno">
+        <el-input v-model="ruleForm.cno"></el-input>
+      </el-form-item>
       <el-form-item label="课程名" prop="cname">
         <el-input v-model="ruleForm.cname"></el-input>
       </el-form-item>
@@ -20,10 +23,15 @@ export default {
   data() {
     return {
       ruleForm: {
+        cno: null,
         cname: null,
         ccredit: null
       },
       rules: {
+        cno: [
+          // { required: true, message: '请输入学分', trigger: 'change' },
+          // { type: 'number', message: '请输入数字', trigger: 'blur' },
+        ],
         cname: [
           { required: true, message: '请输入名称', trigger: 'blur' },
         ],
@@ -42,19 +50,23 @@ export default {
           const that = this
           // console.log(this.ruleForm)
 
-          axios.post("http://localhost:10086/course/save", this.ruleForm).then(function (resp) {
+          axios.post("/course/add", this.ruleForm).then(function (resp) {//??
+          let message=resp.data.msg;
             console.log(resp)
-            if (resp.data === true) {
+            if (resp.data.code===200) {//200没出问题？
+            
               that.$message({
+                
                 showClose: true,
-                message: '插入成功',
+                message: message,
                 type: 'success'
               });
             }
             else {
-              that.$message.error('插入失败，请检查数据库t');
+              
+              that.$message.error(message);
             }
-            that.$router.push("/queryCourse")
+            // that.$router.push("/queryCourse")//请求接口对了没
           })
         } else {
           return false;
