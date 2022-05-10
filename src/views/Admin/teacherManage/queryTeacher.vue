@@ -1,20 +1,36 @@
+/**
+本页于2022.5.11由肖阳修改，修改了接口，添加了点击按钮根据fuzzy修改password的逻辑
+**/
 <template>
   <div>
     <el-container>
       <el-main>
         <el-card>
-          <el-form :inline="true" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-            <el-form-item label="工号" prop="tid">
-              <el-input v-model.number="ruleForm.tid"></el-input>
+          <el-form
+              ref="ruleForm"
+              :inline="true"
+              :model="ruleForm"
+              :rules="rules"
+              class="demo-ruleForm"
+              label-width="100px"
+          >
+            <el-form-item label="工号" prop="tno">
+              <el-input v-model.number="ruleForm.tno"></el-input>
             </el-form-item>
             <el-form-item label="教师姓名" prop="tname">
               <el-input v-model="ruleForm.tname"></el-input>
             </el-form-item>
             <el-form-item label="模糊查询" prop="fuzzy">
-              <el-switch v-model="ruleForm.fuzzy"></el-switch>
+              <el-switch
+                  v-model="ruleForm.fuzzy"
+                  @change="changeFuzzy"
+              ></el-switch>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="resetForm('ruleForm')">重置</el-button>
+              <el-button type="primary" @click="resetForm('ruleForm')"
+              >重置
+              </el-button
+              >
             </el-form-item>
           </el-form>
         </el-card>
@@ -30,31 +46,35 @@ import TeacherList from "@/views/Admin/teacherManage/teacherList";
 export default {
   components: {TeacherList},
   data() {
+
     return {
       ruleForm: {
-        tid: null,
+        tno: null,
         tname: null,
-        fuzzy: true
+        fuzzy: true,
+        password: "fuzzy",
       },
       rules: {
-        tid: [
-          { type: 'number', message: '必须是数字类型' }
-        ],
-        tname: [
-
-        ],
-      }
+        tno: [{type: "number", message: "必须是数字类型"}],
+        tname: [],
+      },
     };
   },
   create() {
-    this.tid = null
-    this.tname = null
-    this.fuzzy = true
+    this.tno = null;
+    this.tname = null;
+    this.fuzzy = true;
+    this.password = "fuzzy";
   },
   methods: {
+    changeFuzzy(ruleForm) {
+      var that = this.ruleForm;
+      that.fuzzy ? that.password = 'fuzzy' : that.password = 'notfuzzy';
+      console.log(that.password);
+    },
     resetForm(formName) {
       this.$refs[formName].resetFields();
-    }
-  }
-}
+    },
+  },
+};
 </script>

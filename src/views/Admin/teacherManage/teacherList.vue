@@ -6,7 +6,7 @@
         style="width: 100%">
       <el-table-column
           fixed
-          prop="tid"
+          prop="tno"
           label="工号"
           width="150">
       </el-table-column>
@@ -62,7 +62,7 @@ export default {
         return
       }
       const that = this
-      axios.get('http://localhost:10086/teacher/deleteById/' + row.tid).then(function (resp) {
+      axios.get('/teacher/deleteById/' + row.tno).then(function (resp) {
         if (resp.data === true) {
           that.$message({
             showClose: true,
@@ -70,8 +70,7 @@ export default {
             type: 'success'
           });
           window.location.reload()
-        }
-        else {
+        } else {
           that.$message({
             showClose: true,
             message: '删除出错，请查询数据库连接',
@@ -106,7 +105,7 @@ export default {
       this.$router.push({
         path: '/editorTeacher',
         query: {
-          tid: row.tid
+          tno: row.tno
         }
       })
     }
@@ -127,16 +126,29 @@ export default {
     ruleForm: {
       handler(newRuleForm, oldRuleForm) {
         console.log("组件监听 form")
+
         const that = this
         that.tmpList = null
         that.total = null
         that.tableData = null
-        axios.post("http://localhost:10086/teacher/findBySearch", newRuleForm).then(function (resp) {
+        console.log(this.ruleForm);
+
+        axios.post("/teacher/findBySearch", newRuleForm).then(function (resp) {
+
+          // console.log("查询结果:");
+          // console.log(newRuleForm)
+          // console.log(resp)
+          // that.tmpList = resp.data
+          // that.total = resp.data.length
+          // let start = 0, end = that.pageSize
+          // let length = that.tmpList.length
+          // let ans = (end < length) ? end : length
+          // that.tableData = that.tmpList.slice(start, end)
           console.log("查询结果:");
           console.log(newRuleForm)
-          console.log(resp)
-          that.tmpList = resp.data
-          that.total = resp.data.length
+          console.log(resp.data)
+          that.tmpList = resp.data.data;
+          that.total = resp.data.data.length
           let start = 0, end = that.pageSize
           let length = that.tmpList.length
           let ans = (end < length) ? end : length

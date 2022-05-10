@@ -1,12 +1,15 @@
+/**
+本页于2022.5.11由肖阳修改，主要添加了性别，学期的选择框，修改了请求的接口，修改了检验输入的逻辑
+**/
 <template>
   <div>
     <el-form
-      style="width: 60%"
-      :model="ruleForm"
-      :rules="rules"
-      ref="ruleForm"
-      label-width="100px"
-      class="demo-ruleForm"
+        ref="ruleForm"
+        :model="ruleForm"
+        :rules="rules"
+        class="demo-ruleForm"
+        label-width="100px"
+        style="width: 60%"
     >
       <el-form-item label="学生学号" prop="sno">
         <el-input v-model="ruleForm.sno"></el-input>
@@ -17,10 +20,10 @@
       <el-form-item label="性别" prop="ssex">
         <el-select v-model="ruleForm.ssex" placeholder="请选择性别">
           <el-option
-            v-for="item in ruleForm.ssexList"
-            :key="item"
-            :label="item"
-            :value="item"
+              v-for="item in ruleForm.ssexList"
+              :key="item"
+              :label="item"
+              :value="item"
           >
           </el-option>
         </el-select>
@@ -35,20 +38,21 @@
       <el-form-item label="学期" prop="term">
         <el-select v-model="ruleForm.term" placeholder="请选择学期">
           <el-option
-            v-for="item in ruleForm.termList"
-            :key="item"
-            :label="item"
-            :value="item"
+              v-for="item in ruleForm.termList"
+              :key="item"
+              :label="item"
+              :value="item"
           >
           </el-option>
         </el-select>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')"
-          >提交</el-button
+        >提交
+        </el-button
         >
         <el-button @click="resetForm('ruleForm')">重置</el-button>
-        <el-button @click="test">test</el-button>
+
       </el-form-item>
     </el-form>
   </div>
@@ -97,8 +101,8 @@ export default {
           { required: true, message: "请输入性别", trigger: "blur" },
         ],
         major: [
-          { required: true, message: "请输入名称", trigger: "blur" },
-          { min: 2, max: 5, message: "长度在 2 到 5 个字符", trigger: "blur" },
+          {required: true, message: "请输入名称", trigger: "blur"},
+          {min: 2, max: 10, message: "长度在 2 到 5 个字符", trigger: "blur"},
         ],
         term: [{ required: true, message: "请选择学期", trigger: "blur" }],
         college: [
@@ -118,7 +122,7 @@ export default {
             if (resp.data.code === 200) {
               that.$message({
                 showClose: true,
-                message: resp.data.msg+'初始密码为123456',
+                message: resp.data.msg + '  初始密码为123456',
                 type: "success",
               });
             } else if (resp.data.code===400) {
