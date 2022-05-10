@@ -118,7 +118,7 @@ export default {
             if (resp.data.code === 200) {
               that.$message({
                 showClose: true,
-                message: resp.data.msg,
+                message: resp.data.msg+'初始密码为123456',
                 type: "success",
               });
             } else if (resp.data.code===400) {
