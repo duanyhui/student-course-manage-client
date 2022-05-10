@@ -45,8 +45,8 @@ export default {
             if (resp.data === true) {
               that.$message({
                 showClose: true,
-                message: '插入成功',
-                type: 'success'
+                message: resp.data.msg+'初始密码为123456',
+                type: "success",
               });
             }
             else {
