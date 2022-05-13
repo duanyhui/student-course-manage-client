@@ -38,6 +38,8 @@ import teacherQueryGradeCourse from "@/views/Teacher/teacherGradeCourseManage/te
 import teacherGradeCourseList from "@/views/Teacher/teacherGradeCourseManage/teacherGradeCourseList";
 import teacherEditorGradeCourse from "@/views/Teacher/teacherGradeCourseManage/teacherEditorGradeCourse";
 import updateInfo from "@/components/updateInfo";
+import editorStudentPassword from "@/views/Student/editStudent/editorStudentPassword";
+import editorStudentInfo from "@/views/Student/editStudent/editorStudentInfo";
 
 Vue.use(VueRouter)
 
@@ -319,11 +321,17 @@ const routes = [
         meta: {requireAuth: true},
         children: [
           {
-            path: '/updateInfoHome',
+            path: '/updateStudentInfo',
             name: '编辑学生信息',
-            component: updateInfo,
+            component: editorStudentInfo,
             meta: {requireAuth: true}
-          }
+          },
+          {
+            path: '/updateStudentPassword',
+            name: '修改学生密码',
+            component: editorStudentPassword,
+            meta: {requireAuth: true}
+          },
         ]
       },
       {

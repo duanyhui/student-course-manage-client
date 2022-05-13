@@ -52,36 +52,36 @@
 <script>
 export default {
   methods: {
-    select(row) {
-      console.log(row)
-    },
-    deleteTeacher(row) {
-      const that = this
-      axios.get('http://localhost:10086/course/deleteById/' + row.cid).then(function (resp) {
-        if (resp.data === true) {
-          that.$message({
-            showClose: true,
-            message: '删除成功',
-            type: 'success'
-          });
-          window.location.reload()
-        }
-        else {
-          that.$message({
-            showClose: true,
-            message: '删除出错，请查询数据库连接',
-            type: 'error'
-          });
-        }
-      })
-    },
+    // select(row) {
+    //   console.log(row)
+    // },
+    // deleteTeacher(row) {
+    //   const that = this
+    //   axios.get('/course/deleteById/' + row.cid).then(function (resp) {
+    //     if (resp.data === true) {
+    //       that.$message({
+    //         showClose: true,
+    //         message: '删除成功',
+    //         type: 'success'
+    //       });
+    //       window.location.reload()
+    //     }
+    //     else {
+    //       that.$message({
+    //         showClose: true,
+    //         message: '删除出错，请查询数据库连接',
+    //         type: 'error'
+    //       });
+    //     }
+    //   })
+    // },
     offer(row) {
       const tid = sessionStorage.getItem("tid")
       const cid = row.cid
       const term = sessionStorage.getItem("currentTerm")
 
       const that = this
-      axios.get('http://localhost:10086/courseTeacher/insert/' + cid + '/' + tid + '/' + term).then(function (resp) {
+      axios.get('/courseTeacher/insert/' + cid + '/' + tid + '/' + term).then(function (resp) {
         if (resp.data === true) {
           that.$message({
             showClose: true,
@@ -109,14 +109,14 @@ export default {
       let ans = (end < length) ? end : length
       that.tableData = that.tmpList.slice(start, ans)
     },
-    editor(row) {
-      this.$router.push({
-        path: '/editorCourse',
-        query: {
-          cid: row.cid
-        }
-      })
-    }
+    // editor(row) {
+    //   this.$router.push({
+    //     path: '/editorCourse',
+    //     query: {
+    //       cid: row.cid
+    //     }
+    //   })
+    // }
   },
   created() {
     console.log(this.type)
@@ -143,7 +143,7 @@ export default {
         that.tmpList = null
         that.total = null
         that.tableData = null
-        axios.post("http://localhost:10086/course/findBySearch", newRuleForm).then(function (resp) {
+        axios.post("/course/findBySearch", newRuleForm).then(function (resp) {
           console.log("查询结果:");
           console.log(resp)
           that.tmpList = resp.data

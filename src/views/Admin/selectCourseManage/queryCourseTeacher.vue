@@ -4,23 +4,27 @@
       <el-main>
         <el-card>
           <el-form :inline="true" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="demo-ruleForm">
-            <el-form-item label="工号" prop="tid">
-              <el-input v-model.number="ruleForm.tid"></el-input>
-            </el-form-item>
+<!--            <el-form-item label="工号" prop="tno">-->
+<!--              <el-input v-model.number="ruleForm.tno"></el-input>-->
+<!--            </el-form-item>-->
             <el-form-item label="教师名" prop="tname">
               <el-input v-model.number="ruleForm.tname"></el-input>
             </el-form-item>
-            <el-form-item label="教师模糊查询">
-              <el-switch v-model="ruleForm.tFuzzy"></el-switch>
-            </el-form-item>
-            <el-form-item label="课程号" prop="cid">
-              <el-input v-model.number="ruleForm.cid"></el-input>
-            </el-form-item>
+
+<!--            <el-form-item label="课程号" prop="cno">-->
+<!--              <el-input v-model.number="ruleForm.cno"></el-input>-->
+<!--            </el-form-item>-->
             <el-form-item label="课程名" prop="cname">
               <el-input v-model.number="ruleForm.cname"></el-input>
             </el-form-item>
-            <el-form-item label="课程模糊查询">
-              <el-switch v-model="ruleForm.cFuzzy"></el-switch>
+            <el-form-item label="学期" prop="term">
+              <el-input v-model.number="ruleForm.term"></el-input>
+            </el-form-item>
+            <el-form-item label="模糊查询" prop="fuzzy">
+              <el-switch
+                  v-model="ruleForm.fuzzy"
+                  @change="changeFuzzy"
+              ></el-switch>
             </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="resetForm('ruleForm')">重置</el-button>
@@ -41,18 +45,20 @@ export default {
   data() {
     return {
       ruleForm: {
-        tid: null,
-        cid: null,
-        cname: null,
-        tname: null,
-        tFuzzy: true,
-        cFuzzy: true
+        tno: '',
+        cno: '',
+        cname: '',
+        tname: '',
+        term:'',
+        fuzzy: true,
+
+
       },
       rules: {
-        tid: [
+        tno: [
           { type: 'number', message: '必须是数字类型' }
         ],
-        cid: [
+        cno: [
           { type: 'number', message: '必须是数字类型' }
         ],
       }
@@ -61,7 +67,12 @@ export default {
   methods: {
     resetForm(formName) {
       this.$refs[formName].resetFields();
-    }
+    },
+    changeFuzzy(ruleForm) {
+      // let that = this.ruleForm;
+      // that.fuzzy ? that.password = 'fuzzy' : that.password = 'notfuzzy';
+      // console.log(that.password);
+    },
   }
 }
 </script>

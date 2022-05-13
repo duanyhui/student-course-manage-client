@@ -139,8 +139,11 @@ export default {
                       /** 按照模板复制粘贴即可，后端没有返回token没有鉴权，没屁用*/
                       sessionStorage.setItem("token", 'true')
                       sessionStorage.setItem("type", that.ruleForm.type)
-                      sessionStorage.setItem("name", resp.data.data.sname)
+                      sessionStorage.setItem("sname", resp.data.data.sname)
                       sessionStorage.setItem("sno", resp.data.data.sno)
+                      sessionStorage.setItem("ssex", resp.data.data.ssex)
+                      sessionStorage.setItem("major", resp.data.data.major)
+                      sessionStorage.setItem("term", resp.data.data.term)
                       that.$router.push('/student'
                       )
                       console.log('学生姓名: ' + name + ' ' + that.ruleForm.type + ' ' + resp.data.data.sno)
@@ -157,16 +160,16 @@ export default {
             )
           }
           else if (that.ruleForm.type === 'teacher'){
-            let form = {tid: that.ruleForm.id, password: that.ruleForm.password}
+            let form = {tno: that.ruleForm.id, password: that.ruleForm.password}
             console.log(form)
 
             axios.post("/teacher/login",form).then(function (resp){
               //这里resp返回的是bool值,没有进行封装所以resp返回的是没有封装的数据，用resp.data即可访问
               console.log("老师登陆验证信息：" + resp.data)
-              check = resp.data.data
-              if (check !== null ) {
-                axios.get("/teacher/getbytid",{params:{tid: that.ruleForm.id}}
-                ).then(function (resp){
+              // check = resp.data.data
+              if (resp.data.code===200 ) {
+                // axios.get("/teacher/getbytno",{params:{tid: that.ruleForm.id}}
+                // ).then(function (resp){
                   /**  这里的resp被封装成了Result对象，
                    * 这个对象有三个属性分别为data，code，msg，所以要用resp.data.data访问数据
                    * */
@@ -177,16 +180,23 @@ export default {
                   sessionStorage.setItem("token", 'true')
                   sessionStorage.setItem("type", that.ruleForm.type)
                   sessionStorage.setItem("name", name)
-                  sessionStorage.setItem("tid", resp.data.data.tid)
+                  sessionStorage.setItem("tno", resp.data.data.tno)
                   that.$router.push('/teacher')
-                  console.log('管理员姓名: ' + name + ' ' + that.ruleForm.type + ' ' + resp.data.data.sno)
+                  console.log('管理员姓名: ' + name + ' ' + that.ruleForm.type + ' ' + resp.data.data.tno)
 
                   that.$message({
                                 showClose: true,
                                 message: '登陆成功，欢迎 ' + name + '!',
                                 type: 'success'
                               });
-                })
+                // })
+              }
+              else if(resp.data.code===400){
+                that.$message({
+                  showClose: true,
+                  message: resp.data.msg,
+                  type: 'error'
+                });
               }
             })
           }

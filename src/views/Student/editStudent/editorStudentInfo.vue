@@ -1,6 +1,3 @@
-/**
-本页于2022.5.11由肖阳修改，主要添加了性别，学期的选择框，添加了根据学号点击查询获取学生信息后填入框的功能，修改了请求的接口，修改了检验输入的逻辑
-**/
 <template>
   <div>
     <el-form
@@ -11,18 +8,19 @@
         label-width="140px"
         style="width: 60%"
     >
-      <el-form-item label="需编辑的学生学号" prop="sno">
-        <el-input v-model="ruleForm.sno"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="quirybysno('ruleForm')"
-        >查询
-        </el-button
-        >
-      </el-form-item>
-      <el-form-item label="学生密码" prop="password">
-        <el-input v-model="ruleForm.password" show-password :value="ruleForm.password"></el-input>
-      </el-form-item>
+<!--      <el-form-item label="需编辑的学生学号" prop="sno">-->
+<!--        <el-input v-model="ruleForm.sno"></el-input>-->
+<!--      </el-form-item>-->
+<!--      <el-form-item>-->
+<!--        <el-button type="primary" @click="quirybysno('ruleForm')"-->
+<!--        >查询-->
+<!--        </el-button-->
+<!--        >-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="学生密码" prop="password">-->
+<!--        <el-input v-model="ruleForm.password" show-password :value="ruleForm.password"></el-input>-->
+<!--        -->
+<!--      </el-form-item>-->
       <el-form-item label="学生姓名" prop="sname">
         <el-input v-model="ruleForm.sname"></el-input>
       </el-form-item>
@@ -83,13 +81,13 @@ export default {
 
     return {
       ruleForm: {
-        sno: "",
-        sname: "",
-        ssex: "",
+        sno: sessionStorage.getItem('sno'),
+        sname: sessionStorage.getItem('sname'),
+        ssex: sessionStorage.getItem('ssex'),
         password: null,
-        major: "",
-        college: "",
-        term: "",
+        major: sessionStorage.getItem('major'),
+        college: sessionStorage.getItem('college'),
+        term: sessionStorage.getItem('term'),
 
 
       },
@@ -128,11 +126,22 @@ export default {
       },
     };
   },
-
+  created() {
+    // const that = this
+    // if (this.$route.query.sid === undefined) {
+    //   this.ruleForm.sid = 1
+    // }
+    // else {
+    //   this.ruleForm.sid = this.$route.query.sid
+    // }
+    // axios.get('/student/getbysno/' + this.ruleForm.sid).then(function (resp) {
+    //   that.ruleForm = resp.data
+    // })
+  },
   methods: {
     quirybysno() {//点击查询按钮查询学号对应学生信息，并且填入对应输入框，选择框中
       const that = this;
-      //try {  
+      //try {
       axios
           .get("/student/getbysno/" + this.ruleForm.sno)
           .then(function (resp) {

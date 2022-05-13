@@ -68,7 +68,7 @@ export default {
   },
   methods: {
     changeFuzzy(ruleForm) {
-      var that = this.ruleForm;
+      let that = this.ruleForm;
       that.fuzzy ? that.password = 'fuzzy' : that.password = 'notfuzzy';
       console.log(that.password);
     },

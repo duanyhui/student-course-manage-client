@@ -8,23 +8,34 @@
         style="width: 100%">
       <el-table-column
           fixed
-          prop="cid"
+          prop="ctid"
+          label="开课编号"
+          width="150">
+      </el-table-column>
+      <el-table-column
+          fixed
+          prop="cno"
           label="课号"
           width="150">
       </el-table-column>
       <el-table-column
           prop="cname"
-          label="课程号"
+          label="课程名"
           width="150">
       </el-table-column>
       <el-table-column
-          prop="tid"
+          prop="tno"
           label="教师号"
           width="150">
       </el-table-column>
       <el-table-column
           prop="tname"
           label="教师名称"
+          width="150">
+      </el-table-column>
+      <el-table-column
+          prop="term"
+          label="授课学期"
           width="150">
       </el-table-column>
       <el-table-column
@@ -58,48 +69,53 @@
 <script>
 export default {
   methods: {
-    select(row) {
-      console.log(row)
-      const cid = row.cid
-      const tid = row.tid
-      const sid = sessionStorage.getItem('sid')
-      const term = sessionStorage.getItem('currentTerm')
-      const sct = {
-        cid: cid,
-        tid: tid,
-        sid: sid,
-        term: term
-      }
-      const that = this
-      axios.post('http://localhost:10086/SCT/save', sct).then(function (resp) {
-        if (resp.data === true) {
-          that.$message({
-            showClose: true,
-            message: '选课成功',
-            type: 'success'
-          });
-        }
-        else {
-          that.$message({
-            showClose: true,
-            message: '选课出错，请联系管理员',
-            type: 'error'
-          });
-        }
-      })
-
-    },
+    // select(row) {
+    //   console.log(row)
+    //   const cno = row.cno
+    //   const tno = row.tno
+    //   const sno = sessionStorage.getItem('sno')
+    //   const term = row.term
+    //   const sct = {
+    //     cno: cno,
+    //     tno: tno,
+    //     sno: sno,
+    //     term: term
+    //   }
+    //   const that = this
+    //   axios.post('/SCT/save', sct).then(function (resp) {
+    //     if (resp.data === true) {
+    //       that.$message({
+    //         showClose: true,
+    //         message: '选课成功',
+    //         type: 'success'
+    //       });
+    //     }
+    //     else {
+    //       that.$message({
+    //         showClose: true,
+    //         message: '选课出错，请联系管理员',
+    //         type: 'error'
+    //       });
+    //     }
+    //   })
+    //
+    // },
     deleteCourseTeacher(row) {
       const that = this
-      axios.post('http://localhost:10086/courseTeacher/deleteById', row).then(function (resp) {
-        if (resp.data === true) {
+      axios.post('/ct/delete', row).then(function (resp) {
+        if (resp.data.code === 200) {
           that.$message({
             showClose: true,
-            message: '删除成功',
+            message: resp.data.msg,
             type: 'success'
           });
           window.location.reload()
         }
+        else if(resp.data.code===400) {that.$message({
+          showClose: true,
+          message: resp.data.msg,
+          type: 'error'
+        });}
         else {
           that.$message({
             showClose: true,
@@ -138,11 +154,12 @@ export default {
         that.tmpList = null
         that.total = null
         that.tableData = null
-        axios.post("http://localhost:10086/courseTeacher/findCourseTeacherInfo", newRuleForm).then(function (resp) {
-          that.tmpList = resp.data
-          that.total = resp.data.length
-          let start = 0, end = that.pageSize
-          let length = that.tmpList.length
+        console.log(newRuleForm);
+        axios.post("/ct/findBySearch", newRuleForm).then(function (resp) {
+          that.tmpList = resp.data.data;
+          that.total = resp.data.length;
+          let start = 0, end = that.pageSize;
+          let length = that.tmpList.length;
           let ans = (end < length) ? end : length
           that.tableData = that.tmpList.slice(start, ans)
         })

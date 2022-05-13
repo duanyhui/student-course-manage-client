@@ -14,13 +14,16 @@
       <el-form-item label="学生学号" prop="sno">
         <el-input v-model="ruleForm.sno"></el-input>
       </el-form-item>
+      <el-form-item label="教师密码" prop="password">
+        <el-input v-model="ruleForm.password" :value="ruleForm.password"></el-input>
+      </el-form-item>
       <el-form-item label="学生姓名" prop="sname">
         <el-input v-model="ruleForm.sname"></el-input>
       </el-form-item>
       <el-form-item label="性别" prop="ssex">
         <el-select v-model="ruleForm.ssex" placeholder="请选择性别">
           <el-option
-              v-for="item in ruleForm.ssexList"
+              v-for="item in infoList.ssexList"
               :key="item"
               :label="item"
               :value="item"
@@ -38,7 +41,7 @@
       <el-form-item label="学期" prop="term">
         <el-select v-model="ruleForm.term" placeholder="请选择学期">
           <el-option
-              v-for="item in ruleForm.termList"
+              v-for="item in infoList.termList"
               :key="item"
               :label="item"
               :value="item"
@@ -71,12 +74,26 @@ export default {
     return {
       ruleForm: {
         sno: "",
+        password:'',
         sname: "",
         ssex: "",
         ssexList: ["男", "女"],
         major: "",
         college: "",
         term: "",
+        termList: [
+          "大一上",
+          "大一下",
+          "大二上",
+          "大二下",
+          "大三上",
+          "大三下",
+          "大四上",
+          "大四下",
+        ],
+      },
+      infoList: {
+        ssexList: ["男", "女"],
         termList: [
           "大一上",
           "大一下",

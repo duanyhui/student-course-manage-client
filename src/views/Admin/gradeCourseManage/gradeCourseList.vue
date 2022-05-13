@@ -7,7 +7,7 @@
         style="width: 100%">
       <el-table-column
           fixed
-          prop="cid"
+          prop="cno"
           label="课程号"
           width="150">
       </el-table-column>
@@ -18,7 +18,7 @@
       </el-table-column>
       <el-table-column
           fixed
-          prop="tid"
+          prop="tno"
           label="工号"
           width="100">
       </el-table-column>
@@ -87,10 +87,10 @@ export default {
       const that = this
       console.log(row)
       const sid = row.sid
-      const cid = row.cid
-      const tid = row.tid
+      const cno = row.cno
+      const tno = row.tno
       const term = row.term
-      axios.get("http://localhost:10086/SCT/deleteById/" + sid + '/' + cid + '/' + tid + '/' + term).then(function (resp) {
+      axios.get("http://localhost:10086/SCT/deleteById/" + sid + '/' + cno + '/' + tno + '/' + term).then(function (resp) {
         console.log(resp)
         if (resp.data === true) {
           that.$message({
@@ -127,8 +127,8 @@ export default {
       this.$router.push({
         path: '/editorGradeCourse',
         query: {
-          cid: row.cid,
-          tid: row.tid,
+          cno: row.cno,
+          tno: row.tno,
           sid: row.sid,
           term: row.term
         }

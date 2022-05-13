@@ -29,8 +29,8 @@ export default {
       },
       rules: {
         cno: [
-          // { required: true, message: '请输入学分', trigger: 'change' },
-          // { type: 'number', message: '请输入数字', trigger: 'blur' },
+           { required: true, message: '请输入学分', trigger: 'change' },
+           { type: 'number', message: '请输入数字', trigger: 'blur' },
         ],
         cname: [
           { required: true, message: '请输入名称', trigger: 'blur' },
@@ -50,23 +50,17 @@ export default {
           const that = this
           // console.log(this.ruleForm)
 
-          axios.post("/course/add", this.ruleForm).then(function (resp) {//??
-          let message=resp.data.msg;
-            console.log(resp)
-            if (resp.data.code===200) {//200没出问题？
-            
+          axios.post("/course/add", this.ruleForm).then(function (resp) {
+            if (resp.data.code === 200) {
               that.$message({
-                
                 showClose: true,
-                message: message,
-                type: 'success'
+                message: resp.data.msg ,
+                type: "success",
               });
+            } else if (resp.data.code===400) {
+              that.$message.error(resp.data.msg);
             }
-            else {
-              
-              that.$message.error(message);
-            }
-            // that.$router.push("/queryCourse")//请求接口对了没
+            //that.$router.push("/studentList");
           })
         } else {
           return false;
