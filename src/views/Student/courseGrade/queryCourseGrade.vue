@@ -11,12 +11,12 @@
         <el-table-column
             fixed
             prop="cno"
-            label="课号"
+            label="课程号"
             width="150">
         </el-table-column>
         <el-table-column
             prop="cname"
-            label="课程号"
+            label="课程名"
             width="150">
         </el-table-column>
         <el-table-column
@@ -26,7 +26,7 @@
         </el-table-column>
         <el-table-column
             prop="tname"
-            label="教师名称"
+            label="教师名"
             width="150">
         </el-table-column>
         <el-table-column

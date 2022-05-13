@@ -93,7 +93,7 @@ const sc={
             else {
               that.$message.error(resp.data.msg);
             }
-            that.$router.push("/queryGradeCourse")
+            that.$router.push("/teacherQueryGradeCourseManage")
           })
         } else {
           return false;

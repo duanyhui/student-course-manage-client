@@ -11,6 +11,12 @@
           width="150">
       </el-table-column>
       <el-table-column
+          fixed
+          label="教师姓名"
+          prop="tname"
+          width="150">
+      </el-table-column>
+      <el-table-column
           label="性别"
           prop="tsex"
           width="150">

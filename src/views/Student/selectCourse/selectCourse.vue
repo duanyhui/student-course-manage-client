@@ -4,7 +4,7 @@
       <el-main>
         <el-card>
           <el-form :inline="true" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="demo-ruleForm">
-            <el-form-item label="工号" prop="tid">
+            <el-form-item label="工号" prop="tno">
               <el-input v-model.number="ruleForm.tno"></el-input>
             </el-form-item>
             <el-form-item label="教师名" prop="tname">
@@ -13,14 +13,14 @@
 <!--            <el-form-item label="教师模糊查询">-->
 <!--              <el-switch v-model="ruleForm.tFuzzy"></el-switch>-->
 <!--            </el-form-item>-->
-            <el-form-item label="课程号" prop="cid">
+            <el-form-item label="课程号" prop="cno">
               <el-input v-model.number="ruleForm.cno"></el-input>
             </el-form-item>
             <el-form-item label="课程名" prop="cname">
               <el-input v-model.number="ruleForm.cname"></el-input>
             </el-form-item>
             <el-form-item label="课程模糊查询">
-              <el-switch v-model="ruleForm.Fuzzy"></el-switch>
+              <el-switch v-model="ruleForm.fuzzy"></el-switch>
             </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="resetForm('ruleForm')">重置</el-button>

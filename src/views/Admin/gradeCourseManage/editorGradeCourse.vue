@@ -75,17 +75,18 @@ export default {
           const sc={
             sno:sno,
             ctid:ctid,
+            grade:grade
           }
-          axios.post("/sc/updateById" ,sc).then(function (resp) {
+          axios.post("/sc/updateGrade" ,sc).then(function (resp) {
             if (resp.data === true) {
               that.$message({
                 showClose: true,
-                message: '编辑成功',
+                message: resp.data.msg,
                 type: 'success'
               });
             }
             else {
-              that.$message.error('编辑失败，请检查数据库');
+              that.$message.error(resp.data.msg);
             }
             // if (sessionStorage.getItem('type') === 'admin') {
             //   that.$router.push("/queryGradeCourse")

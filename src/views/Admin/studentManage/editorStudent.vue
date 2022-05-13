@@ -21,7 +21,10 @@
         >
       </el-form-item>
       <el-form-item label="学生密码" prop="password">
-        <el-input v-model="ruleForm.password" show-password :value="ruleForm.password"></el-input>
+        <el-button type="primary" @click="resetPassword('ruleForm')"
+        >重置学生密码为123456
+        </el-button
+        >
       </el-form-item>
       <el-form-item label="学生姓名" prop="sname">
         <el-input v-model="ruleForm.sname"></el-input>
@@ -106,6 +109,10 @@ export default {
           "大四下",
         ],
       },
+      resetpass: {
+        sno:null,
+        password:123456,
+      },
 
 
       rules: {
@@ -130,9 +137,36 @@ export default {
   },
 
   methods: {
+    resetPassword(){
+
+      const that=this
+      if(this.ruleForm.sno!=null && this.ruleForm.sno!='') {
+        this.resetpass.sno = this.ruleForm.sno
+        axios.post("/student/update", this.resetpass).then(function (resp) {
+          if (resp.data.code === 200) {
+            that.$message({
+              showClose: true,
+              message: '修改密码成功！',
+              type: 'success'
+            });
+          } else {
+            that.$message.error(resp.data.msg);
+          }
+          //that.$router.push("/queryTeacher")
+        })
+      }
+      else {
+        that.$message({
+          showClose: true,
+          message: '学号未输入，请重试！',
+          type: 'error'
+        });
+      }
+    },
     quirybysno() {//点击查询按钮查询学号对应学生信息，并且填入对应输入框，选择框中
       const that = this;
-      //try {  
+      //try {
+
       axios
           .get("/student/getbysno/" + this.ruleForm.sno)
           .then(function (resp) {

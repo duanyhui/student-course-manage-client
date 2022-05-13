@@ -32,10 +32,10 @@ export default {
 
   data() {
 
-    var validateConfirmPassword = (rule, value, callback) => {
+    let validateConfirmPassword = (rule, value, callback) => {
       if (value == '') {
         callback(new Error("请输入确认密码"));
-      } else if (value !== this.form.password) {
+      } else if (value !== this.ruleForm.password) {
         callback(new Error("两次密码输入不一致"));
       } else {
         callback();
@@ -55,7 +55,7 @@ export default {
           { required: true, message:"请输入密码", trigger: 'blur' }
         ],
         confirmpassword: [
-          { required: true, validator: 'validateConfirmPassword', trigger: 'blur' }
+          { required: true, validator: validateConfirmPassword, trigger: 'blur' }
         ],
       },
 

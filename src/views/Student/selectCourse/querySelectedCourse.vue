@@ -8,7 +8,7 @@
         <el-table-column
             fixed
             prop="ctid"
-            label="课号"
+            label="开课编号"
             width="150">
         </el-table-column>
         <el-table-column
@@ -72,12 +72,14 @@ export default {
     deleteSCT(row) {
       const cno = row.cno
       const ctid = row.ctid
+      const grade =row.grade
       const sno = sessionStorage.getItem('sno')
 
       const sct = {
 
         ctid: ctid,
         sno: sno,
+        grade:grade
 
       }
 

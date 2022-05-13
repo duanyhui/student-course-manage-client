@@ -10,12 +10,16 @@
         </el-button
         >
       </el-form-item>
+      <el-form-item label="教师密码" prop="password">
+        <el-button type="primary" @click="resetPassword('ruleForm')"
+        >重置教师密码为123456
+        </el-button
+        >
+      </el-form-item>
       <el-form-item label="教师姓名" prop="tname">
         <el-input v-model="ruleForm.tname" :value="ruleForm.tname"></el-input>
       </el-form-item>
-      <el-form-item label="教师密码" prop="password">
-        <el-input v-model="ruleForm.password" show-password :value="ruleForm.password"></el-input>
-      </el-form-item>
+
       <el-form-item label="性别" prop="ssex">
         <el-select v-model="ruleForm.tsex" placeholder="请选择性别">
           <el-option
@@ -33,7 +37,7 @@
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
-        <el-button @click="test">test</el-button>
+
       </el-form-item>
     </el-form>
   </div>
@@ -48,6 +52,10 @@ export default {
         password: null,
         tsex:null,
         college:null,
+      },
+      resetpass: {
+       tno:null,
+       password:123456,
       },
       infoList: {
         tsexList: ["男", "女"],
@@ -73,19 +81,44 @@ export default {
       }
     };
   },
-  created() {
-    const that = this
-    if (this.$route.query.tno === undefined) {
-
-    }
-    else {
-      this.ruleForm.tno = this.$route.query.tno
-    }
-    axios.get('/teacher/findByTno/' + this.ruleForm.tno).then(function (resp) {
-      that.ruleForm = resp.data
-    })
-  },
+  // created() {
+  //   const that = this
+  //   if (this.$route.query.tno === undefined) {
+  //
+  //   }
+  //   else {
+  //     this.ruleForm.tno = this.$route.query.tno
+  //   }
+  //   axios.get('/teacher/findByTno/' + this.ruleForm.tno).then(function (resp) {
+  //     that.ruleForm = resp.data
+  //   })
+  // },
   methods: {
+    resetPassword(){
+      const that=this
+      if(this.ruleForm.tno!=null && this.ruleForm.tno!='') {
+        this.resetpass.tno = this.ruleForm.tno
+        axios.post("/teacher/update", this.resetpass).then(function (resp) {
+          if (resp.data.code === 200) {
+            that.$message({
+              showClose: true,
+              message: '修改密码成功！',
+              type: 'success'
+            });
+          } else {
+            that.$message.error(resp.data.msg);
+          }
+          //that.$router.push("/queryTeacher")
+        })
+      }
+      else {
+        that.$message({
+          showClose: true,
+          message: '学号未输入，请重试！',
+          type: 'error'
+        });
+      }
+    },
     quirybytno() {//点击查询按钮查询教师编号对应学生信息，并且填入对应输入框，选择框中
       const that = this;
       //try {
@@ -138,8 +171,6 @@ export default {
             }
             //that.$router.push("/queryTeacher")
           })
-        } else {
-          return false;
         }
       });
     },
