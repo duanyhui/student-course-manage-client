@@ -6,6 +6,16 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title><%= htmlWebpackPlugin.options.title %></title>
+
+      <!-- live2d相关引用   -->
+      <!--    <link rel="stylesheet" type="text/css" href="./live2d/assets/waifu.css"/>-->
+<!--      <link rel="stylesheet" type="text/css" href="https://api.live2d.atri.wiki/assets/waifu.css"/>-->
+      <link rel="stylesheet" type="text/css" href="http://qiniu-pic.atri.wiki/live2d/assets/waifu.css"/>
+
+      <!--    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>-->
+      <script src="http://qiniu-pic.atri.wiki/live2d/jquery.min.js"></script>
+
+
   </head>
   <body>
     <noscript>
@@ -13,5 +23,49 @@
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
+  </body>
+
+
+  <!--   live2d相关-->
+  <body>
+  <div class="waifu">
+      <div class="waifu-tips"></div>
+      <canvas id="live2d" width="280" height="350" class="live2d"></canvas>
+      <div class="waifu-tool">
+          <span class="fui-home"></span>
+          <span class="fui-chat"></span>
+          <span class="fui-eye"></span>
+          <span class="fui-user"></span>
+          <span class="fui-photo"></span>
+          <span class="fui-info-circle"></span>
+          <span class="fui-cross"></span>
+      </div>
+
+  </div>
+  <!-- Live2DCubismCore script -->
+  <!--<script src="./live2d/assets/live2dcubismcore.js"></script>-->
+<!--  <script src="https://api.live2d.atri.wiki/assets/live2dcubismcore.js"></script>-->
+  <script src="http://qiniu-pic.atri.wiki/live2d/assets/live2dcubismcore.js"></script>
+  <!-- Build script -->
+  <!--<script src = "./live2d/assets/ATRI_live2d.js"></script>-->
+<!--  <script src = "https://api.live2d.atri.wiki/assets/ATRI_live2d.js"></script>-->
+  <script src = "http://qiniu-pic.atri.wiki/live2d/assets/ATRI_live2d.js"></script>
+  <!--  <script src="live2d/assets/waifu-tips.js"></script>-->
+<!--  <script src="https://api.live2d.atri.wiki/assets/waifu-tips.js"></script>-->
+  <script src="http://qiniu-pic.atri.wiki/live2d/assets/waifu-tips.js"></script>
+  <!--<script src="./assets/waifu-tips.js"></script>-->
+  <script type="text/javascript">
+      //必选参数
+      // let modulesPath = "./live2d/models/"
+      // let modulesPath = "https://cdn.jsdelivr.net/gh/duanyhui/Blog-Resource@master/live2d/models/"
+      let modulesPath = "http://qiniu-pic.atri.wiki/live2d/models/"
+      let modelNames = ['ATRI','Hiyori']  //注意，这里的名字是存放你模型文件的主目录的名字，目录中的moc3.json文件的名字一定要与目录同名
+      //可选参数
+      // let waifuTipsUrl = "./live2d/assets/waifu-tips.json"
+      // let waifuTipsUrl = "https://api.live2d.atri.wiki/assets/waifu-tips.json"
+      let waifuTipsUrl = "http://qiniu-pic.atri.wiki/live2d/assets/waifu-tips.json"
+
+      initModel(modulesPath,modelNames,waifuTipsUrl);
+  </script>
   </body>
 </html>
