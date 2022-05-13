@@ -31,7 +31,7 @@
               icon="el-icon-info"
               icon-color="red"
               title="删除不可复原"
-              @confirm="deleteTeacher(scope.row)"
+              @confirm="deleteCourse(scope.row)"
           >
             <el-button slot="reference" type="text" size="small">删除</el-button>
           </el-popconfirm>
@@ -56,15 +56,14 @@ export default {
     select(row) {
       console.log(row)
     },
-    deleteTeacher(row) {
+    deleteCourse(row) {
       const that = this
-      axios.get('course/delbycno/' + row.cno).then(function (resp) {
-        let message = resp.data.message;
-        console.log(resp)
-        if (resp.data.data === 200) {//200代表操作执行成功
+      axios.post('course/deleteByCno/' + row.cno).then(function (resp) {
+
+        if (resp.data.code === 200) {//200代表操作执行成功
           that.$message({
             showClose: true,
-            message: message,
+            message: resp.data.msg,
             type: 'success'
           });
           window.location.reload()
@@ -72,17 +71,18 @@ export default {
         else {
           that.$message({
             showClose: true,
-            message: message,
+            message: resp.data.msg,
             type: 'error'
           });
         }
-      }).catch(function (error) {
-        that.$message({
-          showClose: true,
-          message: message,
-          type: 'error'
-        });
       })
+      //     .catch(function (error) {
+      //   that.$message({
+      //     showClose: true,
+      //     message: message,
+      //     type: 'error'
+      //   });
+      // })
     },
     // offer(row) {
     //   const tid = sessionStorage.getItem("tid")
@@ -155,7 +155,7 @@ export default {
         axios.post("/course/findBySearch", newRuleForm).then(function (resp) {
           console.log("查询结果:");
           console.log(resp)
-          that.tmpList = resp.data
+          that.tmpList = resp.data.data
           that.total = resp.data.length
           let start = 0, end = that.pageSize
           let length = that.tmpList.length

@@ -13,7 +13,7 @@
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
-        <el-button @click="test">test</el-button>
+
       </el-form-item>
     </el-form>
   </div>
@@ -23,14 +23,15 @@ export default {
   data() {
     return {
       ruleForm: {
-        cno: null,
-        cname: null,
-        ccredit: null
+        cno: '',
+        cname: '',
+        ccredit: ''
       },
       rules: {
         cno: [
-           { required: true, message: '请输入学分', trigger: 'change' },
-           { type: 'number', message: '请输入数字', trigger: 'blur' },
+          { required: true, message: '请输入课程号', trigger: 'change' },
+          {pattern: /^-?\d+$/, message: "请输入数字", trigger: "blur"},
+
         ],
         cname: [
           { required: true, message: '请输入名称', trigger: 'blur' },
@@ -70,9 +71,9 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
-    test() {
-      console.log(this.ruleForm)
-    }
+    // test() {
+    //   console.log(this.ruleForm)
+    // }
   }
 }
 </script>

@@ -7,6 +7,12 @@
         style="width: 100%">
       <el-table-column
           fixed
+          prop="ctid"
+          label="开课编号"
+          width="150">
+      </el-table-column>
+      <el-table-column
+          fixed
           prop="cno"
           label="课程号"
           width="150">
@@ -29,7 +35,7 @@
       </el-table-column>
       <el-table-column
           fixed
-          prop="sid"
+          prop="sno"
           label="学号"
           width="100">
       </el-table-column>
@@ -52,17 +58,17 @@
           label="操作"
           width="100">
         <template slot-scope="scope">
-          <el-popconfirm
-              confirm-button-text='删除'
-              cancel-button-text='取消'
-              icon="el-icon-info"
-              icon-color="red"
-              title="删除不可复原"
-              @confirm="deleteTeacher(scope.row)"
-          >
-            <el-button slot="reference" type="text" size="small">删除</el-button>
-          </el-popconfirm>
-          <el-button @click="editor(scope.row)" type="text" size="small">编辑</el-button>
+<!--          <el-popconfirm-->
+<!--              confirm-button-text='删除'-->
+<!--              cancel-button-text='取消'-->
+<!--              icon="el-icon-info"-->
+<!--              icon-color="red"-->
+<!--              title="删除不可复原"-->
+<!--              @confirm="deleteTeacher(scope.row)"-->
+<!--          >-->
+<!--            <el-button slot="reference" type="text" size="small">删除</el-button>-->
+<!--          </el-popconfirm>-->
+          <el-button @click="editor(scope.row)" type="text" size="small">编辑成绩</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -83,38 +89,7 @@ export default {
     select(row) {
       console.log(row)
     },
-    deleteTeacher(row) {
-      const that = this
-      console.log(row)
-      const sid = row.sid
-      const cno = row.cno
-      const tno = row.tno
-      const term = row.term
-      axios.get("http://localhost:10086/SCT/deleteById/" + sid + '/' + cno + '/' + tno + '/' + term).then(function (resp) {
-        console.log(resp)
-        if (resp.data === true) {
-          that.$message({
-            showClose: true,
-            message: '删除成功',
-            type: 'success'
-          });
-          window.location.reload()
-        }
-        else {
-          that.$message({
-            showClose: true,
-            message: '删除出错，请查询数据库连接',
-            type: 'error'
-          });
-        }
-      }).catch(function (error) {
-        that.$message({
-          showClose: true,
-          message: '删除出错，存在外键依赖',
-          type: 'error'
-        });
-      })
-    },
+
     changePage(page) {
       page = page - 1
       const that = this
@@ -127,9 +102,10 @@ export default {
       this.$router.push({
         path: '/editorGradeCourse',
         query: {
+          ctid:row.ctid,
           cno: row.cno,
           tno: row.tno,
-          sid: row.sid,
+          sno: row.sno,
           term: row.term
         }
       })
@@ -155,10 +131,10 @@ export default {
         that.tmpList = null
         that.total = null
         that.tableData = null
-        axios.post("http://localhost:10086/SCT/findBySearch", newRuleForm).then(function (resp) {
+        axios.post("/sc/findBySearch", newRuleForm).then(function (resp) {
           console.log("查询结果:");
           console.log(resp)
-          that.tmpList = resp.data
+          that.tmpList = resp.data.data
           that.total = resp.data.length
           let start = 0, end = that.pageSize
           let length = that.tmpList.length

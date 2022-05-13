@@ -11,7 +11,13 @@
               style="width: 100%">
             <el-table-column
                 fixed
-                prop="cid"
+                prop="ctid"
+                label="开课编号"
+                width="150">
+            </el-table-column>
+            <el-table-column
+                fixed
+                prop="cno"
                 label="课程号"
                 width="150">
             </el-table-column>
@@ -22,6 +28,16 @@
             </el-table-column>
             <el-table-column
                 prop="ccredit"
+                label="学分"
+                width="150">
+            </el-table-column>
+            <el-table-column
+                prop="term"
+                label="学分"
+                width="150">
+            </el-table-column>
+            <el-table-column
+                prop="capacity"
                 label="学分"
                 width="150">
             </el-table-column>
@@ -59,20 +75,17 @@ export default {
       pageSize: 10,
       total: null,
       tmpList: null,
-      tid: null,
-      term: null
+      tno: null,
+
     }
   },
   created() {
-    this.tid = sessionStorage.getItem("tid");
-    this.term = sessionStorage.getItem("currentTerm");
-
-    console.log(this.term)
-
+    this.tno = sessionStorage.getItem("tno");
+    const tno=this.tno;
     const that = this
-    axios.get('http://localhost:10086/courseTeacher/findMyCourse/' + this.tid + '/' + this.term).then(function (resp) {
-
-      that.tmpList = resp.data
+    axios.get('/ct/findByTno/'+tno).then(function (resp) {
+      console.log(resp.data)
+      that.tmpList = resp.data.data
       that.total = resp.data.length
       let start = 0, end = that.pageSize
       let length = that.tmpList.length

@@ -13,12 +13,7 @@
             <el-form-item label="模糊查询" prop="fuzzy">
               <el-switch v-model="ruleForm.fuzzy"></el-switch>
             </el-form-item>
-            <el-form-item label="学分下限" prop="lowBound">
-              <el-input v-model.number="ruleForm.lowBound"></el-input>
-            </el-form-item>
-            <el-form-item label="学分上限" prop="highBound">
-              <el-input v-model.number="ruleForm.highBound"></el-input>
-            </el-form-item>
+
             <el-form-item>
               <el-button type="primary" @click="resetForm('ruleForm')">重置</el-button>
             </el-form-item>
@@ -38,23 +33,16 @@ export default {
   data() {
     return {
       ruleForm: {
-        cno: null,
-        cname: null,
+        cno: '',
+        cname: '',
         fuzzy: true,
-        lowBound: null,
-        highBound: null
+
       },
       rules: {
         cno: [
           { type: 'number', message: '必须是数字类型' }
         ],
         cname: [
-        ],
-        lowBound: [
-          { type: 'number', message: '必须是数字类型' }
-        ],
-        highBound: [
-          { type: 'number', message: '必须是数字类型' }
         ],
       }
     };

@@ -22,6 +22,20 @@
             <el-form-item>
               <el-button type="primary" @click="resetForm('ruleForm')">重置</el-button>
             </el-form-item>
+            <el-form-item label="学期" prop="term">
+              <el-select v-model="ruleForm.term" placeholder="请选择学期">
+                <el-option
+                    v-for="item in infoList.termList"
+                    :key="item"
+                    :label="item"
+                    :value="item"
+                >
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="选课容量" prop="capacity">
+              <el-input v-model="ruleForm.capacity"></el-input>
+            </el-form-item>
           </el-form>
         </el-card>
         <el-card style="margin-top: 10px">
@@ -38,24 +52,34 @@ export default {
   data() {
     return {
       ruleForm: {
-        cno: null,
-        cname: null,
+        cno: '',
+        cname: '',
         fuzzy: true,
+        capacity: '',
         // lowBound: null,
         // highBound: null
+
+      },
+      infoList: {
+        ssexList: ["男", "女"], termList: [
+          "大一上",
+          "大一下",
+          "大二上",
+          "大二下",
+          "大三上",
+          "大三下",
+          "大四上",
+          "大四下",
+        ],
       },
       rules: {
-        cno: [
-          { type: 'number', message: '必须是数字类型' }
+        term: [
+          { required: true, message: '请选择学期' }
         ],
-        cname: [
+        capacity: [
+          {required: true, message: '请输入容量'}
         ],
-        // lowBound: [
-        //   { type: 'number', message: '必须是数字类型' }
-        // ],
-        // highBound: [
-        //   { type: 'number', message: '必须是数字类型' }
-        // ],
+
       }
     };
   },

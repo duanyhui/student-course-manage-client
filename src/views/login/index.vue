@@ -179,8 +179,11 @@ export default {
                   /** 按照模板复制粘贴即可，后端没有返回token没有鉴权，没屁用*/
                   sessionStorage.setItem("token", 'true')
                   sessionStorage.setItem("type", that.ruleForm.type)
-                  sessionStorage.setItem("name", name)
+                  sessionStorage.setItem("tname", resp.data.data.tname)
                   sessionStorage.setItem("tno", resp.data.data.tno)
+                sessionStorage.setItem("college", resp.data.data.college)
+                sessionStorage.setItem("ssex", resp.data.data.ssex)
+
                   that.$router.push('/teacher')
                   console.log('管理员姓名: ' + name + ' ' + that.ruleForm.type + ' ' + resp.data.data.tno)
 

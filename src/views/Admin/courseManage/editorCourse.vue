@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-form style="width: 60%" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-      <el-form-item label="需编辑课程号" prop="sno">
+      <el-form-item label="需编辑的课程号" prop="cno">
         <el-input v-model="ruleForm.cno"></el-input>
       </el-form-item>
       <el-form-item>
@@ -19,7 +19,7 @@
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
-        <el-button @click="test">test</el-button>
+<!--        <el-button @click="test">test</el-button>-->
       </el-form-item>
     </el-form>
   </div>
@@ -29,9 +29,9 @@ export default {
   data() {
     return {
       ruleForm: {
-        cno: null,
-        cname: null,
-        ccredit: null
+        cno: '',
+        cname: '',
+        ccredit: ''
       },
       rules: {
         cname: [
@@ -62,7 +62,7 @@ export default {
       const that = this;
       //try {
       axios
-          .get("/course/getbycno/" + this.ruleForm.cno)
+          .get("/course/findByCno/" + this.ruleForm.cno)
           .then(function (resp) {
             // that.ruleForm = resp.data
             if (resp.data.code === 200) {
@@ -71,7 +71,7 @@ export default {
                 message: "查询到了该课程号对应的课程信息如下",
                 type: "success",
               });
-
+              console.log(resp.data)
               that.ruleForm = resp.data.data;
 
             } else if (resp.data.code === 400) {
@@ -88,7 +88,7 @@ export default {
           // 通过前端校验
           const that = this
           console.log(this.ruleForm)
-          axios.post("/course/updateCourse", this.ruleForm).then(function (resp) {
+          axios.post("/course/update", this.ruleForm).then(function (resp) {
             // that.ruleForm = resp.data
             if (resp.data.code === 200) {
               that.$message({
@@ -112,9 +112,9 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
-    test() {
-      console.log(this.ruleForm)
-    }
+    // test() {
+    //   console.log(this.ruleForm)
+    // }
   }
 }
 </script>

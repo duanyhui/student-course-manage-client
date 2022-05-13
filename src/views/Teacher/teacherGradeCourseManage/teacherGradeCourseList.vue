@@ -7,7 +7,7 @@
         style="width: 100%">
       <el-table-column
           fixed
-          prop="cid"
+          prop="cno"
           label="课程号"
           width="150">
       </el-table-column>
@@ -18,7 +18,7 @@
       </el-table-column>
       <el-table-column
           fixed
-          prop="sid"
+          prop="sno"
           label="学号"
           width="100">
       </el-table-column>
@@ -41,13 +41,13 @@
           label="操作"
           width="100">
         <template slot-scope="scope">
-          <el-button @click="editor(scope.row)" type="text" size="small">编辑</el-button>
+          <el-button @click="editor(scope.row)" type="text" size="small">编辑成绩</el-button>
         </template>
       </el-table-column>
     </el-table>
-    <p>
-      平均成绩：{{ avg }}
-    </p>
+<!--    <p>-->
+<!--      平均成绩：{{ avg }}-->
+<!--    </p>-->
     <el-pagination
         background
         layout="prev, pager, next"
@@ -62,9 +62,9 @@
 <script>
 export default {
   methods: {
-    select(row) {
-      console.log(row)
-    },
+    // select(row) {
+    //   console.log(row)
+    // },
     changePage(page) {
       page = page - 1
       const that = this
@@ -75,12 +75,10 @@ export default {
     },
     editor(row) {
       this.$router.push({
-        path: '/editorGradeCourse',
+        path: '/teacherEditorGradeCourse',
         query: {
-          cid: row.cid,
-          tid: row.tid,
-          sid: row.sid,
-          term: row.term
+          sno: row.sno,
+          ctid:row.ctid,
         }
       })
     }
@@ -106,21 +104,21 @@ export default {
         that.tmpList = null
         that.total = null
         that.tableData = null
-        axios.post("http://localhost:10086/SCT/findBySearch", newRuleForm).then(function (resp) {
+        axios.post("/sc/findBySearch", newRuleForm).then(function (resp) {
           console.log("查询结果:");
           console.log(resp)
-          that.tmpList = resp.data
+          that.tmpList = resp.data.data
           that.total = resp.data.length
           let start = 0, end = that.pageSize
           let length = that.tmpList.length
           let ans = (end < length) ? end : length
           that.tableData = that.tmpList.slice(start, ans)
 
-          for (let i = 0; i < that.tmpList.length; i++) {
-            that.avg += that.tmpList[i].grade
-          }
-          that.avg /= that.total
-          console.log('avg', that.avg)
+          // for (let i = 0; i < that.tmpList.length; i++) {
+          //   that.avg += that.tmpList[i].grade
+          // }
+          // that.avg /= that.total
+          // console.log('avg', that.avg)
         })
       },
       deep: true,

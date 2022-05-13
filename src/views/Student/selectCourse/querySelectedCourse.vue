@@ -7,7 +7,13 @@
           style="width: 100%">
         <el-table-column
             fixed
-            prop="cid"
+            prop="ctid"
+            label="课号"
+            width="150">
+        </el-table-column>
+        <el-table-column
+            fixed
+            prop="cno"
             label="课号"
             width="150">
         </el-table-column>
@@ -17,7 +23,7 @@
             width="150">
         </el-table-column>
         <el-table-column
-            prop="tid"
+            prop="tno"
             label="教师号"
             width="150">
         </el-table-column>
@@ -64,23 +70,23 @@
 export default {
   methods: {
     deleteSCT(row) {
-      const cid = row.cid
-      const tid = row.tid
-      const sid = sessionStorage.getItem('sid')
-      const term = sessionStorage.getItem('currentTerm')
+      const cno = row.cno
+      const ctid = row.ctid
+      const sno = sessionStorage.getItem('sno')
+
       const sct = {
-        cid: cid,
-        tid: tid,
-        sid: sid,
-        term: term
+
+        ctid: ctid,
+        sno: sno,
+
       }
 
       const that = this
-      axios.post('http://localhost:10086/SCT/deleteBySCT', sct).then(function (resp) {
-        if (resp.data === true) {
+      axios.post('/sc/delete', sct).then(function (resp) {
+        if (resp.data.code === 200) {
           that.$message({
             showClose: true,
-            message: '退课成功',
+            message: resp.data.msg,
             type: 'success'
           });
           window.location.reload()
@@ -88,7 +94,7 @@ export default {
         else {
           that.$message({
             showClose: true,
-            message: '退课失败，请联系管理员',
+            message: resp.data.msg,
             type: 'error'
           });
         }
@@ -114,11 +120,15 @@ export default {
     }
   },
   created() {
-    const sid = sessionStorage.getItem('sid')
-    const term = sessionStorage.getItem('currentTerm')
+    const sno = sessionStorage.getItem('sno')
+
     const that = this
-    axios.get('http://localhost:10086/SCT/findBySid/' + sid + '/' + term).then(function (resp) {
-      that.tmpList = resp.data
+    const sc={
+
+      sno:sno,
+    };
+    axios.post('/sc/findBySearch/',sc).then(function (resp) {
+      that.tmpList = resp.data.data
       that.total = resp.data.length
       let start = 0, end = that.pageSize
       let length = that.tmpList.length

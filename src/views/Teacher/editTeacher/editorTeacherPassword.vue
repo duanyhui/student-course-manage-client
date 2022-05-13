@@ -46,10 +46,10 @@ export default {
 
     return {
       ruleForm: {
-        sno: sessionStorage.getItem('sno'),
+        tno: sessionStorage.getItem('tno'),
         password: '',
         confirmpassword:'',
-  },
+      },
       rules: {
         password: [
           { required: true, message:"请输入密码", trigger: 'blur' }
@@ -75,7 +75,7 @@ export default {
           console.log(this.ruleForm);
           const that = this;
           console.log(this.ruleForm);
-          axios.post("/student/update", this.ruleForm).then(function (resp) {
+          axios.post("/teacher/update", this.ruleForm).then(function (resp) {
             if (resp.data.code === 200) {
               that.$message({
                 showClose: true,

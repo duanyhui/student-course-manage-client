@@ -84,7 +84,6 @@ export default {
         sno: sessionStorage.getItem('sno'),
         sname: sessionStorage.getItem('sname'),
         ssex: sessionStorage.getItem('ssex'),
-        password: null,
         major: sessionStorage.getItem('major'),
         college: sessionStorage.getItem('college'),
         term: sessionStorage.getItem('term'),
@@ -107,11 +106,6 @@ export default {
 
 
       rules: {
-        sno: [
-          {required: true, message: "请输入学号", trigger: "blur"},
-          {pattern: /^-?\d+$/, message: "请输入数字", trigger: "blur"},
-
-        ],
         sname: [
           {required: true, message: "请输入名称", trigger: "blur"},
           {min: 2, max: 5, message: "长度在 2 到 5 个字符", trigger: "blur"},
@@ -139,33 +133,6 @@ export default {
     // })
   },
   methods: {
-    quirybysno() {//点击查询按钮查询学号对应学生信息，并且填入对应输入框，选择框中
-      const that = this;
-      //try {
-      axios
-          .get("/student/getbysno/" + this.ruleForm.sno)
-          .then(function (resp) {
-            // that.ruleForm = resp.data
-            if (resp.data.code === 200) {
-              that.$message({
-                showClose: true,
-                message: "查询到了该学号对应的学生信息如下",
-                type: "success",
-              });
-
-              that.ruleForm = resp.data.data;
-
-            } else if (resp.data.code === 400) {
-              that.$message.error(resp.data.msg);
-            }
-            else{
-              that.$message.error('请检查服务器链接')
-            }
-          });
-      // } catch (error) {
-      //   this.$message.error("无法连接到服务器");
-      // }
-    },
     submitForm(formName) {//提交逻辑，主要是修改了接口
       this.$refs[formName].validate((valid) => {
         if (valid) {

@@ -11,8 +11,14 @@
           width="150">
       </el-table-column>
       <el-table-column
-          label="姓名"
-          prop="tname"
+          label="性别"
+          prop="tsex"
+          width="150">
+      </el-table-column>
+      <el-table-column
+          fixed
+          label="学院"
+          prop="college"
           width="150">
       </el-table-column>
       <!--      <el-table-column-->

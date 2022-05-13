@@ -2,15 +2,13 @@
   <div>
     <el-card>
       <el-form style="width: 60%" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-        <el-form-item label="课程名称" prop="cname">
-          <el-input v-model="ruleForm.cname" :value="ruleForm.cname" :disabled="true"></el-input>
+        <el-form-item label="开课编号" prop="ctid">
+          <el-input v-model="ruleForm.ctid" :value="ruleForm.ctid" :disabled="true"></el-input>
         </el-form-item>
-        <el-form-item label="教师名" prop="tname">
-          <el-input v-model="ruleForm.tname" :value="ruleForm.tname" :disabled="true"></el-input>
+        <el-form-item label="学号" prop="ctid">
+          <el-input v-model="ruleForm.ctid" :value="ruleForm.sno" :disabled="true"></el-input>
         </el-form-item>
-        <el-form-item label="学生名" prop="sname">
-          <el-input v-model="ruleForm.sname" :value="ruleForm.sname" :disabled="true"></el-input>
-        </el-form-item>
+
         <el-form-item label="分数" prop="grade">
           <el-input v-model.number="ruleForm.grade" :value="ruleForm.grade"></el-input>
         </el-form-item>
@@ -42,13 +40,8 @@ export default {
     };
     return {
       ruleForm: {
-        cid: null,
-        cname: null,
-        grade: null,
-        sid: null,
-        sname: null,
-        tid: null,
-        tname: null,
+        ctid:'',
+        sno:''
       },
       rules: {
         grade: [
@@ -61,17 +54,11 @@ export default {
   },
   created() {
     const that = this
-    this.ruleForm.cid = this.$route.query.cid
-    this.ruleForm.tid = this.$route.query.tid
-    this.ruleForm.sid = this.$route.query.sid
-    this.ruleForm.term = this.$route.query.term
-    axios.get('http://localhost:10086/SCT/findById/' +
-        this.ruleForm.sid + '/' +
-        this.ruleForm.cid + '/' +
-        this.ruleForm.tid + '/' +
-        this.ruleForm.term).then(function (resp) {
-      that.ruleForm = resp.data
-    })
+
+    this.ruleForm.ctid = this.$route.query.ctid
+    this.ruleForm.sno = this.$route.query.sno
+
+
   },
   methods: {
     submitForm(formName) {
@@ -79,12 +66,17 @@ export default {
         if (valid) {
           // 通过前端校验
           const that = this
-          const sid = that.ruleForm.sid
+          const sno = that.ruleForm.sno
           const cid = that.ruleForm.cid
           const tid = that.ruleForm.tid
+          const ctid=that.ruleForm.ctid
           const term = that.ruleForm.term
           const grade = that.ruleForm.grade
-          axios.get("http://localhost:10086/SCT/updateById/" + sid + '/' + cid + '/' + tid + '/' + term + '/' + grade).then(function (resp) {
+          const sc={
+            sno:sno,
+            ctid:ctid,
+          }
+          axios.post("/sc/updateById" ,sc).then(function (resp) {
             if (resp.data === true) {
               that.$message({
                 showClose: true,
@@ -95,11 +87,11 @@ export default {
             else {
               that.$message.error('编辑失败，请检查数据库');
             }
-            if (sessionStorage.getItem('type') === 'admin') {
-              that.$router.push("/queryGradeCourse")
-            } else {
-              that.$router.push("/teacherQueryGradeCourseManage")
-            }
+            // if (sessionStorage.getItem('type') === 'admin') {
+            //   that.$router.push("/queryGradeCourse")
+            // } else {
+            //   that.$router.push("/teacherQueryGradeCourseManage")
+            // }
           })
         } else {
           return false;

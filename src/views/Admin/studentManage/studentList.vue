@@ -15,6 +15,26 @@
           label="姓名"
           width="150">
       </el-table-column>
+      <el-table-column
+          prop="ssex"
+          label="性别"
+          width="150">
+      </el-table-column>
+      <el-table-column
+          prop="term"
+          label="学期"
+          width="150">
+      </el-table-column>
+      <el-table-column
+          prop="major"
+          label="专业"
+          width="150">
+      </el-table-column>
+      <el-table-column
+          prop="college"
+          label="学院"
+          width="150">
+      </el-table-column>
 <!--      <el-table-column-->
 <!--          prop="password"-->
 <!--          label="密码"-->

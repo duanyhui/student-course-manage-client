@@ -7,7 +7,7 @@
         style="width: 100%">
       <el-table-column
           fixed
-          prop="cid"
+          prop="cno"
           label="课程号"
           width="150">
       </el-table-column>
@@ -51,13 +51,14 @@
 
 <script>
 export default {
+
   methods: {
     // select(row) {
     //   console.log(row)
     // },
     // deleteTeacher(row) {
     //   const that = this
-    //   axios.get('/course/deleteById/' + row.cid).then(function (resp) {
+    //   axios.get('/course/deleteById/' + row.cno).then(function (resp) {
     //     if (resp.data === true) {
     //       that.$message({
     //         showClose: true,
@@ -76,16 +77,23 @@ export default {
     //   })
     // },
     offer(row) {
-      const tid = sessionStorage.getItem("tid")
-      const cid = row.cid
-      const term = sessionStorage.getItem("currentTerm")
-
       const that = this
-      axios.get('/courseTeacher/insert/' + cid + '/' + tid + '/' + term).then(function (resp) {
-        if (resp.data === true) {
+      const tno = sessionStorage.getItem("tno")
+      const cno = row.cno
+      const term = this.ruleForm.term
+      const  capacity=this.ruleForm.capacity
+      const ct={
+        tno:tno,
+        cno:cno,
+        term:term,
+        capacity:capacity
+      }
+
+      axios.post('/ct/add/',ct).then(function (resp) {
+        if (resp.data.code === 200) {
           that.$message({
             showClose: true,
-            message: '开设成功',
+            message: resp.data.msg,
             type: 'success'
           });
           window.location.reload()
@@ -93,7 +101,7 @@ export default {
         else {
           that.$message({
             showClose: true,
-            message: '开设失败，请联系管理员',
+            message: resp.data.msg,
             type: 'error'
           });
         }
@@ -113,7 +121,7 @@ export default {
     //   this.$router.push({
     //     path: '/editorCourse',
     //     query: {
-    //       cid: row.cid
+    //       cno: row.cno
     //     }
     //   })
     // }
@@ -146,7 +154,7 @@ export default {
         axios.post("/course/findBySearch", newRuleForm).then(function (resp) {
           console.log("查询结果:");
           console.log(resp)
-          that.tmpList = resp.data
+          that.tmpList = resp.data.data
           that.total = resp.data.length
           let start = 0, end = that.pageSize
           let length = that.tmpList.length
