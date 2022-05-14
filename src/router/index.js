@@ -26,6 +26,7 @@ import studentHome from "@/views/Student/home";
 import myOfferCourse from "@/views/Teacher/myOfferCourse";
 import CourseTeacherManage from "@/views/Admin/selectCourseManage/index";
 import queryCourseTeacher from "@/views/Admin/selectCourseManage/queryCourseTeacher";
+import studentInfoManage from "@/views/Student/editStudent/index";
 import studentSelectCourseManage from "@/views/Student/selectCourse/index";
 import selectCourse from "@/views/Student/selectCourse/selectCourse";
 import querySelectedCourse from "@/views/Student/selectCourse/querySelectedCourse";
@@ -38,6 +39,12 @@ import teacherQueryGradeCourse from "@/views/Teacher/teacherGradeCourseManage/te
 import teacherGradeCourseList from "@/views/Teacher/teacherGradeCourseManage/teacherGradeCourseList";
 import teacherEditorGradeCourse from "@/views/Teacher/teacherGradeCourseManage/teacherEditorGradeCourse";
 import updateInfo from "@/components/updateInfo";
+import editorStudentPassword from "@/views/Student/editStudent/editorStudentPassword";
+import editorStudentInfo from "@/views/Student/editStudent/editorStudentInfo";
+import teacherInfoManage from "@/views/Teacher/editTeacher/index"
+import editorTeacherInfo from "@/views/Teacher/editTeacher/editorTeacherInfo";
+import editorTeacherPassword from "@/views/Teacher/editTeacher/editorTeacherPassword";
+
 
 Vue.use(VueRouter)
 
@@ -89,12 +96,12 @@ const routes = [
             component: addStudent,
             meta: {requireAuth: true}
           },
-          {
-            path: '/studentList',
-            name: '学生列表',
-            component: studentList,
-            meta: {requireAuth: true},
-          },
+          // {
+          //   path: '/studentList',
+          //   name: '学生列表',
+          //   component: studentList,
+          //   meta: {requireAuth: true},
+          // },
           {
             path: '/editorStudent',
             name: '编辑学生',
@@ -238,13 +245,19 @@ const routes = [
       {
         path: '/updateInfo',
         name: '教师编辑',
-        component: updateInfo,
+        component: teacherInfoManage,
         meta: {requireAuth: true},
         children: [
           {
-            path: '/updateInfoHome',
+            path: '/editorTeacherInfo',
             name: '编辑教师信息',
-            component: updateInfo,
+            component: editorTeacherInfo,
+            meta: {requireAuth: true}
+          },
+          {
+            path: '/editorTeacherPassword',
+            name: '修改教师密码',
+            component: editorTeacherPassword,
             meta: {requireAuth: true}
           }
         ]
@@ -312,18 +325,25 @@ const routes = [
           },
         ],
       },
+
       {
         path: '/updateInfo',
         name: '学生编辑',
-        component: updateInfo,
+        component: studentInfoManage,
         meta: {requireAuth: true},
         children: [
           {
-            path: '/updateInfoHome',
+            path: '/updateStudentInfo',
             name: '编辑学生信息',
-            component: updateInfo,
+            component: editorStudentInfo,
             meta: {requireAuth: true}
-          }
+          },
+          {
+            path: '/updateStudentPassword',
+            name: '修改学生密码',
+            component: editorStudentPassword,
+            meta: {requireAuth: true}
+          },
         ]
       },
       {
@@ -332,6 +352,7 @@ const routes = [
         component: studentSelectCourseManage,
         meta: {requireAuth: true},
         children: [
+
           {
             path: '/studentSelectCourse',
             name: '选课',
@@ -340,7 +361,7 @@ const routes = [
           },
           {
             path: '/querySelectedCourse',
-            name: '查询课表',
+            name: '查询选课',
             component: querySelectedCourse,
             meta: {requireAuth: true}
           }

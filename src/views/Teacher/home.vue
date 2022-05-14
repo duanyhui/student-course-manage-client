@@ -5,7 +5,7 @@
         <h1>teacher home</h1>
         <info-card></info-card>
         <el-card style="width: 100%; margin-top: 10px">
-          <p><i class="el-icon-s-custom" style="margin-right: 18px">Create</i></p>
+          <p><i class="el-icon-s-custom" style="margin-right: 18px">Created By 段宇辉 肖阳 高向宏</i></p>
         </el-card>
         <logout></logout>
       </el-main>

@@ -72,8 +72,8 @@ export default {
           let check = false
           let name = null
 
-          axios.get('http://localhost:10086/info/getCurrentTerm').then(function (resp) {
-            sessionStorage.setItem("currentTerm", resp.data)
+          axios.get('/student/getTerm' + this.ruleForm.sno).then(function (resp) {
+            sessionStorage.setItem("currentTerm", resp.data.data)
           })
 
           axios.get('http://localhost:10086/info/getForbidCourseSelection').then(function (resp) {
@@ -89,15 +89,21 @@ export default {
           if (that.ruleForm.type === 'admin'){
             let form = {uid: that.ruleForm.id, password: that.ruleForm.password}
             console.log(form)
-            axios.post("http://localhost:8080/admin/login",form).then(function (resp){
-              console.log("教师登陆验证信息：" + resp.data)
+
+            axios.post("/admin/login",form).then(function (resp){
+              //这里resp返回的是bool值,没有进行封装所以resp返回的是没有封装的数据，用resp.data即可访问
+              console.log("管理员登陆验证信息：" + resp.data)
               check = resp.data
               if (check === true) {
-                axios.get("http://localhost:8080/admin/getbyuid",{params:{uid: that.ruleForm.id}}
+                axios.get("/admin/getbyuid",{params:{uid: that.ruleForm.id}}
                 ).then(function (resp){
+                  /**  这里的resp被封装成了Result对象，
+                   * 这个对象有三个属性分别为data，code，msg，所以要用resp.data.data访问数据
+                   * */
                   console.log("登陆页正在获取用户信息" + resp.data.data)
                   name = resp.data.data.name
 //test
+                  /** 按照模板复制粘贴即可，后端没有返回token没有鉴权，没屁用*/
                   sessionStorage.setItem("token", 'true')
                   sessionStorage.setItem("type", that.ruleForm.type)
                   sessionStorage.setItem("name", name)
@@ -106,109 +112,92 @@ export default {
                   console.log('管理员姓名: ' + name + ' ' + that.ruleForm.type + ' ' + resp.data.data.uid)
 
                   that.$message({
-                                showClose: true,
-                                message: '登陆成功，欢迎 ' + name + '!',
-                                type: 'success'
-                              });
-                })
-              }
-            })
-          }
-
-
-
-
-
-
-              //
-
-
-          // if (that.ruleForm.type === 'admin' || that.ruleForm.type === 'teacher') {
-          //   let form = {tid: that.ruleForm.id, password: that.ruleForm.password}
-          //   console.log(form)
-          //   axios.post("http://localhost:10086/teacher/login", form).then(function (resp) {
-          //     console.log("教师登陆验证信息：" + resp.data)
-          //     check = resp.data
-          //     if (check === true) {
-          //       axios.get("http://localhost:10086/teacher/findById/" + that.ruleForm.id).then(function (resp) {
-          //         console.log("登陆页正在获取用户信息" + resp.data)
-          //         name = resp.data.tname
-          //
-          //         sessionStorage.setItem("token", 'true')
-          //         sessionStorage.setItem("type", that.ruleForm.type)
-          //         sessionStorage.setItem("name", name)
-          //         sessionStorage.setItem("tid", resp.data.tid)
-          //
-          //         console.log('name: ' + name + ' ' + that.ruleForm.type + ' ' + resp.data.tid)
-          //
-          //         if (that.ruleForm.type === 'admin' || name === 'admin') {
-          //           that.$message({
-          //             showClose: true,
-          //             message: '登陆成功，欢迎 ' + name + '!',
-          //             type: 'success'
-          //           });
-          //           that.$router.push('/admin')
-          //         }
-          //         else if(that.ruleForm.type === 'teacher' && name !== 'admin') {
-          //           that.$message({
-          //             showClose: true,
-          //             message: '登陆成功，欢迎 ' + name + '!',
-          //             type: 'success'
-          //           });
-          //           that.$router.push('/teacher')
-          //         }
-          //         else {
-          //           that.$message({
-          //             showClose: true,
-          //             message: 'admin 登陆失败，检查登陆类型',
-          //             type: 'error'
-          //           });
-          //         }
-          //       })
-          //     }
-          //     else {
-          //       that.$message({
-          //         showClose: true,
-          //         message: '登陆失败，检查账号密码',
-          //         type: 'error'
-          //       });
-          //     }
-          //   })
-          // }
-          else if (that.ruleForm.type === 'student') {
-            let form = {sid: that.ruleForm.id, password: that.ruleForm.password}
-            axios.post("http://localhost:10086/student/login", form).then(function (resp) {
-              console.log("学生登陆验证信息：" + resp.data)
-              check = resp.data
-              if (check === true) {
-                axios.get("http://localhost:10086/student/findById/" + that.ruleForm.id).then(function (resp) {
-                  console.log("登陆页正在获取用户信息" + resp.data)
-                  name = resp.data.sname
-
-                  sessionStorage.setItem("token", 'true')
-                  sessionStorage.setItem("type", that.ruleForm.type)
-                  sessionStorage.setItem("name", name)
-                  sessionStorage.setItem("sid", resp.data.sid)
-
-                  that.$message({
                     showClose: true,
                     message: '登陆成功，欢迎 ' + name + '!',
                     type: 'success'
                   });
-
-                  console.log('正在跳转：' + '/' + that.ruleForm.type)
-
-                  // 3. 路由跳转
-                  that.$router.push({
-                    path: '/' + that.ruleForm.type,
-                    query: {}
-                  })
                 })
               }
-              else {
+            })
+          } else if (that.ruleForm.type === 'student') {
+            let form = {sno: that.ruleForm.id, password: that.ruleForm.password};
+            console.log(form);
+
+            axios.post("/student/login", form).then(function (resp) {
+                  //这里resp返回的是bool值,没有进行封装所以resp返回的是没有封装的数据，用resp.data即可访问
+                  console.log("学生登陆验证信息：" + resp.data.code)
+
+
+                  if (resp.data.code === 200) {
+
+                    axios.get("/student/getbysno/" + form.sno
+                    ).then(function (resp) {
+                      /**  这里的resp被封装成了Result对象，
+                       * 这个对象有三个属性分别为data，code，msg，所以要用resp.data.data访问数据
+                       * */
+                      console.log("登陆页正在获取用户信息" + resp.data.data)
+                      /** 按照模板复制粘贴即可，后端没有返回token没有鉴权，没屁用*/
+                      sessionStorage.setItem("token", 'true')
+                      sessionStorage.setItem("type", that.ruleForm.type)
+                      sessionStorage.setItem("sname", resp.data.data.sname)
+                      sessionStorage.setItem("sno", resp.data.data.sno)
+                      sessionStorage.setItem("ssex", resp.data.data.ssex)
+                      sessionStorage.setItem("major", resp.data.data.major)
+                      sessionStorage.setItem("term", resp.data.data.term)
+                      that.$router.push('/student'
+                      )
+                      console.log('学生姓名: ' + name + ' ' + that.ruleForm.type + ' ' + resp.data.data.sno)
+                      that.$message({
+                        showClose: true,
+                        message: '登陆成功，欢迎 ' + name + '!',
+                        type: 'success'
+                      });
+                    })
+
+                  }
+
+                }
+            )
+          }
+          else if (that.ruleForm.type === 'teacher'){
+            let form = {tno: that.ruleForm.id, password: that.ruleForm.password}
+            console.log(form)
+
+            axios.post("/teacher/login",form).then(function (resp){
+              //这里resp返回的是bool值,没有进行封装所以resp返回的是没有封装的数据，用resp.data即可访问
+              console.log("老师登陆验证信息：" + resp.data)
+              // check = resp.data.data
+              if (resp.data.code===200 ) {
+                // axios.get("/teacher/getbytno",{params:{tid: that.ruleForm.id}}
+                // ).then(function (resp){
+                  /**  这里的resp被封装成了Result对象，
+                   * 这个对象有三个属性分别为data，code，msg，所以要用resp.data.data访问数据
+                   * */
+                  console.log("登陆页正在获取用户信息" + resp.data.data)
+                  name = resp.data.data.tname
+//test
+                  /** 按照模板复制粘贴即可，后端没有返回token没有鉴权，没屁用*/
+                  sessionStorage.setItem("token", 'true')
+                  sessionStorage.setItem("type", that.ruleForm.type)
+                  sessionStorage.setItem("tname", resp.data.data.tname)
+                  sessionStorage.setItem("tno", resp.data.data.tno)
+                sessionStorage.setItem("college", resp.data.data.college)
+                sessionStorage.setItem("ssex", resp.data.data.ssex)
+
+                  that.$router.push('/teacher')
+                  console.log('管理员姓名: ' + name + ' ' + that.ruleForm.type + ' ' + resp.data.data.tno)
+
+                  that.$message({
+                                showClose: true,
+                                message: '登陆成功，欢迎 ' + name + '!',
+                                type: 'success'
+                              });
+                // })
+              }
+              else if(resp.data.code===400){
                 that.$message({
                   showClose: true,
-                  message: '账号密码错误，请联系管理员',
+                  message: resp.data.msg,
                   type: 'error'
                 });
               }

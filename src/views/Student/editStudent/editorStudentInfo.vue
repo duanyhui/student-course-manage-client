@@ -1,6 +1,3 @@
-/**
-本页于2022.5.11由肖阳修改，主要添加了性别，学期的选择框，修改了请求的接口，修改了检验输入的逻辑
-**/
 <template>
   <div>
     <el-form
@@ -8,15 +5,22 @@
         :model="ruleForm"
         :rules="rules"
         class="demo-ruleForm"
-        label-width="100px"
+        label-width="140px"
         style="width: 60%"
     >
-      <el-form-item label="学生学号" prop="sno">
-        <el-input v-model="ruleForm.sno"></el-input>
-      </el-form-item>
-      <el-form-item label="教师密码" prop="password">
-        <el-input v-model="ruleForm.password" :value="ruleForm.password"></el-input>
-      </el-form-item>
+<!--      <el-form-item label="需编辑的学生学号" prop="sno">-->
+<!--        <el-input v-model="ruleForm.sno"></el-input>-->
+<!--      </el-form-item>-->
+<!--      <el-form-item>-->
+<!--        <el-button type="primary" @click="quirybysno('ruleForm')"-->
+<!--        >查询-->
+<!--        </el-button-->
+<!--        >-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="学生密码" prop="password">-->
+<!--        <el-input v-model="ruleForm.password" show-password :value="ruleForm.password"></el-input>-->
+<!--        -->
+<!--      </el-form-item>-->
       <el-form-item label="学生姓名" prop="sname">
         <el-input v-model="ruleForm.sname"></el-input>
       </el-form-item>
@@ -55,7 +59,6 @@
         </el-button
         >
         <el-button @click="resetForm('ruleForm')">重置</el-button>
-
       </el-form-item>
     </el-form>
   </div>
@@ -63,38 +66,33 @@
 <script>
 export default {
   data() {
-    var check_sno = (rule, value, callback) => {
-      if (!Number.isInteger(value)) {
-        callback(new Error("请输入数字值"));
-      } else {
-        callback();
-      }
+
+    // var check_sno = (rule, value, callback) => {
+    //   if (!is_quiry) {
+    //     callback(new Error("请先查询学号对应学生信息是否存在后再提交")); //to do:检查是否查询了学号
+    //   } else {
+    //     callback();
+    //   }
+    // };
+    var check_quiry = (rule, value, callback) => {
+
+      callback();
     };
 
     return {
       ruleForm: {
-        sno: "",
-        password:'',
-        sname: "",
-        ssex: "",
-        ssexList: ["男", "女"],
-        major: "",
-        college: "",
-        term: "",
-        termList: [
-          "大一上",
-          "大一下",
-          "大二上",
-          "大二下",
-          "大三上",
-          "大三下",
-          "大四上",
-          "大四下",
-        ],
+        sno: sessionStorage.getItem('sno'),
+        sname: sessionStorage.getItem('sname'),
+        ssex: sessionStorage.getItem('ssex'),
+        major: sessionStorage.getItem('major'),
+        college: sessionStorage.getItem('college'),
+        term: sessionStorage.getItem('term'),
+
+
       },
+      //infoList是选择框的内容
       infoList: {
-        ssexList: ["男", "女"],
-        termList: [
+        ssexList: ["男", "女"], termList: [
           "大一上",
           "大一下",
           "大二上",
@@ -105,47 +103,53 @@ export default {
           "大四下",
         ],
       },
+
+
       rules: {
-        sno: [
-          { required: true, message: "请输入学号", trigger: "blur" },
-          { pattern:/^-?\d+$/,message: "请输入数字", trigger: "blur" },
-        ],
         sname: [
-          { required: true, message: "请输入名称", trigger: "blur" },
-          { min: 2, max: 5, message: "长度在 2 到 5 个字符", trigger: "blur" },
+          {required: true, message: "请输入名称", trigger: "blur"},
+          {min: 2, max: 5, message: "长度在 2 到 5 个字符", trigger: "blur"},
         ],
-        ssex: [
-          { required: true, message: "请输入性别", trigger: "blur" },
-        ],
+        ssex: [{required: true, message: "请输入性别", trigger: "blur"}],
         major: [
           {required: true, message: "请输入名称", trigger: "blur"},
           {min: 2, max: 10, message: "长度在 2 到 5 个字符", trigger: "blur"},
         ],
-        term: [{ required: true, message: "请选择学期", trigger: "blur" }],
-        college: [
-          { required: true, message: "请输入学院", trigger: "blur" },
-        ],
+        term: [{required: true, message: "请选择学期", trigger: "blur"}],
+        college: [{required: true, message: "请输入学院", trigger: "blur"}],
       },
     };
   },
+  created() {
+    // const that = this
+    // if (this.$route.query.sid === undefined) {
+    //   this.ruleForm.sid = 1
+    // }
+    // else {
+    //   this.ruleForm.sid = this.$route.query.sid
+    // }
+    // axios.get('/student/getbysno/' + this.ruleForm.sid).then(function (resp) {
+    //   that.ruleForm = resp.data
+    // })
+  },
   methods: {
-    submitForm(formName) {
+    submitForm(formName) {//提交逻辑，主要是修改了接口
       this.$refs[formName].validate((valid) => {
         if (valid) {
           // 通过前端校验
           const that = this;
           console.log(this.ruleForm);
-          axios.post("/student/add", this.ruleForm).then(function (resp) {
+          axios.post("/student/update", this.ruleForm).then(function (resp) {
             if (resp.data.code === 200) {
               that.$message({
                 showClose: true,
-                message: resp.data.msg + '  初始密码为123456',
+                message: resp.data.msg,
                 type: "success",
               });
-            } else if (resp.data.code===400) {
+            } else if (resp.data.code === 400) {
               that.$message.error(resp.data.msg);
             }
-            //that.$router.push("/studentList");
+            // that.$router.push("/studentList")
           });
         } else {
           return false;
@@ -154,6 +158,7 @@ export default {
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
+
     },
     test() {
       console.log(this.ruleForm);

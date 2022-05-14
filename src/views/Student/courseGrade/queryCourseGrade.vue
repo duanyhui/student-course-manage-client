@@ -1,11 +1,7 @@
 <template>
   <div>
     <el-form >
-      <el-form-item label="选择学期">
-        <el-select v-model="term" placeholder="请选择学期">
-          <el-option v-for="(item, index) in termList" :key="index" :label="item" :value="item"></el-option>
-        </el-select>
-      </el-form-item>
+
     </el-form>
     <el-card>
       <el-table
@@ -14,23 +10,23 @@
           style="width: 100%">
         <el-table-column
             fixed
-            prop="cid"
-            label="课号"
-            width="150">
-        </el-table-column>
-        <el-table-column
-            prop="cname"
+            prop="cno"
             label="课程号"
             width="150">
         </el-table-column>
         <el-table-column
-            prop="tid"
+            prop="cname"
+            label="课程名"
+            width="150">
+        </el-table-column>
+        <el-table-column
+            prop="tno"
             label="教师号"
             width="150">
         </el-table-column>
         <el-table-column
             prop="tname"
-            label="教师名称"
+            label="教师名"
             width="150">
         </el-table-column>
         <el-table-column
@@ -44,9 +40,9 @@
             width="150">
         </el-table-column>
       </el-table>
-      <p>
-        平均成绩：{{ avg }}
-      </p>
+<!--      <p>-->
+<!--        平均成绩：{{ avg }}-->
+<!--      </p>-->
       <el-pagination
           background
           layout="prev, pager, next"
@@ -78,23 +74,30 @@ export default {
       total: null,
       tmpList: null,
       avg: 0,
-      term: sessionStorage.getItem('currentTerm'),
-      termList: null
+
+      ruleForm: {
+        term:sessionStorage.getItem('term'),
+      }
     }
   },
-  created() {
-    const that = this
-    axios.get('http://localhost:10086/SCT/findAllTerm').then(function (resp) {
-      that.termList = resp.data
-    })
-  },
+  // created() {
+  //   const that = this
+  //   axios.get('http://localhost:10086/SCT/findAllTerm').then(function (resp) {
+  //     that.termList = resp.data
+  //   })
+  // },
   watch: {
-    term: {
-      handler(newTerm, oldTerm) {
-        const sid = sessionStorage.getItem('sid')
+    ruleForm: {
+      handler() {
+        const sno = sessionStorage.getItem('sno')
+
         const that = this
-        axios.get('http://localhost:10086/SCT/findBySid/' + sid + '/' + newTerm).then(function (resp) {
-          that.tmpList = resp.data
+        const sc={
+          sno:sno
+        }
+        console.log(sc);
+        axios.post('/sc/findBySearch/',sc).then(function (resp) {
+          that.tmpList = resp.data.data
           that.total = resp.data.length
           let start = 0, end = that.pageSize
           let length = that.tmpList.length
@@ -102,8 +105,8 @@ export default {
           that.tableData = that.tmpList.slice(start, end)
           let totalScore = 0
           for (let i = 0; i < that.total; i++) {
-            totalScore += that.tmpList[i].ccredit
-            that.avg += that.tmpList[i].ccredit * that.tmpList[i].grade
+            totalScore += that.tmpList[i].grade
+
           }
           if (totalScore === 0)
             that.avg = 0

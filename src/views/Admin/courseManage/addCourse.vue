@@ -1,6 +1,9 @@
 <template>
   <div>
     <el-form style="width: 60%" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+      <el-form-item label="课程号" prop="cno">
+        <el-input v-model="ruleForm.cno"></el-input>
+      </el-form-item>
       <el-form-item label="课程名" prop="cname">
         <el-input v-model="ruleForm.cname"></el-input>
       </el-form-item>
@@ -10,7 +13,7 @@
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
-        <el-button @click="test">test</el-button>
+
       </el-form-item>
     </el-form>
   </div>
@@ -20,10 +23,16 @@ export default {
   data() {
     return {
       ruleForm: {
-        cname: null,
-        ccredit: null
+        cno: '',
+        cname: '',
+        ccredit: ''
       },
       rules: {
+        cno: [
+          { required: true, message: '请输入课程号', trigger: 'change' },
+          {pattern: /^-?\d+$/, message: "请输入数字", trigger: "blur"},
+
+        ],
         cname: [
           { required: true, message: '请输入名称', trigger: 'blur' },
         ],
@@ -42,19 +51,17 @@ export default {
           const that = this
           // console.log(this.ruleForm)
 
-          axios.post("http://localhost:10086/course/save", this.ruleForm).then(function (resp) {
-            console.log(resp)
-            if (resp.data === true) {
+          axios.post("/course/add", this.ruleForm).then(function (resp) {
+            if (resp.data.code === 200) {
               that.$message({
                 showClose: true,
-                message: '插入成功',
-                type: 'success'
+                message: resp.data.msg ,
+                type: "success",
               });
+            } else if (resp.data.code===400) {
+              that.$message.error(resp.data.msg);
             }
-            else {
-              that.$message.error('插入失败，请检查数据库t');
-            }
-            that.$router.push("/queryCourse")
+            //that.$router.push("/studentList");
           })
         } else {
           return false;
@@ -64,9 +71,9 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
-    test() {
-      console.log(this.ruleForm)
-    }
+    // test() {
+    //   console.log(this.ruleForm)
+    // }
   }
 }
 </script>

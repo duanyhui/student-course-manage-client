@@ -5,7 +5,7 @@
         <h1>admin home</h1>
         <el-card style="width: 40%">
 
-          <p><i class="el-icon-s-custom" style="margin-right: 18px">Create</i></p>
+          <p><i class="el-icon-s-custom" style="margin-right: 18px">Created By 段宇辉 肖阳 高向宏</i></p>
         </el-card>
         <logout></logout>
       </el-main>
