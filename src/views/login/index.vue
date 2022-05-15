@@ -72,13 +72,13 @@ export default {
           let check = false
           let name = null
 
-          axios.get('/student/getTerm' + this.ruleForm.sno).then(function (resp) {
-            sessionStorage.setItem("currentTerm", resp.data.data)
-          })
+          // axios.get('/student/getTerm' + this.ruleForm.sno).then(function (resp) {
+          //   sessionStorage.setItem("currentTerm", resp.data.data)
+          // })
 
-          axios.get('http://localhost:10086/info/getForbidCourseSelection').then(function (resp) {
-            sessionStorage.setItem("ForbidCourseSelection", resp.data)
-          })
+          // axios.get('http://localhost:10086/info/getForbidCourseSelection').then(function (resp) {
+          //   sessionStorage.setItem("ForbidCourseSelection", resp.data)
+          // })
 
           /**
            * author:duanyhui
@@ -93,8 +93,8 @@ export default {
             axios.post("/admin/login",form).then(function (resp){
               //这里resp返回的是bool值,没有进行封装所以resp返回的是没有封装的数据，用resp.data即可访问
               console.log("管理员登陆验证信息：" + resp.data)
-              check = resp.data
-              if (check === true) {
+              
+              if (resp.data === true) {
                 axios.get("/admin/getbyuid",{params:{uid: that.ruleForm.id}}
                 ).then(function (resp){
                   /**  这里的resp被封装成了Result对象，
@@ -117,6 +117,13 @@ export default {
                     type: 'success'
                   });
                 })
+              }
+              else {
+                that.$message({
+                    showClose: true,
+                    message: '登录失败，密码错误',
+                    type: 'error'
+                  });
               }
             })
           } else if (that.ruleForm.type === 'student') {
@@ -154,6 +161,13 @@ export default {
                       });
                     })
 
+                  }
+                  else{
+                    that.$message({
+                        showClose: true,
+                        message: resp.data.msg,
+                        type: 'error'
+                      });
                   }
 
                 }
@@ -233,10 +247,12 @@ export default {
   right: 500px;
   text-align: center;
   width: 30%;
+  margin: 0 auto;
 }
 .el-header {
   background-color: #B3C0D1;
   color: #333;
   line-height: 60px;
+  text-align: center;
 }
 </style>
