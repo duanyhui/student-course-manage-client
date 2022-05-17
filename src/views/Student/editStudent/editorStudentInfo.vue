@@ -110,6 +110,13 @@ export default {
           {required: true, message: "请输入名称", trigger: "blur"},
           {min: 2, max: 5, message: "长度在 2 到 5 个字符", trigger: "blur"},
         ],
+        ssex: [{required: true, message: "请选择性别", trigger: "blur"}],
+        major: [
+          {required: true, message: "请输入名称", trigger: "blur"},
+          {min: 2, max: 10, message: "长度在 2 到 5 个字符", trigger: "blur"},
+        ],
+        term: [{required: true, message: "请选择学期", trigger: "blur"}],
+        college: [{required: true, message: "请输入学院", trigger: "blur"}],
       },
     };
   },
