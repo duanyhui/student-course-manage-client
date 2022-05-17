@@ -7,7 +7,10 @@
       <el-form-item label="教师姓名" prop="tname">
         <el-input v-model="ruleForm.tname"></el-input>
       </el-form-item>
-      <el-form-item label="性别" prop="tsex">
+      <el-form-item label="初始密码" prop="password">
+        <el-input v-model="ruleForm.password" show-password></el-input>
+      </el-form-item>
+      <el-form-item label="性别" prop="ssex">
         <el-select v-model="ruleForm.tsex" placeholder="请选择性别">
           <el-option
               v-for="item in infoList.tsexList"
@@ -36,7 +39,7 @@ export default {
       ruleForm: {
         tno: null,
         tname: null,
-        password: 123456,
+        password: null,
         tsex:null,
         college:null,
       },
@@ -48,11 +51,19 @@ export default {
           { required: true, message: "请输入学号", trigger: "blur" },
           { pattern:/^-?\d+$/,message: "请输入数字", trigger: "blur" },
         ],
+        password: [
+          { required: true, message: '请输入密码', trigger: 'change' }
+        ],
         tname: [
           { required: true, message: "请输入名称", trigger: "blur" },
           { min: 2, max: 5, message: "长度在 2 到 5 个字符", trigger: "blur" },
         ],
-
+        ssex: [
+          { required: true, message: "请输入性别", trigger: "blur" },
+        ],
+        college: [
+          { required: true, message: "请输入学院", trigger: "blur" },
+        ],
       }
     };
   },
