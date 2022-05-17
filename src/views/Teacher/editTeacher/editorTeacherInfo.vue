@@ -82,8 +82,6 @@ export default {
           {required: true, message: "请输入名称", trigger: "blur"},
           {min: 1, max: 5, message: "长度在 2 到 5 个字符", trigger: "blur"},
         ],
-        tsex: [{required: true, message: "请选择性别", trigger: "blur"}],
-        college: [{required: true, message: "请输入学院", trigger: "blur"}],
       },
     };
   },
