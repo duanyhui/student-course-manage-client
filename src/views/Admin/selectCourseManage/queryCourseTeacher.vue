@@ -17,17 +17,9 @@
             <el-form-item label="课程名" prop="cname">
               <el-input v-model.number="ruleForm.cname"></el-input>
             </el-form-item>
-<el-form-item label="学期" prop="term">
-        <el-select v-model="ruleForm.term" placeholder="请选择学期">
-          <el-option
-              v-for="item in infoList.termList"
-              :key="item"
-              :label="item"
-              :value="item"
-          >
-          </el-option>
-        </el-select>
-      </el-form-item>
+            <el-form-item label="学期" prop="term">
+              <el-input v-model.number="ruleForm.term"></el-input>
+            </el-form-item>
             <el-form-item label="模糊查询" prop="fuzzy">
               <el-switch
                   v-model="ruleForm.fuzzy"
@@ -62,22 +54,13 @@ export default {
 
 
       },
-      infoList: {
-        ssexList: ["男", "女"],
-        termList: [
-          "大一上",
-          "大一下",
-          "大二上",
-          "大二下",
-          "大三上",
-          "大三下",
-          "大四上",
-          "大四下",
-          ""
-        ],
-      },
       rules: {
-
+        tno: [
+          { type: 'number', message: '必须是数字类型' }
+        ],
+        cno: [
+          { type: 'number', message: '必须是数字类型' }
+        ],
       }
     };
   },

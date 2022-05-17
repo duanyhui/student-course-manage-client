@@ -49,6 +49,7 @@ export default {
       ruleForm: {
         tno: null,
         tname: null,
+        password: null,
         tsex:null,
         college:null,
       },
@@ -64,10 +65,18 @@ export default {
           { required: true, message: "请输入学号", trigger: "blur" },
           { pattern:/^-?\d+$/,message: "请输入数字", trigger: "blur" },
         ],
-
+        password: [
+          { required: true, message: '请输入密码', trigger: 'change' }
+        ],
         tname: [
           { required: true, message: "请输入名称", trigger: "blur" },
           { min: 2, max: 5, message: "长度在 2 到 5 个字符", trigger: "blur" },
+        ],
+        ssex: [
+          { required: true, message: "请输入性别", trigger: "blur" },
+        ],
+        college: [
+          { required: true, message: "请输入学院", trigger: "blur" },
         ],
       }
     };
@@ -149,7 +158,7 @@ export default {
             return
           }
           console.log(this.ruleForm)
-          axios.post("/teacher/update/", this.ruleForm).then(function (resp) {
+          axios.post("/teacher/updateTeacher", this.ruleForm).then(function (resp) {
             if (resp.data.code===200) {
               that.$message({
                 showClose: true,
