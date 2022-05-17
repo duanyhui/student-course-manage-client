@@ -8,7 +8,7 @@ import './plugins/element.js'
 Vue.config.productionTip = false
 
 
-axios.defaults.baseURL='http://192.168.66.235:1008';
+axios.defaults.baseURL='https://atri.wiki';
 // Vue.prototype.$axios = axios;
 
 
