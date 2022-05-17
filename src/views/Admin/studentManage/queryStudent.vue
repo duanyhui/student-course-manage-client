@@ -38,16 +38,13 @@ export default {
   data() {
     return {
       ruleForm: {
-        sno: null,
-        sname: null,
+        sno: '',
+        sname: '',
         fuzzy: true,
         password: "fuzzy",
       },
       rules: {
-        sno: [
-          { type: 'number', message: '必须是数字类型' }
-        ],
-        sname: [],
+
       }
     };
   },

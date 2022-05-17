@@ -9,7 +9,7 @@
           @confirm="out"
       >
         <el-button slot="reference" type="danger" style="margin-top: 10px" round @click>
-          logout
+          登出
         </el-button>
       </el-popconfirm>
   </div>
