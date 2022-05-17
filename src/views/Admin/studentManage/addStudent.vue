@@ -14,9 +14,6 @@
       <el-form-item label="学生学号" prop="sno">
         <el-input v-model="ruleForm.sno"></el-input>
       </el-form-item>
-      <el-form-item label="教师密码" prop="password">
-        <el-input v-model="ruleForm.password" :value="ruleForm.password"></el-input>
-      </el-form-item>
       <el-form-item label="学生姓名" prop="sname">
         <el-input v-model="ruleForm.sname"></el-input>
       </el-form-item>
@@ -74,23 +71,12 @@ export default {
     return {
       ruleForm: {
         sno: "",
-        password:'',
+        password:123456,
         sname: "",
         ssex: "",
-        ssexList: ["男", "女"],
         major: "",
         college: "",
         term: "",
-        termList: [
-          "大一上",
-          "大一下",
-          "大二上",
-          "大二下",
-          "大三上",
-          "大三下",
-          "大四上",
-          "大四下",
-        ],
       },
       infoList: {
         ssexList: ["男", "女"],
@@ -103,6 +89,7 @@ export default {
           "大三下",
           "大四上",
           "大四下",
+
         ],
       },
       rules: {
@@ -114,17 +101,7 @@ export default {
           { required: true, message: "请输入名称", trigger: "blur" },
           { min: 2, max: 5, message: "长度在 2 到 5 个字符", trigger: "blur" },
         ],
-        ssex: [
-          { required: true, message: "请输入性别", trigger: "blur" },
-        ],
-        major: [
-          {required: true, message: "请输入名称", trigger: "blur"},
-          {min: 2, max: 10, message: "长度在 2 到 5 个字符", trigger: "blur"},
-        ],
-        term: [{ required: true, message: "请选择学期", trigger: "blur" }],
-        college: [
-          { required: true, message: "请输入学院", trigger: "blur" },
-        ],
+
       },
     };
   },
