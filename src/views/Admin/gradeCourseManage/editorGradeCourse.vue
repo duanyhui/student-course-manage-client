@@ -45,9 +45,9 @@ export default {
       },
       rules: {
         grade: [
-          { required: true, message: '请输入成绩', trigger: 'change'},
-          { type: 'number', message: '请输入数字', trigger: 'change'},
-          { validator: checkGrade, trigger: 'blur'}
+          {required: true, message: '请输入成绩', trigger: 'change'},
+          {type: 'number', message: '请输入数字', trigger: 'change'},
+          {validator: checkGrade, trigger: 'blur'}
         ],
       }
     };
@@ -102,7 +102,9 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
-
+    test() {
+      console.log(this.ruleForm)
+    }
   }
 }
 </script>

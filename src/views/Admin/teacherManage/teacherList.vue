@@ -146,8 +146,8 @@ export default {
   watch: {
     ruleForm: {
       handler(newRuleForm, oldRuleForm) {
-                if(this.ruleForm.tno==='')
-          this.ruleForm.tno=null;//解决空sno无法模糊查询
+        if (this.ruleForm.tno === '')
+          this.ruleForm.tno = null;//解决空sno无法模糊查询
         console.log("组件监听 form")
 
         const that = this

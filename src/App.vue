@@ -10,9 +10,9 @@ export default {
 }
 </script>
 <style>
-.app{
-margin: 0 auto;
-text-align: center;
+.app {
+  margin: 0 auto;
+  text-align: center;
 }
 </style>
 

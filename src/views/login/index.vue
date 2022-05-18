@@ -86,17 +86,17 @@ export default {
            *
            */
           //
-          if (that.ruleForm.type === 'admin'){
+          if (that.ruleForm.type === 'admin') {
             let form = {uid: that.ruleForm.id, password: that.ruleForm.password}
             console.log(form)
 
-            axios.post("/admin/login",form).then(function (resp){
+            axios.post("/admin/login", form).then(function (resp) {
               //这里resp返回的是bool值,没有进行封装所以resp返回的是没有封装的数据，用resp.data即可访问
               console.log("管理员登陆验证信息：" + resp.data)
 
               if (resp.data === true) {
-                axios.get("/admin/getbyuid",{params:{uid: that.ruleForm.id}}
-                ).then(function (resp){
+                axios.get("/admin/getbyuid", {params: {uid: that.ruleForm.id}}
+                ).then(function (resp) {
                   /**  这里的resp被封装成了Result对象，
                    * 这个对象有三个属性分别为data，code，msg，所以要用resp.data.data访问数据
                    * */
@@ -117,13 +117,12 @@ export default {
                     type: 'success'
                   });
                 })
-              }
-              else {
+              } else {
                 that.$message({
-                    showClose: true,
-                    message: '登录失败，密码错误',
-                    type: 'error'
-                  });
+                  showClose: true,
+                  message: '登录失败，密码错误',
+                  type: 'error'
+                });
               }
             })
           } else if (that.ruleForm.type === 'student') {
@@ -151,6 +150,7 @@ export default {
                       sessionStorage.setItem("ssex", resp.data.data.ssex)
                       sessionStorage.setItem("major", resp.data.data.major)
                       sessionStorage.setItem("term", resp.data.data.term)
+                      sessionStorage.setItem("college", resp.data.data.college)
                       that.$router.push('/student'
                       )
                       console.log('学生姓名: ' + name + ' ' + that.ruleForm.type + ' ' + resp.data.data.sno)
@@ -161,13 +161,12 @@ export default {
                       });
                     })
 
-                  }
-                  else{
+                  } else {
                     that.$message({
-                        showClose: true,
-                        message: resp.data.msg,
-                        type: 'error'
-                      });
+                      showClose: true,
+                      message: resp.data.msg,
+                      type: 'error'
+                    });
                   }
 
                 }

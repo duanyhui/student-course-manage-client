@@ -3,7 +3,8 @@
     <el-container>
       <el-main>
         <el-card>
-          <el-form :inline="true" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
+          <el-form ref="ruleForm" :inline="true" :model="ruleForm" :rules="rules" class="demo-ruleForm"
+                   label-width="120px">
             <el-form-item label="开课编号" prop="ctid">
               <el-input v-model.number="ruleForm.ctid"></el-input>
             </el-form-item>
@@ -28,7 +29,8 @@
 
             <el-form-item label="选择学期">
               <el-select v-model="ruleForm.term" placeholder="请选择学期">
-                <el-option v-for="(item, index) in infoList.termList" :key="index" :label="item" :value="item"></el-option>
+                <el-option v-for="(item, index) in infoList.termList" :key="index" :label="item"
+                           :value="item"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="模糊查询" prop="fuzzy">
@@ -48,13 +50,13 @@
 </template>
 <script>
 import GradeCourseList from "@/views/Admin/gradeCourseManage/gradeCourseList";
+
 export default {
   components: {GradeCourseList},
   data() {
     return {
 
       ruleForm: {
-        ctid:'',
         sno: '',
         sname: '',
         tno: '',
@@ -77,7 +79,15 @@ export default {
         ],
       },
       rules: {
-
+        cno: [
+          { type: 'number', message: '必须是数字类型' }
+        ],
+        tno: [
+          { type: 'number', message: '必须是数字类型' }
+        ],
+        sno: [
+          { type: 'number', message: '必须是数字类型' }
+        ],
 
 
       }

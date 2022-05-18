@@ -32,9 +32,10 @@
   </div>
 </template>
 <script>
-import StudentList  from "@/views/Admin/studentManage/studentList";
+import StudentList from "@/views/Admin/studentManage/studentList";
+
 export default {
-  components:{StudentList},
+  components: {StudentList},
   data() {
     return {
       ruleForm: {
@@ -43,9 +44,7 @@ export default {
         fuzzy: true,
         password: "fuzzy",
       },
-      rules: {
-
-      }
+      rules: {}
     };
   },
   create() {
