@@ -45,21 +45,21 @@ export default {
       },
       rules: {
         tno: [
-          { required: true, message: "请输入学号", trigger: "blur" },
-          { pattern:/^-?\d+$/,message: "请输入数字", trigger: "blur" },
+          {required: true, message: "请输入学号", trigger: "blur"},
+          {pattern: /^-?\d+$/, message: "请输入数字", trigger: "blur"},
         ],
         password: [
-          { required: true, message: '请输入密码', trigger: 'change' }
+          {required: true, message: '请输入密码', trigger: 'change'}
         ],
         tname: [
-          { required: true, message: "请输入名称", trigger: "blur" },
-          { min: 2, max: 5, message: "长度在 2 到 5 个字符", trigger: "blur" },
+          {required: true, message: "请输入名称", trigger: "blur"},
+          {min: 2, max: 5, message: "长度在 2 到 5 个字符", trigger: "blur"},
         ],
-        ssex: [
-          { required: true, message: "请选择性别", trigger: "blur" },
+        tsex: [
+          {required: true, message: "请选择性别", trigger: "blur"},
         ],
         college: [
-          { required: true, message: "请输入学院", trigger: "blur" },
+          {required: true, message: "请输入学院", trigger: "blur"},
         ],
       }
     };

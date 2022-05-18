@@ -32,23 +32,19 @@
   </div>
 </template>
 <script>
-import StudentList  from "@/views/Admin/studentManage/studentList";
+import StudentList from "@/views/Admin/studentManage/studentList";
+
 export default {
-  components:{StudentList},
+  components: {StudentList},
   data() {
     return {
       ruleForm: {
-        sno: null,
-        sname: null,
+        sno: '',
+        sname: '',
         fuzzy: true,
         password: "fuzzy",
       },
-      rules: {
-        sno: [
-          { type: 'number', message: '必须是数字类型' }
-        ],
-        sname: [],
-      }
+      rules: {}
     };
   },
   create() {

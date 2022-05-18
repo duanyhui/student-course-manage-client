@@ -15,7 +15,7 @@
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
           <el-button @click="resetForm('ruleForm')">重置</el-button>
-          <el-button @click="test">test</el-button>
+
         </el-form-item>
       </el-form>
     </el-card>
@@ -45,9 +45,9 @@ export default {
       },
       rules: {
         grade: [
-          { required: true, message: '请输入学分', trigger: 'change'},
-          { type: 'number', message: '请输入数字', trigger: 'change'},
-          { validator: checkGrade, trigger: 'blur'}
+          {required: true, message: '请输入成绩', trigger: 'change'},
+          {type: 'number', message: '请输入数字', trigger: 'change'},
+          {validator: checkGrade, trigger: 'blur'}
         ],
       }
     };

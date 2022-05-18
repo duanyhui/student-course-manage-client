@@ -89,7 +89,6 @@ export default {
         sno: "",
         sname: "",
         ssex: "",
-        password: 123456,
         major: "",
         college: "",
         term: "",
@@ -197,7 +196,7 @@ export default {
           // 通过前端校验
           const that = this;
           console.log(this.ruleForm);
-          axios.post("/student/update", this.ruleForm).then(function (resp) {
+          axios.post("/student/update/", this.ruleForm).then(function (resp) {
             if (resp.data.code === 200) {
               that.$message({
                 showClose: true,
