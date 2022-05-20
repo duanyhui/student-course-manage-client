@@ -34,7 +34,7 @@
               </el-select>
             </el-form-item>
             <el-form-item label="选课容量" prop="capacity">
-              <el-input v-model="ruleForm.capacity"></el-input>
+              <el-input v-model.number="ruleForm.capacity"></el-input>
             </el-form-item>
           </el-form>
         </el-card>
@@ -47,6 +47,7 @@
 </template>
 <script>
 import OfferCourseList from "@/views/Teacher/offerCourseList";
+
 export default {
   components: {OfferCourseList},
   data() {
@@ -77,7 +78,8 @@ export default {
           { required: true, message: '请选择学期' }
         ],
         capacity: [
-          {required: true, message: '请输入容量'}
+          {required: true, message: '请输入容量'},
+          {type: 'number', message: '请输入数字', trigger: 'blur'}
         ],
 
       }

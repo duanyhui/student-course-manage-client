@@ -81,31 +81,34 @@ export default {
       const tno = sessionStorage.getItem("tno")
       const cno = row.cno
       const term = this.ruleForm.term
-      const  capacity=this.ruleForm.capacity
-      const ct={
-        tno:tno,
-        cno:cno,
-        term:term,
-        capacity:capacity
+      const capacity = this.ruleForm.capacity
+      const ct = {
+        tno: tno,
+        cno: cno,
+        term: term,
+        capacity: capacity
       }
-
-      axios.post('/ct/add/',ct).then(function (resp) {
-        if (resp.data.code === 200) {
-          that.$message({
-            showClose: true,
-            message: resp.data.msg,
-            type: 'success'
-          });
-          window.location.reload()
-        }
-        else {
-          that.$message({
-            showClose: true,
-            message: resp.data.msg,
-            type: 'error'
-          });
-        }
+      if ((this.ruleForm.term === '' || this.ruleForm.term === null) || (!Number.isInteger(this.ruleForm.capacity) || this.ruleForm.capacity === '' || this.ruleForm.capacity === null))//检查是否键入学期和容量
+      {
+        that.$message.error('学期或者选课容量输入错误')
+      } else {
+        axios.post('/ct/add/', ct).then(function (resp) {
+          if (resp.data.code === 200) {
+            that.$message({
+              showClose: true,
+              message: resp.data.msg,
+              type: 'success'
+            });
+            window.location.reload()
+          } else {
+            that.$message({
+              showClose: true,
+              message: resp.data.msg,
+              type: 'error'
+            });
+          }
       })
+      }
 
 
     },
