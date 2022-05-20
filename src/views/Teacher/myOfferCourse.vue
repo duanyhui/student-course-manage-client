@@ -33,7 +33,7 @@
             </el-table-column>
             <el-table-column
                 prop="term"
-                label="学分"
+                label="学期"
                 width="150">
             </el-table-column>
             <el-table-column
