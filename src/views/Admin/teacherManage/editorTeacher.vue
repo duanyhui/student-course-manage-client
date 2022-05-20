@@ -20,7 +20,7 @@
         <el-input v-model="ruleForm.tname" :value="ruleForm.tname"></el-input>
       </el-form-item>
 
-      <el-form-item label="性别" prop="ssex">
+      <el-form-item label="性别" prop="tsex">
         <el-select v-model="ruleForm.tsex" placeholder="请选择性别">
           <el-option
               v-for="item in infoList.tsexList"
@@ -61,7 +61,7 @@ export default {
       },
       rules: {
         tno: [
-          {required: true, message: "请输入学号", trigger: "blur"},
+          {required: true, message: "请输入教师号", trigger: "blur"},
           {pattern: /^-?\d+$/, message: "请输入数字", trigger: "blur"},
         ],
 
@@ -119,23 +119,28 @@ export default {
     quirybytno() {//点击查询按钮查询教师编号对应学生信息，并且填入对应输入框，选择框中
       const that = this;
       //try {
-      axios
-          .get("/teacher/getByTno/" + this.ruleForm.tno)
-          .then(function (resp) {
-            // that.ruleForm = resp.data
-            if (resp.data.code === 200) {
-              that.$message({
-                showClose: true,
-                message: "查询到了该学号对应的教师信息如下",
-                type: "success",
-              });
+      if (this.ruleForm.tno === '' || this.ruleForm.tno === null)
+        that.$message.error('未输入教师号！')
+      else
+        axios
+            .get("/teacher/getByTno/" + this.ruleForm.tno)
+            .then(function (resp) {
+              // that.ruleForm = resp.data
+              if (resp.data.code === 200) {
+                that.$message({
+                  showClose: true,
+                  message: "查询到了该学号对应的教师信息如下",
+                  type: "success",
+                });
 
-              that.ruleForm = resp.data.data;
+                that.ruleForm.tname = resp.data.data.tname;
+                that.ruleForm.tsex = resp.data.data.tsex;
+                that.ruleForm.college = resp.data.data.college;
 
-            } else if (resp.data.code === 400) {
-              that.$message.error(resp.data.msg);
-            }
-          });
+              } else if (resp.data.code === 400) {
+                that.$message.error(resp.data.msg);
+              }
+            });
       // } catch (error) {
       //   this.$message.error("无法连接到服务器");
       // }
