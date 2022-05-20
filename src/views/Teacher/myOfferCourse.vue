@@ -38,7 +38,7 @@
             </el-table-column>
             <el-table-column
                 prop="capacity"
-                label="学分"
+                label="容量"
                 width="150">
             </el-table-column>
           </el-table>

@@ -33,7 +33,7 @@
             width="150">
         </el-table-column>
         <el-table-column
-            prop="ccredit"
+            prop="grade"
             label="学分"
             width="150">
         </el-table-column>
