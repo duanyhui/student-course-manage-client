@@ -79,16 +79,6 @@ export default {
         ],
       },
       rules: {
-        cno: [
-          { type: 'number', message: '必须是数字类型' }
-        ],
-        tno: [
-          { type: 'number', message: '必须是数字类型' }
-        ],
-        sno: [
-          { type: 'number', message: '必须是数字类型' }
-        ],
-
 
       }
     };
