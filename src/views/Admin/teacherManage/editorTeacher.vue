@@ -155,15 +155,14 @@ export default {
             return
           }
           console.log(this.ruleForm)
-          axios.post("/teacher/updateTeacher", this.ruleForm).then(function (resp) {
-            if (resp.data.code===200) {
+          axios.post("/teacher/update", this.ruleForm).then(function (resp) {
+            if (resp.data.code === 200) {
               that.$message({
                 showClose: true,
                 message: resp.data.msg,
                 type: 'success'
               });
-            }
-            else {
+            } else {
               that.$message.error(resp.data.data);
             }
             //that.$router.push("/queryTeacher")
