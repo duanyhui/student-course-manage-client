@@ -1,12 +1,13 @@
 <template>
   <div>
     <el-card>
-      <el-form style="width: 60%" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+      <el-form style="width: 60%" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px"
+               class="demo-ruleForm">
         <el-form-item label="开课编号" prop="ctid">
           <el-input v-model="ruleForm.ctid" :value="ruleForm.ctid" :disabled="true"></el-input>
         </el-form-item>
-        <el-form-item label="学号" prop="ctid">
-          <el-input v-model="ruleForm.ctid" :value="ruleForm.sno" :disabled="true"></el-input>
+        <el-form-item label="学号" prop="sno">
+          <el-input v-model="ruleForm.sno" :disabled="true" :value="ruleForm.sno"></el-input>
         </el-form-item>
 
         <el-form-item label="分数" prop="grade">
