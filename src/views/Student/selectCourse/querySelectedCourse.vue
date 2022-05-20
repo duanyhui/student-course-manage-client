@@ -38,6 +38,11 @@
             width="150">
         </el-table-column>
         <el-table-column
+            label="学期"
+            prop="term"
+            width="150">
+        </el-table-column>
+        <el-table-column
             label="操作"
             width="100">
 
