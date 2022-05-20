@@ -165,25 +165,27 @@ export default {
     quirybysno() {//点击查询按钮查询学号对应学生信息，并且填入对应输入框，选择框中
       const that = this;
       //try {
+if (this.ruleForm.sno === '' || this.ruleForm.sno === null)
+  that.$message.error('未输入学号！')
+else
+  axios
+      .get("/student/getbysno/" + this.ruleForm.sno)
+      .then(function (resp) {
+        // that.ruleForm = resp.data
+        if (resp.data.code === 200) {
+          that.$message({
+            showClose: true,
+            message: "查询到了该学号对应的学生信息如下",
+            type: "success",
+          });
 
-      axios
-          .get("/student/getbysno/" + this.ruleForm.sno)
-          .then(function (resp) {
-            // that.ruleForm = resp.data
-            if (resp.data.code === 200) {
-              that.$message({
-                showClose: true,
-                message: "查询到了该学号对应的学生信息如下",
-                type: "success",
-              });
-
-              that.ruleForm = resp.data.data;
-
-            } else if (resp.data.code === 400) {
+          that.ruleForm.sname = resp.data.data.sname;
+          that.ruleForm.ssex = resp.data.data.ssex;
+          that.ruleForm.major = resp.data.data.major;
+          that.ruleForm.college = resp.data.data.college;
+          that.ruleForm.term = resp.data.data.term;
+        } else if (resp.data.code === 400) {
               that.$message.error(resp.data.msg);
-            }
-            else{
-              that.$message.error('请检查服务器链接')
             }
           });
       // } catch (error) {
