@@ -90,10 +90,18 @@ export default {
   //     that.ruleForm = resp.data
   //   })
   // },
+  created() {
+    const that = this
+
+
+    this.ruleForm.tno = this.$route.query.tno
+
+
+  },
   methods: {
-    resetPassword(){
-      const that=this
-      if(this.ruleForm.tno!=null && this.ruleForm.tno!='') {
+    resetPassword() {
+      const that = this
+      if (this.ruleForm.tno != null && this.ruleForm.tno != '') {
         this.resetpass.tno = this.ruleForm.tno
         axios.post("/teacher/update", this.resetpass).then(function (resp) {
           if (resp.data.code === 200) {

@@ -134,12 +134,19 @@ export default {
       },
     };
   },
+  created() {
+    const that = this
 
+
+    this.ruleForm.sno = this.$route.query.sno
+
+
+  },
   methods: {
-    resetPassword(){
+    resetPassword() {
 
-      const that=this
-      if(this.ruleForm.sno!=null && this.ruleForm.sno!='') {
+      const that = this
+      if (this.ruleForm.sno != null && this.ruleForm.sno != '') {
         this.resetpass.sno = this.ruleForm.sno
         axios.post("/student/update", this.resetpass).then(function (resp) {
           if (resp.data.code === 200) {
