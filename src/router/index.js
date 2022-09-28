@@ -68,7 +68,7 @@ const routes = [
     name: 'admin',
     redirect: '/adminHome',
     component: admin,
-    meta: {requireAuth: true},
+    meta: {requireAuth: null},
     children: [
       {
         path: '/adminHome',
@@ -405,7 +405,7 @@ export default router
 router.beforeEach((to, from, next) => {
   console.log(from.path + ' ====> ' + to.path)
   if (to.meta.requireAuth) { // 判断该路由是否需要登录权限
-    if (sessionStorage.getItem("token") === 'true') { // 判断本地是否存在token
+    if (sessionStorage.getItem("token") !=null) { // 判断本地是否存在token
       next()
     } else {
       // 未登录,跳转到登陆页面
@@ -417,7 +417,7 @@ router.beforeEach((to, from, next) => {
   } else {
     // 不需要登陆权限的页面，如果已经登陆，则跳转主页面
     if(sessionStorage.getItem("token") === 'true'){
-      console.log('检查拦截器配置，大概率出现漏网之鱼')
+      // console.log('检查拦截器配置，大概率出现漏网之鱼')
       const t = sessionStorage.getItem("type")
       next('/' + t);
     }else{

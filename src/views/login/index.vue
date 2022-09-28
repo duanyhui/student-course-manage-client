@@ -31,7 +31,7 @@
               </el-form-item>
               <el-form-item>
                 <el-button type="primary" @click="submitForm('ruleForm')">登陆</el-button>
-                <el-button @click="resetForm('ruleForm')">重置</el-button>
+                <el-button @clic·k="resetForm('ruleForm')">重置</el-button>
                 <!-- <el-button @click="test('ruleForm')">test</el-button> -->
               </el-form-item>
             </el-form>
@@ -71,30 +71,20 @@ export default {
         if (valid) {
           let check = false
           let name = null
-
-          // axios.get('/student/getTerm' + this.ruleForm.sno).then(function (resp) {
-          //   sessionStorage.setItem("currentTerm", resp.data.data)
-          // })
-
-          // axios.get('http://localhost:10086/info/getForbidCourseSelection').then(function (resp) {
-          //   sessionStorage.setItem("ForbidCourseSelection", resp.data)
-          // })
-
           /**
            * author:duanyhui
            * build at 2022-5-4
-           *
            */
-          //
           if (that.ruleForm.type === 'admin') {
             let form = {uid: that.ruleForm.id, password: that.ruleForm.password}
             console.log(form)
-
+            sessionStorage.removeItem("token")
+            console.log("token为："+sessionStorage.getItem("token"))
             axios.post("/admin/login", form).then(function (resp) {
-              //这里resp返回的是bool值,没有进行封装所以resp返回的是没有封装的数据，用resp.data即可访问
-              console.log("管理员登陆验证信息：" + resp.data)
-
-              if (resp.data === true) {
+              console.log(resp)
+              //这里会返回一个token，后续都需要携带token才能被后端响应
+              if (resp.data.data != null) {
+                sessionStorage.setItem("token", resp.data.data.token)
                 axios.get("/admin/getbyuid", {params: {uid: that.ruleForm.id}}
                 ).then(function (resp) {
                   /**  这里的resp被封装成了Result对象，
@@ -102,9 +92,10 @@ export default {
                    * */
                   console.log("登陆页正在获取用户信息" + resp.data.data)
                   name = resp.data.data.name
-//test
                   /** 按照模板复制粘贴即可，后端没有返回token没有鉴权，没屁用*/
-                  sessionStorage.setItem("token", 'true')
+                  /**22-9-8更新 现在有了 */
+                  // sessionStorage.setItem("token", 'true')
+
                   sessionStorage.setItem("type", that.ruleForm.type)
                   sessionStorage.setItem("name", name)
                   sessionStorage.setItem("uid", resp.data.data.uid)
@@ -126,15 +117,15 @@ export default {
               }
             })
           } else if (that.ruleForm.type === 'student') {
+            sessionStorage.removeItem("token");
             let form = {sno: that.ruleForm.id, password: that.ruleForm.password};
             console.log(form);
 
             axios.post("/student/login", form).then(function (resp) {
                   //这里resp返回的是bool值,没有进行封装所以resp返回的是没有封装的数据，用resp.data即可访问
                   console.log("学生登陆验证信息：" + resp.data.code)
-
-
                   if (resp.data.code === 200) {
+                    sessionStorage.setItem("token", resp.data.data.token)
 
                     axios.get("/student/getbysno/" + form.sno
                     ).then(function (resp) {
@@ -142,8 +133,6 @@ export default {
                        * 这个对象有三个属性分别为data，code，msg，所以要用resp.data.data访问数据
                        * */
                       console.log("登陆页正在获取用户信息" + resp.data.data)
-                      /** 按照模板复制粘贴即可，后端没有返回token没有鉴权，没屁用*/
-                      sessionStorage.setItem("token", 'true')
                       sessionStorage.setItem("type", that.ruleForm.type)
                       sessionStorage.setItem("sname", resp.data.data.sname)
                       sessionStorage.setItem("sno", resp.data.data.sno)
@@ -153,6 +142,7 @@ export default {
                       sessionStorage.setItem("college", resp.data.data.college)
                       that.$router.push('/student'
                       )
+                      name=resp.data.data.sname;
                       console.log('学生姓名: ' + name + ' ' + that.ruleForm.type + ' ' + resp.data.data.sno)
                       that.$message({
                         showClose: true,
@@ -173,6 +163,7 @@ export default {
             )
           }
           else if (that.ruleForm.type === 'teacher'){
+            sessionStorage.removeItem("token");
             let form = {tno: that.ruleForm.id, password: that.ruleForm.password}
             console.log(form)
 
@@ -181,16 +172,16 @@ export default {
               console.log("老师登陆验证信息：" + resp.data)
               // check = resp.data.data
               if (resp.data.code===200 ) {
-                // axios.get("/teacher/getbytno",{params:{tid: that.ruleForm.id}}
-                // ).then(function (resp){
+                sessionStorage.setItem("token", resp.data.data.token)
+                // axios.get("/teacher/getbytid",{params:{tno: that.ruleForm.id}}
+                axios.get("/teacher/getByTno/"+that.ruleForm.id
+                ).then(function (resp){
                   /**  这里的resp被封装成了Result对象，
                    * 这个对象有三个属性分别为data，code，msg，所以要用resp.data.data访问数据
                    * */
                   console.log("登陆页正在获取用户信息" + resp.data.data)
                   name = resp.data.data.tname
-//test
-                  /** 按照模板复制粘贴即可，后端没有返回token没有鉴权，没屁用*/
-                  sessionStorage.setItem("token", 'true')
+
                   sessionStorage.setItem("type", that.ruleForm.type)
                   sessionStorage.setItem("tname", resp.data.data.tname)
                   sessionStorage.setItem("tno", resp.data.data.tno)
@@ -198,6 +189,7 @@ export default {
                 sessionStorage.setItem("ssex", resp.data.data.ssex)
 
                   that.$router.push('/teacher')
+                  name=resp.data.data.tname;
                   console.log('管理员姓名: ' + name + ' ' + that.ruleForm.type + ' ' + resp.data.data.tno)
 
                   that.$message({
@@ -205,7 +197,7 @@ export default {
                                 message: '登陆成功，欢迎 ' + name + '!',
                                 type: 'success'
                               });
-                // })
+                })
               }
               else if(resp.data.code===400){
                 that.$message({
@@ -240,10 +232,10 @@ export default {
 .login-module {
   /*width: 380px;*/
   /*height: 325px;*/
-  margin-top: 60px;
+  /*margin-top: 10%;*/
   /*border: none;*/
-  position: absolute;
-  right: 500px;
+  /*position: fixed;*/
+  /*right: 500px;*/
   text-align: center;
   width: 30%;
   margin: 0 auto;
