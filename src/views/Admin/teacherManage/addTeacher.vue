@@ -18,9 +18,20 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="学院" prop="college">
-        <el-input v-model="ruleForm.college" :value="ruleForm.college"></el-input>
+
+      <el-form-item label="所属学院" prop="collegeid">
+        <el-select v-model="ruleForm.collegeid"  placeholder="请选择" @focus="getCollegeList">
+          <el-option
+              v-for="item in collegeList"
+              :key="item.collegeid"
+              :label="item.collegename"
+              :value="item.collegeid"
+          >
+          </el-option>
+        </el-select>
       </el-form-item>
+
+
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
@@ -30,15 +41,18 @@
   </div>
 </template>
 <script>
+import {getCollegeList, getMajorList} from "@/api/utils";
+
 export default {
   data() {
     return {
+      collegeList: [],
+
       ruleForm: {
-        tno: null,
         tname: null,
         password: 123456,
         tsex:null,
-        college:null,
+        collegeid:null,
       },
       infoList: {
         tsexList: ["男", "女"],
@@ -58,7 +72,7 @@ export default {
         tsex: [
           {required: true, message: "请选择性别", trigger: "blur"},
         ],
-        college: [
+        collegeid: [
           {required: true, message: "请输入学院", trigger: "blur"},
         ],
       }
@@ -99,9 +113,32 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
-    // test() {
-    //   console.log(this.ruleForm)
-    // }
+    getCollegeList() {
+      const that = this;
+      getCollegeList().then((resp) => {
+        console.log(resp.data.data);
+        that.collegeList = resp.data.data;
+        console.log(this.collegeList);
+      });
+    },
+
+    getMajorList() {
+      const that = this;
+      getMajorList(that.ruleForm.collegeid).then((resp) => {
+        if(resp.data.code===400){
+        }
+        that.majorList = resp.data.data;
+
+      });
+    },
+
+    getTermList(){
+      const that = this;
+      getTerm().then((resp) => {
+        console.log(resp.data.data);
+        that.termList = resp.data.data;
+      });
+    },
   }
 }
 </script>

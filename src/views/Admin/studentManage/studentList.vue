@@ -12,7 +12,7 @@
       </el-table-column>
       <el-table-column
           prop="sname"
-          label="姓名"
+          label="姓名11111"
           width="150">
       </el-table-column>
       <el-table-column

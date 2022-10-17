@@ -16,7 +16,7 @@
           </div>
           <div>
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-              <el-form-item label="用户 id" prop="id">
+              <el-form-item label="用户名" prop="id">
                 <el-input v-model.number="ruleForm.id" prefix-icon="el-icon-lollipop"></el-input>
               </el-form-item>
               <el-form-item label="用户密码" prop="password">
@@ -26,7 +26,7 @@
                 <el-radio-group v-model="ruleForm.type">
                   <el-radio label="student" value="student">学生</el-radio>
                   <el-radio label="teacher" value="teacher">老师</el-radio>
-                  <el-radio label="admin" value="admin">admin</el-radio>
+                  <el-radio label="admin" value="admin">管理员</el-radio>
                 </el-radio-group>
               </el-form-item>
               <el-form-item>

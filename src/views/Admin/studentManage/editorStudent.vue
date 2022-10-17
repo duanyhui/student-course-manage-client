@@ -40,24 +40,27 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="学生专业" prop="major">
-        <el-input v-model="ruleForm.major"></el-input>
-      </el-form-item>
+<!--      <el-form-item label="学生专业" prop="major">-->
+<!--        <el-input v-model="ruleForm.major"></el-input>-->
+<!--      </el-form-item>-->
 
-      <el-form-item label="学生学院" prop="college">
-        <el-input v-model="ruleForm.college"></el-input>
-      </el-form-item>
-      <el-form-item label="学期" prop="term">
-        <el-select v-model="ruleForm.term" placeholder="请选择学期">
+<!--      <el-form-item label="学生学院" prop="college">-->
+<!--        <el-input v-model="ruleForm.college"></el-input>-->
+<!--      </el-form-item>-->
+
+      <el-form-item label="学期" prop="termid">
+        <el-select v-model="ruleForm.termid" placeholder="请选择学期">
           <el-option
               v-for="item in infoList.termList"
-              :key="item"
-              :label="item"
-              :value="item"
+              :key="item.term"
+              :label="item.term"
+              :value="item.termid"
           >
           </el-option>
         </el-select>
       </el-form-item>
+
+
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')"
         >提交
@@ -88,24 +91,23 @@ export default {
       ruleForm: {
         sno: "",
         sname: "",
-        ssex: "",
-        major: "",
-        college: "",
-        term: "",
+        termid: "",
 
 
       },
       //infoList是选择框的内容
       infoList: {
-        ssexList: ["男", "女"], termList: [
-          "大一上",
-          "大一下",
-          "大二上",
-          "大二下",
-          "大三上",
-          "大三下",
-          "大四上",
-          "大四下",
+        ssexList: ["男", "女"],
+        termList: [
+          {termid:1, term:"大一上"},
+          {termid:2, term:"大一下"},
+          {termid:3, term:"大二上"},
+          {termid:4, term:"大二下"},
+          {termid:5, term:"大三上"},
+          {termid:6, term:"大三下"},
+          {termid:7, term:"大四上"},
+          {termid:8, term:"大四下"},
+
         ],
       },
       resetpass: {
@@ -115,20 +117,20 @@ export default {
 
 
       rules: {
-        sno: [
-          {required: true, message: "请输入学号", trigger: "blur"},
-          {pattern: /^-?\d+$/, message: "请输入数字", trigger: "blur"},
-
-        ],
-        sname: [
-          {required: true, message: "请输入名称", trigger: "blur"},
-          {min: 2, max: 5, message: "长度在 2 到 5 个字符", trigger: "blur"},
-        ],
-        ssex: [{required: true, message: "请选择性别", trigger: "blur"}],
-        major: [
-          {required: true, message: "请输入名称", trigger: "blur"},
-          {min: 2, max: 10, message: "长度在 2 到 5 个字符", trigger: "blur"},
-        ],
+        // sno: [
+        //   {required: true, message: "请输入学号", trigger: "blur"},
+        //   {pattern: /^-?\d+$/, message: "请输入数字", trigger: "blur"},
+        //
+        // ],
+        // sname: [
+        //   {required: true, message: "请输入名称", trigger: "blur"},
+        //   {min: 2, max: 5, message: "长度在 2 到 5 个字符", trigger: "blur"},
+        // ],
+        // ssex: [{required: true, message: "请选择性别", trigger: "blur"}],
+        // major: [
+        //   {required: true, message: "请输入名称", trigger: "blur"},
+        //   {min: 2, max: 10, message: "长度在 2 到 5 个字符", trigger: "blur"},
+        // ],
         term: [{required: true, message: "请选择学期", trigger: "blur"}],
         college: [{required: true, message: "请输入学院", trigger: "blur"}],
       },
