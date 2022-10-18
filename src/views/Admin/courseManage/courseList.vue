@@ -22,6 +22,11 @@
           width="150">
       </el-table-column>
       <el-table-column
+          prop="type"
+          label="课程类型"
+          width="150">
+      </el-table-column>
+      <el-table-column
           label="操作"
           width="100">
         <template slot-scope="scope">
@@ -132,6 +137,9 @@ export default {
   },
   data() {
     return {
+      typename: [{
+
+      }],
       tableData: null,
       pageSize: 10,
       total: null,
@@ -156,6 +164,7 @@ export default {
           console.log("查询结果:");
           console.log(resp)
           that.tmpList = resp.data.data
+
           that.total = resp.data.length
           let start = 0, end = that.pageSize
           let length = that.tmpList.length

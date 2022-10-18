@@ -171,7 +171,9 @@ if (this.ruleForm.sno === '' || this.ruleForm.sno === null)
   that.$message.error('未输入学号！')
 else
   axios
-      .get("/student/getbysno/" + this.ruleForm.sno)
+      .get("/student/getbysno/" ,{params:{
+        sno:this.ruleForm.sno
+        }} )
       .then(function (resp) {
         // that.ruleForm = resp.data
         if (resp.data.code === 200) {

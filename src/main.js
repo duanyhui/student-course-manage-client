@@ -10,7 +10,7 @@ Vue.config.productionTip = false
 
 // axios.defaults.baseURL = 'https://jd.atri.wiki';
 // axios.defaults.baseURL = 'https://api.live2d.atri.wiki';
-axios.defaults.baseURL = 'http://127.0.0.1:1008';
+axios.defaults.baseURL = 'http://localhost:1008';
 // axios.defaults.baseURL = 'http://192.168.6.15:1008';
 //  axios.defaults.baseURL = 'http://124.222.122.147:1008/';
 

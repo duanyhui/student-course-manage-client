@@ -10,6 +10,19 @@
       <el-form-item label="学分" prop="ccredit">
         <el-input v-model.number="ruleForm.ccredit"></el-input>
       </el-form-item>
+
+      <el-form-item label="课程类型" prop="typeid">
+        <el-select v-model="ruleForm.type" placeholder="请选择课程类型">
+          <el-option
+              v-for="item in typeList"
+              :key="item.typename"
+              :label="item.typename"
+              :value="item.typeid"
+          >
+          </el-option>
+        </el-select>
+      </el-form-item>
+
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
@@ -22,10 +35,16 @@
 export default {
   data() {
     return {
+      typeList:[
+        {typeid:"公共课",typename:"公共课"},
+        {typeid:"专业课",typename:"专业课"},
+        {typeid:"通识课",typename:"通识课"}
+      ],
       ruleForm: {
         cno: '',
         cname: '',
-        ccredit: ''
+        ccredit: '',
+        type:''
       },
       rules: {
         cno: [
@@ -40,6 +59,9 @@ export default {
           { required: true, message: '请输入学分', trigger: 'change' },
           { type: 'number', message: '请输入数字', trigger: 'blur' },
         ],
+        typename:[
+          {required: true,message: '请选择课程类型', trigger: 'change'}
+        ]
       }
     };
   },

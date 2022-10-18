@@ -31,9 +31,20 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="学院" prop="college">
-        <el-input v-model="ruleForm.college" :value="ruleForm.college"></el-input>
+
+      <el-form-item label="所属学院" prop="collegeid">
+        <el-select v-model="ruleForm.collegeid"  :placeholder=ruleForm.collegename @focus="getCollegeList">
+          <el-option
+              v-for="item in collegeList"
+              :key="item.collegeid"
+              :label="item.collegename"
+              :value="item.collegeid"
+          >
+          </el-option>
+        </el-select>
       </el-form-item>
+
+
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
@@ -43,10 +54,15 @@
   </div>
 </template>
 <script>
+import {getCollegeList, getCollegeName} from "@/api/utils";
+
 export default {
   data() {
     return {
+      collegeList: [],
       ruleForm: {
+        collegeid: null,
+
         tno: null,
         tname: null,
         tsex:null,
@@ -72,7 +88,7 @@ export default {
         tsex: [
           {required: true, message: "请选择性别", trigger: "blur"},
         ],
-        college: [
+        collegeid: [
           {required: true, message: "请输入学院", trigger: "blur"},
         ],
       }
@@ -129,13 +145,17 @@ export default {
               if (resp.data.code === 200) {
                 that.$message({
                   showClose: true,
-                  message: "查询到了该学号对应的教师信息如下",
+                  message: "查询到的教师信息如下",
                   type: "success",
                 });
 
                 that.ruleForm.tname = resp.data.data.tname;
                 that.ruleForm.tsex = resp.data.data.tsex;
-                that.ruleForm.college = resp.data.data.college;
+                getCollegeName(resp.data.data.collegeid).then((resp) => {
+                  that.ruleForm.collegename = resp.data.data.collegename;
+                });
+
+
 
               } else if (resp.data.code === 400) {
                 that.$message.error(resp.data.msg);
@@ -180,7 +200,16 @@ export default {
     },
     test() {
       console.log(this.ruleForm)
-    }
+    },
+
+    getCollegeList() {
+      const that = this;
+      getCollegeList().then((resp) => {
+        that.collegeList = resp.data.data;
+      });
+    },
+
   }
+
 }
 </script>

@@ -44,6 +44,10 @@ import editorStudentInfo from "@/views/Student/editStudent/editorStudentInfo";
 import teacherInfoManage from "@/views/Teacher/editTeacher/index"
 import editorTeacherInfo from "@/views/Teacher/editTeacher/editorTeacherInfo";
 import editorTeacherPassword from "@/views/Teacher/editTeacher/editorTeacherPassword";
+import collegeManage from "@/views/Admin/collegeManage";
+import addCollege from "@/views/Admin/collegeManage/addCollege";
+import addMajor from "@/views/Admin/collegeManage/addMajor";
+import addPlanTable from "@/views/Admin/collegeManage/addPlanTable";
 
 
 Vue.use(VueRouter)
@@ -200,7 +204,34 @@ const routes = [
         ]
       },
       {
-        name: 'admin 学生成绩管理',
+        name: '学院和专业管理',
+        path: "/collegeManage",
+        component: collegeManage,
+        meta: {requireAuth: true},
+        children: [
+          {
+            path: '/addCollege',
+            name: '开设学院',
+            component: addCollege,
+            meta: {requireAuth: true},
+          },
+          {
+            path: '/addMajor',
+            name: '开设专业',
+            component: addMajor,
+            meta: {requireAuth: true}
+          },
+          {
+            path: '/addPlanTable',
+            name: '开设培养计划',
+            component: addPlanTable,
+            meta: {requireAuth: true}
+          }
+        ]
+      },
+
+      {
+        name: '学生成绩管理',
         path: "/gradeCourseManage",
         component: studentManage,
         meta: {requireAuth: true},

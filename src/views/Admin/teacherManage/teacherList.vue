@@ -24,7 +24,7 @@
       <el-table-column
           fixed
           label="学院"
-          prop="college"
+          prop="collegename"
           width="150">
       </el-table-column>
       <!--      <el-table-column-->

@@ -14,9 +14,9 @@
               class="demo-ruleForm"
               label-width="100px"
           >
-            <el-form-item label="工号" prop="tno">
-              <el-input v-model.number="ruleForm.tno"></el-input>
-            </el-form-item>
+<!--            <el-form-item label="工号" prop="tno">-->
+<!--              <el-input v-model.number="ruleForm.tno"></el-input>-->
+<!--            </el-form-item>-->
             <el-form-item label="教师姓名" prop="tname">
               <el-input v-model="ruleForm.tname"></el-input>
             </el-form-item>
@@ -50,7 +50,7 @@ export default {
     return {
       ruleForm: {
         tno: null,
-        tname: null,
+        tname: "",
         fuzzy: true,
         password: "fuzzy",
       },

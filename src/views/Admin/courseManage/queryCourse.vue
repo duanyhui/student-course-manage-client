@@ -4,9 +4,9 @@
       <el-main>
         <el-card>
           <el-form :inline="true" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
-            <el-form-item label="课程号" prop="cno">
-              <el-input v-model.number="ruleForm.cno"></el-input>
-            </el-form-item>
+<!--            <el-form-item label="课程号" prop="cno">-->
+<!--              <el-input v-model.number="ruleForm.cno"></el-input>-->
+<!--            </el-form-item>-->
             <el-form-item label="课程名" prop="cname">
               <el-input v-model="ruleForm.cname"></el-input>
             </el-form-item>

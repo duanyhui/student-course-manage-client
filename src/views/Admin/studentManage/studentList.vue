@@ -3,7 +3,11 @@
     <el-table
         :data="tableData"
         border
-        style="width: 100%">
+        style="width: 100%"
+
+
+
+    >
       <el-table-column
           fixed
           prop="sno"
@@ -12,7 +16,7 @@
       </el-table-column>
       <el-table-column
           prop="sname"
-          label="姓名11111"
+          label="姓名"
           width="150">
       </el-table-column>
       <el-table-column
@@ -21,17 +25,17 @@
           width="150">
       </el-table-column>
       <el-table-column
-          prop="term"
+          prop="termname"
           label="学期"
           width="150">
       </el-table-column>
       <el-table-column
-          prop="major"
+          prop="majorname"
           label="专业"
           width="150">
       </el-table-column>
       <el-table-column
-          prop="college"
+          prop="collegename"
           label="学院"
           width="150">
       </el-table-column>
@@ -68,6 +72,17 @@
           <el-button size="small" type="text" @click="editor(scope.row)">编辑</el-button>
         </template>
       </el-table-column>
+
+      <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="currentPage"
+          :page-sizes="[10, 20, 30, 50, 100]"
+          :page-size="pageSize"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="handleList.length">
+      </el-pagination>
+
     </el-table>
 <!--    <el-pagination-->
 <!--        background-->
@@ -90,7 +105,51 @@
 
 <script>
 export default {
+
+  data() {
+    return {
+      handleList: [],
+      // 当前页
+      currentPage: 1,
+      // 每页多少条
+      pageSize: 10,
+
+      tableData: null,
+      total: null,
+      tmpList: null,
+    }
+  },
+
+  props: {
+    ruleForm: Object
+  },//加入
+
+  mounted() {
+    axios.post("/student/findBySearch", newRuleForm)
+        .then(function (resp){
+          if (resp.data.code === 200) {
+            this.handleList = resp.data.data;
+          }else{
+            console.log('没有获取到数据')
+          }
+        })
+        .catch((err) => {
+          console.log('获取数据出错', err)
+        });
+    },
+
   methods: {
+
+    // 每页多少条
+    handleSizeChange(val) {
+      this.pageSize = val;
+    },
+    // 当前页
+    handleCurrentChange(val) {
+      this.currentPage = val;
+    },
+
+
     deleteStudent(row) {
       const that = this
       axios.post('/student/deleteBySno/' + row.sno).then(function (resp) {
@@ -101,12 +160,6 @@ export default {
             type: 'success'
           });
           console.log(that.tmpList === null)
-          // if (that.tmpList === null) {
-          //   window.location.reload()
-          // }
-          // else {
-          //   that.$router.push('/queryStudent')
-          // }
           window.location.reload()
         }
         else if(resp.data.code === 400) {
@@ -124,29 +177,9 @@ export default {
           });
         }
       })
-      // }).catch(function (e) {
-      //   that.$message({
-      //     showClose: true,
-      //     message: '删除出错，存在外键依赖',
-      //     type: 'error'
-      //   });
-      // })
     },
     changePage(page) {
       page = page - 1
-      // if (this.tmpList === null) {
-      //   const that = this
-      //   axios.get('http://localhost:10086/student/findByPage/' + page + '/' + that.pageSize).then(function (resp) {
-      //     that.tableData = resp.data
-      //   })
-      // }
-      // else {
-      //   let that = this
-      //   let start = page * that.pageSize, end = that.pageSize * (page + 1)
-      //   let length = that.tmpList.length
-      //   let ans = end < length ? end : length
-      //   that.tableData = that.tmpList.slice(start, ans)
-      // }
       const that = this
       let start = page * that.pageSize, end = that.pageSize * (page + 1)
       let length = that.tmpList.length
@@ -163,55 +196,8 @@ export default {
     }
   },
 
-  data() {
-    return {
-      // tableData: null,
-      // pageSize: 10,
-      // total: null,
-      // ruleForm: null,
-      // tmpList: null
-      tableData: null,
-      pageSize: 10,
-      total: null,
-      tmpList: null,
-    }
-  },
-  props: {
-    ruleForm: Object
-  },//加入
 
-  // created() {
-  //   if (this.tmpList !== null)
-  //     this.tmpList = null
-  //   const that = this
-  //   // 是否从查询页跳转
-  //   this.ruleForm = this.$route.query.ruleForm
-  //   if (this.$route.query.ruleForm === undefined || (this.ruleForm.sid === null && this.ruleForm.sname === null)) {
-  //     axios.get('http://localhost:10086/student/getLength').then(function (resp) {
-  //       console.log("获取列表总长度: " + resp.data)
-  //       that.total = resp.data
-  //     })
-  //
-  //     axios.get('http://localhost:10086/student/findByPage/0/' + that.pageSize).then(function (resp) {
-  //       that.tableData = resp.data
-  //     })
-  //   }
-  //   else {
-  //     // 从查询页跳转并且含查询
-  //     console.log('正在查询跳转数据')
-  //     console.log(this.ruleForm)
-  //     axios.post('http://localhost:10086/student/findBySearch', this.ruleForm).then(function (resp) {
-  //       console.log('获取查询数据：')
-  //       that.tmpList = resp.data
-  //       that.total = resp.data.length
-  //       console.log(that.tmpList)
-  //       let start = 0, end = that.pageSize
-  //       let length = that.tmpList.length
-  //       let ans = end < length ? end : length
-  //       that.tableData = that.tmpList.slice(start, ans)
-  //     })
-  //   }
-  // }
+
   watch: {
     ruleForm: {
       handler(newRuleForm, oldRuleForm) {
@@ -252,4 +238,9 @@ export default {
     }
   },
 }
+
+
+
+
+
 </script>
