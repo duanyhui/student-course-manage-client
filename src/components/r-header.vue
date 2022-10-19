@@ -1,13 +1,13 @@
 <template>
   <div>
-    <el-button style="color: #ffffff; font-size: 18px" type="text" @click="out()">
+    <el-button slot="reference" type="danger" round style=" "  @click="out()">
       登出
     </el-button>
 
     <el-divider direction="vertical" style="color: #333333"></el-divider>
-    <i class="el-icon-paperclip" style="margin-right: 18px"></i>
-    <span>{{ term }}</span>
-    <el-divider direction="vertical"></el-divider>
+<!--    <i class="el-icon-paperclip" style="margin-right: 18px"></i>-->
+<!--    <span>{{ term }}</span>-->
+<!--    <el-divider direction="vertical"></el-divider>-->
     <i class="el-icon-user" style="margin-right: 18px"></i>
     <span>{{ name }}</span>
 
@@ -26,7 +26,7 @@ export default {
     }
   },
   created() {
-    this.name = sessionStorage.getItem("sname")
+    this.name = sessionStorage.getItem("name")
     this.term = sessionStorage.getItem("term")
   },
   methods: {

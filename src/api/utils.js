@@ -65,3 +65,22 @@ export function createPlanIndex(majorid, collegeid) {
         }
     })
 }
+
+export function getPlanIndexList(){
+    return axios({
+        url: '/plan/get_plan_index_list',
+        method: 'GET'
+    })
+}
+
+export function createPlanTable(planid, cid) {
+    return axios({
+        url: '/plan/create_plan_table',
+        method: 'POST',
+        data:{
+            planid: planid,
+            cid: cid
+        }
+    })
+}
+

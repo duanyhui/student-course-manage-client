@@ -49,7 +49,8 @@ export default {
     },
     sendData(data){
       console.log("this.collegeid",this.collegeid);
-      this.$emit("sendData",this.collegeid);
+      // this.$emit("sendData",this.collegeid);
+      this.$store.commit("setCollegeid",this.collegeid);
 
     }
   }

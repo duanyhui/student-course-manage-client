@@ -42,7 +42,9 @@
   </div>
 </template>
 <script>
+import store from '@/store/index.js';
 export default {
+
   data() {
     return {
       ruleForm: {
@@ -127,19 +129,21 @@ export default {
                   if (resp.data.code === 200) {
                     sessionStorage.setItem("token", resp.data.data.token)
 
-                    axios.get("/student/getbysno/" + form.sno
+                    axios.get("/student/getbysno_vo" ,{params:{sno:form.sno}}
                     ).then(function (resp) {
                       /**  这里的resp被封装成了Result对象，
                        * 这个对象有三个属性分别为data，code，msg，所以要用resp.data.data访问数据
                        * */
                       console.log("登陆页正在获取用户信息" + resp.data.data)
                       sessionStorage.setItem("type", that.ruleForm.type)
-                      sessionStorage.setItem("sname", resp.data.data.sname)
+                      sessionStorage.setItem("name", resp.data.data.sname)
                       sessionStorage.setItem("sno", resp.data.data.sno)
                       sessionStorage.setItem("ssex", resp.data.data.ssex)
-                      sessionStorage.setItem("major", resp.data.data.major)
-                      sessionStorage.setItem("term", resp.data.data.term)
-                      sessionStorage.setItem("college", resp.data.data.college)
+                      sessionStorage.setItem("major", resp.data.data.majorname)
+                      sessionStorage.setItem("term", resp.data.data.termname)
+                      sessionStorage.setItem("college", resp.data.data.collegename)
+                      sessionStorage.setItem("planid", resp.data.data.planid)
+                      that.$store.commit('setSno', resp.data.data.sno)
                       that.$router.push('/student'
                       )
                       name=resp.data.data.sname;
@@ -183,10 +187,11 @@ export default {
                   name = resp.data.data.tname
 
                   sessionStorage.setItem("type", that.ruleForm.type)
-                  sessionStorage.setItem("tname", resp.data.data.tname)
+                  sessionStorage.setItem("name", resp.data.data.tname)
                   sessionStorage.setItem("tno", resp.data.data.tno)
                 sessionStorage.setItem("college", resp.data.data.college)
                 sessionStorage.setItem("ssex", resp.data.data.ssex)
+                  that.$store.commit('setTno', resp.data.data.tno)
 
                   that.$router.push('/teacher')
                   name=resp.data.data.tname;
@@ -226,6 +231,7 @@ export default {
     }
   }
 }
+
 </script>
 
 <style>

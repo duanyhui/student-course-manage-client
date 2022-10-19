@@ -4,6 +4,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import './plugins/element.js'
+import app from "@/App";
 
 Vue.config.productionTip = false
 
@@ -21,10 +22,14 @@ axios.interceptors.request.use(
     config => {
       if (sessionStorage.getItem('token')) {
         config.headers.token = sessionStorage.getItem('token');
+
       }
       return config;
     },
 );
+
+
+
 
 
 

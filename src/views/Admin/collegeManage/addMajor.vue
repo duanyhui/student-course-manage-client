@@ -16,7 +16,7 @@
 <script>
 import {createCollege, createMajor, createPlanIndex} from "@/api/utils";
 import CollegeTable from "@/components/collegeTable";
-import collegeTable from "@/components/collegeTable";
+
 
 export default {
   components: {CollegeTable},
@@ -62,20 +62,13 @@ export default {
           //   }
           // })
 
-          if(this.Form.collegeid === null){
-            this.$message({
-              message: '请选择学院',
-              type: 'error'
-            });}
-          console.log("测试提交")
           console.log(this.Form.majorname);
 
           console.log(this.Form.collegeid);
-          createMajor(this.Form.majorname,this.Form.collegeid).then(res =>{
+          createMajor(this.Form.majorname,this.$store.state.collegeid).then(res =>{
             if (res.data.code=== 200) {
               console.log("进来了吗1")
               this.Form.majorid = res.data.data;
-
               this.Form.code = res.data.code;
               console.log("code"+this.Form.code);
 
@@ -96,12 +89,6 @@ export default {
 
 
           })
-
-
-          console.log("进来了吗2")
-
-            console.log("进来了吗3")
-
 
 
         }

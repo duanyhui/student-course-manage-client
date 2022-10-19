@@ -1,43 +1,38 @@
 <template>
-  <el-card>
   <div>
     <el-table
         :data="tableData"
         border
         stripe
+
         style="width: 100%">
       <el-table-column
           fixed
-          prop="collegename"
-          label="学院"
+          prop="cno"
+          label="课程号"
           width="150">
       </el-table-column>
       <el-table-column
-          prop="majorname"
-          label="专业"
+          prop="cname"
+          label="课程名"
           width="150">
       </el-table-column>
       <el-table-column
-          prop="termname"
-          label="学期"
+          prop="ccredit"
+          label="学分"
+          width="150">
+      </el-table-column>
+      <el-table-column
+          prop="type"
+          label="课程类型"
           width="150">
       </el-table-column>
       <el-table-column
           label="操作"
           width="100">
         <template slot-scope="scope">
-          <el-button @click="editor(scope.row)" type="text" size="small">编辑</el-button>
-          <el-popconfirm
-              confirm-button-text='删除'
-              cancel-button-text='取消'
-              icon="el-icon-info"
-              icon-color="red"
-              title="删除不可复原"
-              @confirm="editor(scope.row)"
-          >
-            <el-button slot="scope" type="text" size="small">删除</el-button>
-          </el-popconfirm>
 
+          <el-button @click="editor(scope.row)" type="text" size="small">选择</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -50,12 +45,10 @@
     >
     </el-pagination>
   </div>
-  </el-card>
 </template>
 
 <script>
-
-import {getPlanIndexList} from "@/api/utils";
+import {createPlanTable} from "@/api/utils";
 
 export default {
   methods: {
@@ -64,7 +57,7 @@ export default {
     },
     deleteCourse(row) {
       const that = this
-      getPlanIndexList().then(function (resp) {
+      axios.post('course/deleteByCno/' + row.cno).then(function (resp) {
 
         if (resp.data.code === 200) {//200代表操作执行成功
           that.$message({
@@ -82,8 +75,40 @@ export default {
           });
         }
       })
+      //     .catch(function (error) {
+      //   that.$message({
+      //     showClose: true,
+      //     message: message,
+      //     type: 'error'
+      //   });
+      // })
     },
-
+    // offer(row) {
+    //   const tid = sessionStorage.getItem("tid")
+    //   const cno = row.cno
+    //   const term = sessionStorage.getItem("currentTerm")
+    //
+    //   const that = this
+    //   axios.get('courseTeacher/insert/' + cno + '/' + tid + '/' + term).then(function (resp) {
+    //     if (resp.data === true) {
+    //       that.$message({
+    //         showClose: true,
+    //         message: '开设成功',
+    //         type: 'success'
+    //       });
+    //       window.location.reload()
+    //     }
+    //     else {
+    //       that.$message({
+    //         showClose: true,
+    //         message: '开设失败，请联系管理员',
+    //         type: 'error'
+    //       });
+    //     }
+    //   })
+    //
+    //
+    // },
     changePage(page) {
       page = page - 1
       const that = this
@@ -93,18 +118,21 @@ export default {
       that.tableData = that.tmpList.slice(start, ans)
     },
     editor(row) {
-      // console.log("测试提交row"+row.collegename)
-
-      this.$router.push({
-        path: '/addPlanTableCourse',
-        query: {
-          collegename: row.collegename,
-          majorname: row.majorname,
-          termname: row.termname,
-          collegeid: row.collegeid,
-          majorid: row.majorid,
-          termid: row.termid,
-          planid:row.planid
+      createPlanTable(this.$store.state.planid,row.cid).then(res =>{
+        if(res.data.code === 200){
+          this.$message({
+            showClose: true,
+            message: '添加成功',
+            type: 'success'
+          });
+          window.location.reload()
+        }
+        else {
+          this.$message({
+            showClose: true,
+            message: '添加失败,请勿重复添加',
+            type: 'error'
+          });
         }
       })
     }
@@ -121,6 +149,7 @@ export default {
       pageSize: 10,
       total: null,
       tmpList: null,
+      type: sessionStorage.getItem("type"),
     }
   },
   props: {
@@ -129,7 +158,6 @@ export default {
   },
   watch: {
     ruleForm: {
-
       handler(newRuleForm, oldRuleForm) {
         console.log("组件监听 form")
         console.log(newRuleForm)
@@ -137,7 +165,7 @@ export default {
         that.tmpList = null
         that.total = null
         that.tableData = null
-        getPlanIndexList().then(function (resp) {
+        axios.get("/course/getCourseList").then(function (resp) {
           console.log("查询结果:");
           console.log(resp)
           that.tmpList = resp.data.data
@@ -154,9 +182,4 @@ export default {
     }
   },
 }
-
 </script>
-
-<style scoped>
-
-</style>

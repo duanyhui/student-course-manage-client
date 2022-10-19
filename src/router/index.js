@@ -48,6 +48,8 @@ import collegeManage from "@/views/Admin/collegeManage";
 import addCollege from "@/views/Admin/collegeManage/addCollege";
 import addMajor from "@/views/Admin/collegeManage/addMajor";
 import addPlanTable from "@/views/Admin/collegeManage/addPlanTable";
+import addPlanTableCourse from "@/views/Admin/collegeManage/addPlanTableCourse";
+import searchPlanTable from "@/views/Admin/collegeManage/searchPlanTable";
 
 
 Vue.use(VueRouter)
@@ -76,13 +78,13 @@ const routes = [
     children: [
       {
         path: '/adminHome',
-        name: 'Hi! admin',
+        name: '我的主页',
         component: adminHome,
         meta: {requireAuth: true},
         children: [
           {
             path: '/adminHome',
-            name: 'admin 主页',
+            name: '个人信息',
             component: adminHome,
             meta: {requireAuth: true},
           }
@@ -223,10 +225,22 @@ const routes = [
           },
           {
             path: '/addPlanTable',
-            name: '开设培养计划',
+            name: '编辑培养计划',
             component: addPlanTable,
             meta: {requireAuth: true}
-          }
+          },
+          {
+            path: '/addPlanTableCourse',
+            name: '培养计划增添课程',
+            component: addPlanTableCourse,
+            meta: {requireAuth: true}
+          },{
+            path: '/searchPlanTable',
+            name: '搜索培养计划',
+            component: searchPlanTable,
+            meta: {requireAuth: true}
+          },
+
         ]
       },
 
@@ -344,34 +358,36 @@ const routes = [
     children: [
       {
         path: '/student',
-        name: 'hi! student',
+        name: '我的主页',
         component: studentHome,
         meta: {requireAuth: true},
         children: [
           {
             path: '/studentHome',
-            name: '学生主页',
+            name: '个人信息',
             component: studentHome,
             meta: {requireAuth: true},
+
           },
+
         ],
       },
 
       {
         path: '/updateInfo',
-        name: '学生编辑',
+        name: '修改信息',
         component: studentInfoManage,
         meta: {requireAuth: true},
         children: [
-          {
-            path: '/updateStudentInfo',
-            name: '编辑学生信息',
-            component: editorStudentInfo,
-            meta: {requireAuth: true}
-          },
+          // {
+          //   path: '/updateStudentInfo',
+          //   name: '编辑学生信息',
+          //   component: editorStudentInfo,
+          //   meta: {requireAuth: true}
+          // },
           {
             path: '/updateStudentPassword',
-            name: '修改学生密码',
+            name: '修改密码',
             component: editorStudentPassword,
             meta: {requireAuth: true}
           },
@@ -400,7 +416,7 @@ const routes = [
       },
       {
         path: '/courseGrade',
-        name: '学生成绩管理',
+        name: '我的成绩',
         component: studentCourseGrade,
         meta: {requireAuth: true},
         children: [

@@ -6,21 +6,11 @@
         <el-card>
           <el-table
               :data="tableData"
-              border
+
               stripe
               style="width: 100%">
-            <el-table-column
-                fixed
-                prop="ctid"
-                label="开课编号"
-                width="150">
-            </el-table-column>
-            <el-table-column
-                fixed
-                prop="cno"
-                label="课程号"
-                width="150">
-            </el-table-column>
+
+
             <el-table-column
                 prop="cname"
                 label="课程名"
@@ -32,7 +22,7 @@
                 width="150">
             </el-table-column>
             <el-table-column
-                prop="term"
+                prop="termid"
                 label="学期"
                 width="150">
             </el-table-column>

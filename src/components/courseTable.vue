@@ -56,21 +56,27 @@
 
 <script>
 export default {
+  name: "courseTable",
+  data(){
+    return {
+      tableData: [],
+      total: 0,
+      pageSize: 10,
+      currentPage: 1
+    }
 
-  methods: {
-
+},
+  methods:{
     offer(row) {
       const that = this
-      const tno = sessionStorage.getItem('tno')
-      const classtimeid = this.$store.state.classtimeid
+      const tno = sessionStorage.getItem("tno")
       const cno = row.cno
-      const termid = this.$store.state.termid
+      const term = this.ruleForm.term
       const capacity = this.ruleForm.capacity
       const ct = {
         tno: tno,
         cno: cno,
-        classtimeid: classtimeid,
-        termid: termid,
+        term: term,
         capacity: capacity
       }
       if ((this.ruleForm.term === '' || this.ruleForm.term === null) || (!Number.isInteger(this.ruleForm.capacity) || this.ruleForm.capacity === '' || this.ruleForm.capacity === null))//检查是否键入学期和容量
@@ -92,60 +98,19 @@ export default {
               type: 'error'
             });
           }
-      })
+        })
       }
 
 
-    },
-    changePage(page) {
-      page = page - 1
-      const that = this
-      let start = page * that.pageSize, end = that.pageSize * (page + 1)
-      let length = that.tmpList.length
-      let ans = (end < length) ? end : length
-      that.tableData = that.tmpList.slice(start, ans)
-    },
+    }
+  }
 
-  },
-  created() {
-    console.log(this.type)
-  },
-  data() {
-    return {
-      tableData: null,
-      pageSize: 10,
-      total: null,
-      tmpList: null,
-      type: sessionStorage.getItem("type"),
-    }
-  },
-  props: {
-    ruleForm: Object,
-    isActive: Boolean
-  },
-  watch: {
-    ruleForm: {
-      handler(newRuleForm, oldRuleForm) {
-        console.log("组件监听 form")
-        console.log(newRuleForm)
-        const that = this
-        that.tmpList = null
-        that.total = null
-        that.tableData = null
-        axios.post("/course/findBySearch", newRuleForm).then(function (resp) {
-          console.log("查询结果:");
-          console.log(resp)
-          that.tmpList = resp.data.data
-          that.total = resp.data.length
-          let start = 0, end = that.pageSize
-          let length = that.tmpList.length
-          let ans = (end < length) ? end : length
-          that.tableData = that.tmpList.slice(start, ans)
-        })
-      },
-      deep: true,
-      immediate: true
-    }
-  },
 }
+
+
 </script>
+
+
+<style scoped>
+
+</style>

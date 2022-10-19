@@ -21,6 +21,7 @@ export default {
   methods: {
     out() {
       sessionStorage.removeItem("token")
+      sessionStorage.clear()
       this.$router.push('/')
     }
   }

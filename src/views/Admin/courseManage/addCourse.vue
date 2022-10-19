@@ -11,7 +11,7 @@
         <el-input v-model.number="ruleForm.ccredit"></el-input>
       </el-form-item>
 
-      <el-form-item label="课程类型" prop="typeid">
+      <el-form-item label="课程类型" prop="type">
         <el-select v-model="ruleForm.type" placeholder="请选择课程类型">
           <el-option
               v-for="item in typeList"
@@ -59,7 +59,7 @@ export default {
           { required: true, message: '请输入学分', trigger: 'change' },
           { type: 'number', message: '请输入数字', trigger: 'blur' },
         ],
-        typename:[
+        type:[
           {required: true,message: '请选择课程类型', trigger: 'change'}
         ]
       }
