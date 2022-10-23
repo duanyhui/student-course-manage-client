@@ -22,9 +22,20 @@
           width="150">
       </el-table-column>
       <el-table-column
+          label="年龄"
+          prop="age"
+          width="150">
+      </el-table-column>
+
+      <el-table-column
           fixed
           label="学院"
           prop="collegename"
+          width="150">
+      </el-table-column>
+      <el-table-column
+          label="学历"
+          prop="education"
           width="150">
       </el-table-column>
       <!--      <el-table-column-->
@@ -126,7 +137,7 @@ export default {
       this.$router.push({
         path: '/editorTeacher',
         query: {
-          tno: row.tno
+          tno: row.tno,
         }
       })
     }

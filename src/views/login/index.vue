@@ -195,6 +195,9 @@ export default {
                   sessionStorage.setItem("type", that.ruleForm.type)
                   sessionStorage.setItem("name", resp.data.data.tname)
                   sessionStorage.setItem("no", resp.data.data.tno)
+                  sessionStorage.setItem("age", resp.data.data.age)
+                  sessionStorage.setItem("education",resp.data.data.education)
+                  sessionStorage.setItem("tsex", resp.data.data.tsex)
 
                   sessionStorage.setItem("ssex", resp.data.data.ssex)
                   that.$store.commit('setTno', resp.data.data.tno)

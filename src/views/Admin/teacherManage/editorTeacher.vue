@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div >
     <el-form style="width: 60%" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
       <el-form-item label="教师编号" prop="tno">
         <el-input v-model="ruleForm.tno"></el-input>
@@ -19,6 +19,20 @@
       <el-form-item label="教师姓名" prop="tname">
         <el-input v-model="ruleForm.tname" :value="ruleForm.tname"></el-input>
       </el-form-item>
+      <el-form-item label="年龄" prop="age" >
+        <el-input v-model="ruleForm.age"></el-input>
+      </el-form-item>
+      <el-form-item label="所属学院" prop="collegeid">
+        <el-select v-model="ruleForm.collegeid"  placeholder="请选择" @focus="getCollegeList">
+          <el-option
+              v-for="item in collegeList"
+              :key="item.collegeid"
+              :label="item.collegename"
+              :value="item.collegeid"
+          >
+          </el-option>
+        </el-select>
+      </el-form-item>
 
       <el-form-item label="性别" prop="tsex">
         <el-select v-model="ruleForm.tsex" placeholder="请选择性别">
@@ -32,13 +46,14 @@
         </el-select>
       </el-form-item>
 
-      <el-form-item label="所属学院" prop="collegeid">
-        <el-select v-model="ruleForm.collegeid"  :placeholder=ruleForm.collegename @focus="getCollegeList">
+      <!--      学历-->
+      <el-form-item label="学历" prop="education">
+        <el-select v-model="ruleForm.education" placeholder="请选择">
           <el-option
-              v-for="item in collegeList"
-              :key="item.collegeid"
-              :label="item.collegename"
-              :value="item.collegeid"
+              v-for="item in educationList"
+              :key="item.label"
+              :label="item.label"
+              :value="item.value"
           >
           </el-option>
         </el-select>
@@ -59,14 +74,31 @@ import {getCollegeList, getCollegeName} from "@/api/utils";
 export default {
   data() {
     return {
+      showCard:false,
       collegeList: [],
+      educationList: [ {
+        label: '硕士',
+        value: '硕士'
+      },{
+        label: '博士',
+        value: '博士'
+      }, {
+        label: '副教授',
+        value: '副教授'
+      }, {
+        label: '教授',
+        value: '教授'
+      }],
+
       ruleForm: {
         collegeid: null,
 
-        tno: null,
+        tno: this.$route.query.tno,
         tname: null,
         tsex:null,
         college:null,
+        education: null,
+        age: null,
       },
       resetpass: {
        tno:null,
@@ -91,6 +123,13 @@ export default {
         collegeid: [
           {required: true, message: "请输入学院", trigger: "blur"},
         ],
+        age: [
+          {required: true, message: "请输入年龄", trigger: "blur"},
+          {pattern: /^-?\d+$/, message: "请输入数字", trigger: "blur"},
+        ],
+        education: [
+          {required: true, message: "请输入学历", trigger: "blur"},
+        ],
       }
     };
   },
@@ -106,6 +145,9 @@ export default {
   //     that.ruleForm = resp.data
   //   })
   // },
+  created() {
+
+  },
   methods: {
     resetPassword(){
       const that=this
@@ -113,6 +155,7 @@ export default {
         this.resetpass.tno = this.ruleForm.tno
         axios.post("/teacher/update", this.resetpass).then(function (resp) {
           if (resp.data.code === 200) {
+
             that.$message({
               showClose: true,
               message: '修改密码成功！',
@@ -141,19 +184,31 @@ export default {
         axios
             .get("/teacher/getByTno/" + this.ruleForm.tno)
             .then(function (resp) {
+
               // that.ruleForm = resp.data
               if (resp.data.code === 200) {
+
+
                 that.$message({
                   showClose: true,
                   message: "查询到的教师信息如下",
                   type: "success",
                 });
 
+                //学院名称通过异步请求获取
+                 getCollegeName(resp.data.data.collegeid).then((res) => {
+                   that.ruleForm.college = res.data.data;
+                   this.showCard = true;
+
+                 })
+
+
                 that.ruleForm.tname = resp.data.data.tname;
                 that.ruleForm.tsex = resp.data.data.tsex;
-                getCollegeName(resp.data.data.collegeid).then((resp) => {
-                  that.ruleForm.collegename = resp.data.data.collegename;
-                });
+                that.ruleForm.age = resp.data.data.age;
+                that.ruleForm.education = resp.data.data.education;
+
+
 
 
 

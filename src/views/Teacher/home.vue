@@ -11,8 +11,15 @@
         <el-descriptions title="我的信息">
           <el-descriptions-item label="工号">{{ no }}</el-descriptions-item>
           <el-descriptions-item label="姓名">{{ name }}</el-descriptions-item>
+          <!--            年龄标签-->
+          <el-descriptions-item label="年龄">{{ age+'岁' }}</el-descriptions-item>
           <el-descriptions-item label="学院">
+
             <el-tag size="small">{{ college }}</el-tag>
+          </el-descriptions-item>
+<!--          学历标签-->
+          <el-descriptions-item label="学历">
+            <el-tag size="small">{{ education }}</el-tag>
           </el-descriptions-item>
         </el-descriptions>
           </el-card>
@@ -36,12 +43,17 @@ import InfoCard from "@/components/infoCard";
 export default {
   name: "home",
   components: {InfoCard, Logout},
+  created() {
+
+  },
   data() {
     return {
       no: sessionStorage.getItem('no'),
       name: sessionStorage.getItem('name'),
-      college: this.$store.state.collegename
-      // college: sessionStorage.getItem('college')
+      // college: this.$store.state.collegename,
+      education: sessionStorage.getItem('education'),
+      age: sessionStorage.getItem('age'),
+      college: sessionStorage.getItem('college')
     }
   }
 }

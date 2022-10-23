@@ -302,12 +302,12 @@ const routes = [
         component: teacherInfoManage,
         meta: {requireAuth: true},
         children: [
-          // {
-          //   path: '/editorTeacherInfo',
-          //   name: '编辑教师信息',
-          //   component: editorTeacherInfo,
-          //   meta: {requireAuth: true}
-          // },
+          {
+            path: '/editorTeacherInfo',
+            name: '编辑详细信息',
+            component: editorTeacherInfo,
+            meta: {requireAuth: true}
+          },
           {
             path: '/editorTeacherPassword',
             name: '修改密码',
