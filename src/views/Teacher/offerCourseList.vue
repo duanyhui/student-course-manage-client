@@ -61,7 +61,8 @@ export default {
 
     offer(row) {
       const that = this
-      const tno = sessionStorage.getItem('tno')
+      const tno = this.$store.state.tno
+      console.log("tno:"+tno)
       const classtimeid = this.$store.state.classtimeid
       const cno = row.cno
       const termid = this.$store.state.termid
@@ -84,7 +85,6 @@ export default {
               message: resp.data.msg,
               type: 'success'
             });
-            window.location.reload()
           } else {
             that.$message({
               showClose: true,

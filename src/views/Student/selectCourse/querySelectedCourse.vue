@@ -7,39 +7,28 @@
           style="width: 100%">
         <el-table-column
             fixed
-            prop="ctid"
-            label="开课编号"
-            width="150">
-        </el-table-column>
-        <el-table-column
-            fixed
-            prop="cno"
-            label="课号"
-            width="150">
-        </el-table-column>
-        <el-table-column
             prop="cname"
-            label="课程号"
+            label="课程名字"
             width="150">
         </el-table-column>
         <el-table-column
-            prop="tno"
-            label="教师号"
-            width="150">
-        </el-table-column>
-        <el-table-column
-            prop="tname"
-            label="教师名称"
-            width="150">
-        </el-table-column>
-        <el-table-column
-            prop="grade"
+            prop="ccredit"
             label="学分"
             width="150">
         </el-table-column>
         <el-table-column
-            label="学期"
-            prop="term"
+            prop="tname"
+            label="任课老师"
+            width="150">
+        </el-table-column>
+        <el-table-column
+            prop="classtime"
+            label="上课时间"
+            width="150">
+        </el-table-column>
+        <el-table-column
+            label="成绩"
+            prop="grade"
             width="150">
         </el-table-column>
         <el-table-column
@@ -72,6 +61,8 @@
 </template>
 
 <script>
+import {deleteSelectedCourse, getSelectedCourse} from "@/api/utils";
+
 export default {
   methods: {
     deleteSCT(row) {
@@ -89,14 +80,18 @@ export default {
       }
 
       const that = this
-      axios.post('/sc/delete', sct).then(function (resp) {
+      deleteSelectedCourse(ctid,sno).then(function (resp) {
         if (resp.data.code === 200) {
           that.$message({
             showClose: true,
             message: resp.data.msg,
             type: 'success'
           });
-          window.location.reload()
+          // 等待1秒后刷新页面
+          setTimeout(function () {
+            window.location.reload()
+          }, 1000)
+
         }
         else {
           that.$message({
@@ -134,7 +129,7 @@ export default {
 
       sno:sno,
     };
-    axios.post('/sc/findBySearch/',sc).then(function (resp) {
+    getSelectedCourse(sessionStorage.getItem("sno")).then(function (resp) {
       that.tmpList = resp.data.data
       that.total = resp.data.length
       let start = 0, end = that.pageSize

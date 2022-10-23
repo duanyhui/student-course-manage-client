@@ -5,17 +5,12 @@
         border
         stripe
         style="width: 100%">
+
       <el-table-column
-          fixed
-          prop="ctid"
-          label="开课编号"
-          width="150">
-      </el-table-column>
-      <el-table-column
-          fixed
+
           prop="cno"
           label="课程号"
-          width="150">
+          width="100">
       </el-table-column>
       <el-table-column
           prop="cname"
@@ -23,18 +18,12 @@
           width="150">
       </el-table-column>
       <el-table-column
-          fixed
-          prop="tno"
-          label="教师号"
-          width="100">
-      </el-table-column>
-      <el-table-column
           prop="tname"
           label="教师名"
           width="100">
       </el-table-column>
       <el-table-column
-          fixed
+
           prop="sno"
           label="学号"
           width="100">
@@ -47,11 +36,6 @@
       <el-table-column
           prop="grade"
           label="成绩"
-          width="100">
-      </el-table-column>
-      <el-table-column
-          prop="term"
-          label="学期"
           width="100">
       </el-table-column>
       <el-table-column
@@ -84,6 +68,8 @@
 </template>
 
 <script>
+import {getStudentClassList_Admin} from "@/api/utils";
+
 export default {
   methods: {
     select(row) {
@@ -106,7 +92,9 @@ export default {
           cno: row.cno,
           tno: row.tno,
           sno: row.sno,
-          term: row.term
+          term: row.term,
+          sname:row.sname,
+          cname:row.cname,
         }
       })
     }
@@ -131,7 +119,7 @@ export default {
         that.tmpList = null
         that.total = null
         that.tableData = null
-        axios.post("/sc/findBySearch", newRuleForm).then(function (resp) {
+        getStudentClassList_Admin(newRuleForm.sname,newRuleForm.tname,newRuleForm.cname).then(function (resp) {
           console.log("查询结果:");
           console.log(resp)
           that.tmpList = resp.data.data

@@ -32,7 +32,7 @@
                    style="width: 60%"
           :rules="rules"
           :model="ruleForm">
-            <termTable ></termTable>
+<!--            <termTable ></termTable>-->
             <classTimeTable></classTimeTable>
             <el-form-item label="开课容量" prop="capacity" style="width: 60%">
               <el-input v-model.number="ruleForm.capacity"></el-input>

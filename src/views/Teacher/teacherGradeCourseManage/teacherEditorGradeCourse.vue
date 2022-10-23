@@ -2,11 +2,11 @@
   <div>
     <el-card>
       <el-form style="width: 60%" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-        <el-form-item label="学号" prop="sno">
-          <el-input v-model="ruleForm.sno" :value="ruleForm.sno" :disabled="true"></el-input>
+        <el-form-item label="学生姓名" prop="sno">
+          <el-input v-model="ruleForm.sname" :value="ruleForm.sname" :disabled="true"></el-input>
         </el-form-item>
-        <el-form-item label="开课编号" prop="tname">
-          <el-input v-model="ruleForm.ctid" :value="ruleForm.ctid" :disabled="true"></el-input>
+        <el-form-item label="课程名称" prop="tname">
+          <el-input v-model="ruleForm.cname" :value="ruleForm.cname" :disabled="true"></el-input>
         </el-form-item>
 <!--        <el-form-item label="学生名" prop="sname">-->
 <!--          <el-input v-model="ruleForm.sname" :value="ruleForm.sname" :disabled="true"></el-input>-->
@@ -24,6 +24,8 @@
   </div>
 </template>
 <script>
+import {updateStudentGrade} from "@/api/utils";
+
 export default {
   data() {
     var checkGrade = (rule, value, callback) => {
@@ -57,8 +59,12 @@ export default {
   created() {
     const that = this
     this.ruleForm.ctid = this.$route.query.ctid
-
     this.ruleForm.sno = this.$route.query.sno
+    this.ruleForm.sname = this.$route.query.sname
+    this.ruleForm.cno = this.$route.query.cno
+    this.ruleForm.cname = this.$route.query.cname
+
+
 
 
   },
@@ -70,13 +76,13 @@ export default {
           const that = this
           const sno = that.ruleForm.sno
           const grade = that.ruleForm.grade
-          const  ctid=that.ruleForm.ctid
+          const ctid=that.ruleForm.ctid
 const sc={
             sno:sno,
-  ctid:ctid,
-  grade:grade
+            ctid:ctid,
+            grade:grade
 }
-          axios.post("/sc/updateGrade/" ,sc).then(function (resp) {
+          updateStudentGrade(ctid,sno,grade).then(function (resp) {
             if (resp.data.code === 200) {
               that.$message({
                 showClose: true,

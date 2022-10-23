@@ -6,11 +6,8 @@
         <el-card>
           <el-table
               :data="tableData"
-
               stripe
               style="width: 100%">
-
-
             <el-table-column
                 prop="cname"
                 label="课程名"
@@ -22,13 +19,18 @@
                 width="150">
             </el-table-column>
             <el-table-column
-                prop="termid"
-                label="学期"
+                prop="classtime"
+                label="上课时间"
                 width="150">
             </el-table-column>
             <el-table-column
                 prop="capacity"
                 label="容量"
+                width="150">
+            </el-table-column>
+            <el-table-column
+                prop="capacityable"
+                label="可选容量容量"
                 width="150">
             </el-table-column>
           </el-table>
@@ -47,6 +49,8 @@
 </template>
 
 <script>
+import {getClassListByTno} from "@/api/utils";
+
 export default {
   methods: {
     changePage(page) {
@@ -73,7 +77,7 @@ export default {
     this.tno = sessionStorage.getItem("tno");
     const tno=this.tno;
     const that = this
-    axios.get('/ct/findByTno/'+tno).then(function (resp) {
+    getClassListByTno(that.$store.state.tno).then(function (resp) {
       console.log(resp.data)
       that.tmpList = resp.data.data
       that.total = resp.data.length

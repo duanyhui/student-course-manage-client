@@ -46,7 +46,7 @@ export default {
 
     return {
       ruleForm: {
-        tno: sessionStorage.getItem('tno'),
+        tno: this.$store.state.tno,
         password: '',
         confirmpassword:'',
       },

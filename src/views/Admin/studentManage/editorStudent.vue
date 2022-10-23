@@ -73,6 +73,18 @@
 </template>
 <script>
 export default {
+  created() {
+    const that = this
+    this.ruleForm.ctid = this.$route.query.ctid
+    this.ruleForm.sno = this.$route.query.sno
+    this.ruleForm.sname = this.$route.query.sname
+    this.ruleForm.cno = this.$route.query.cno
+    this.ruleForm.cname = this.$route.query.cname
+
+
+
+
+  },
   data() {
 
     // var check_sno = (rule, value, callback) => {

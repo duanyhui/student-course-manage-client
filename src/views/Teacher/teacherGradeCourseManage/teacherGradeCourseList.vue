@@ -6,25 +6,24 @@
         stripe
         style="width: 100%">
       <el-table-column
-          fixed
-          prop="cno"
-          label="课程号"
-          width="150">
-      </el-table-column>
-      <el-table-column
           prop="cname"
           label="课程名"
           width="150">
       </el-table-column>
       <el-table-column
-          fixed
+          prop="classtime"
+          label="上课时间"
+          width="150">
+      </el-table-column>
+      <el-table-column
+
           prop="sno"
           label="学号"
           width="100">
       </el-table-column>
       <el-table-column
           prop="sname"
-          label="学生名"
+          label="学生姓名"
           width="100">
       </el-table-column>
       <el-table-column
@@ -32,11 +31,7 @@
           label="成绩"
           width="100">
       </el-table-column>
-      <el-table-column
-          prop="term"
-          label="学期"
-          width="100">
-      </el-table-column>
+
       <el-table-column
           label="操作"
           width="100">
@@ -60,6 +55,8 @@
 </template>
 
 <script>
+import {getStudentClassList} from "@/api/utils";
+
 export default {
   methods: {
     // select(row) {
@@ -79,6 +76,8 @@ export default {
         query: {
           sno: row.sno,
           ctid:row.ctid,
+          cname:row.cname,
+          sname:row.sname,
         }
       })
     }
@@ -104,7 +103,7 @@ export default {
         that.tmpList = null
         that.total = null
         that.tableData = null
-        axios.post("/sc/findBySearch", newRuleForm).then(function (resp) {
+        getStudentClassList(sessionStorage.getItem("no"),newRuleForm.cname,newRuleForm.sname).then(function (resp) {
           console.log("查询结果:");
           console.log(resp)
           that.tmpList = resp.data.data
@@ -113,12 +112,6 @@ export default {
           let length = that.tmpList.length
           let ans = (end < length) ? end : length
           that.tableData = that.tmpList.slice(start, ans)
-
-          // for (let i = 0; i < that.tmpList.length; i++) {
-          //   that.avg += that.tmpList[i].grade
-          // }
-          // that.avg /= that.total
-          // console.log('avg', that.avg)
         })
       },
       deep: true,

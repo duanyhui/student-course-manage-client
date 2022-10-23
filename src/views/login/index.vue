@@ -4,13 +4,13 @@
       <el-header >
         <div style="text-align: center; font-size: 25px; font-weight: bolder">
           <i class="el-icon-s-home" style="margin-right: 25px"></i>
-          选课管理系统
+          教务综合管理系统
         </div>
       </el-header>
       <el-main>
-        <el-card class="login-module" shadow="hover">
+        <el-card class="login-module" >
           <div slot="header" class="clearfix">
-            <span style="text-align: center; font-size: 20px; font-family: 'Microsoft YaHei'">
+            <span style="text-align: center; font-size: 20px; font-family: 'Microsoft YaHei',serif">
               <p><i class="el-icon-office-building" style="margin-right: 18px"></i>登陆</p>
             </span>
           </div>
@@ -19,7 +19,7 @@
               <el-form-item label="用户名" prop="id">
                 <el-input v-model.number="ruleForm.id" prefix-icon="el-icon-lollipop"></el-input>
               </el-form-item>
-              <el-form-item label="用户密码" prop="password">
+              <el-form-item label="密码" prop="password">
                 <el-input v-model="ruleForm.password" placeholder="请输入密码" show-password prefix-icon="el-icon-ice-cream-round"></el-input>
               </el-form-item>
               <el-form-item label="用户类型" prop="type">
@@ -31,7 +31,7 @@
               </el-form-item>
               <el-form-item>
                 <el-button type="primary" @click="submitForm('ruleForm')">登陆</el-button>
-                <el-button @clic·k="resetForm('ruleForm')">重置</el-button>
+                <el-button @click="resetForm('ruleForm')">重置</el-button>
                 <!-- <el-button @click="test('ruleForm')">test</el-button> -->
               </el-form-item>
             </el-form>
@@ -43,6 +43,7 @@
 </template>
 <script>
 import store from '@/store/index.js';
+import {getCollegeNameById} from "@/api/utils";
 export default {
 
   data() {
@@ -54,7 +55,7 @@ export default {
       },
       rules: {
         id: [
-          { required: true, message: '请输入用户 id', trigger: 'blur' },
+          { required: true, message: '请输入用户名', trigger: 'blur' },
           { type: 'number', message: '请输入数字', trigger: 'blur' },
         ],
         password: [
@@ -185,13 +186,19 @@ export default {
                    * */
                   console.log("登陆页正在获取用户信息" + resp.data.data)
                   name = resp.data.data.tname
+                   getCollegeNameById(resp.data.data.collegeid).then(res=>{
+                    console.log("学院名字："+res.data.data)
+                    sessionStorage.setItem("college",res.data.data);
+                     that.$store.commit("setCollegename",res.data.data);
+                  })
 
                   sessionStorage.setItem("type", that.ruleForm.type)
                   sessionStorage.setItem("name", resp.data.data.tname)
-                  sessionStorage.setItem("tno", resp.data.data.tno)
-                sessionStorage.setItem("college", resp.data.data.college)
-                sessionStorage.setItem("ssex", resp.data.data.ssex)
+                  sessionStorage.setItem("no", resp.data.data.tno)
+
+                  sessionStorage.setItem("ssex", resp.data.data.ssex)
                   that.$store.commit('setTno', resp.data.data.tno)
+
 
                   that.$router.push('/teacher')
                   name=resp.data.data.tname;

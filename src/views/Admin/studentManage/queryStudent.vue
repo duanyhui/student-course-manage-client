@@ -48,7 +48,7 @@ export default {
     };
   },
   create() {
-    this.sno = null
+    this.sno = this.$route.query.sno
     this.sname = null
     this.fuzzy = true
     this.password = "fuzzy";

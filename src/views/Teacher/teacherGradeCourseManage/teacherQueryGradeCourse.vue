@@ -4,26 +4,15 @@
       <el-main>
         <el-card>
           <el-form :inline="true" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
-            <el-form-item label="学号" prop="sno">
-              <el-input v-model.number="ruleForm.sno"></el-input>
+
+            <el-form-item label="学生姓名" prop="sname" >
+              <el-input @change="setSname" v-model="ruleForm.sname"></el-input>
             </el-form-item>
-            <el-form-item label="学生名" prop="sname">
-              <el-input v-model="ruleForm.sname"></el-input>
-            </el-form-item>
-            <el-form-item label="课程号" prop="cno">
-              <el-input v-model.number="ruleForm.cno"></el-input>
-            </el-form-item>
-            <el-form-item label="课程名" prop="cname">
+            <el-form-item @change="setCname" label="课程名称" prop="cname">
               <el-input v-model="ruleForm.cname"></el-input>
             </el-form-item>
-            <el-form-item label="模糊查询" prop="cFuzzy">
-              <el-switch v-model="ruleForm.fuzzy"></el-switch>
-            </el-form-item>
-            <el-form-item label="学期">
-              <el-select v-model="ruleForm.term" placeholder="请选择学期">
-                <el-option v-for="(item, index) in infoList.termList" :key="index" :label="item" :value="item"></el-option>
-              </el-select>
-            </el-form-item>
+
+
             <el-form-item>
               <el-button type="primary" @click="resetForm('ruleForm')">重置</el-button>
             </el-form-item>
@@ -52,8 +41,6 @@ export default {
         tname: sessionStorage.getItem('tname'),
         cno: '',
         cname: '',
-
-        term: sessionStorage.getItem('currentTerm')
       },
 
       infoList: {
@@ -77,7 +64,15 @@ export default {
   methods: {
     resetForm(formName) {
       this.$refs[formName].resetFields();
-    }
+    },
+    setSname() {
+      this.$store.commit('setSname', this.ruleForm.sname)
+      console.log("setSname"+this.ruleForm.sname)
+    },
+    setCname() {
+      this.$store.commit('setCname', this.ruleForm.cname)
+      console.log("setCname"+this.ruleForm.cname)
+    },
   }
 }
 </script>

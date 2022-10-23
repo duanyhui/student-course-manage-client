@@ -72,7 +72,11 @@ export default {
             message: resp.data.msg,
             type: 'success'
           });
-          window.location.reload()
+          //等待2秒后刷新页面
+          setTimeout(function () {
+            window.location.reload()
+          }, 2000)
+
         }
         else {
           that.$message({
