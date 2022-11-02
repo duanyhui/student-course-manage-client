@@ -2,7 +2,7 @@
   <div>
     <div>
     <el-card>
-      <el-form style="width: 60%" :model="rul" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+      <el-form style="width: 60%" :model="ruleForm"  ref="ruleForm" label-width="100px" class="demo-ruleForm">
         <el-form-item label="学院" prop="collegename">
           <el-input v-model="ruleForm.collegename" :value="ruleForm.collegename" :disabled="true"></el-input>
         </el-form-item>
@@ -20,6 +20,8 @@
 
 <!--        </el-form-item>-->
       </el-form>
+
+
 
       <course-table-for-plan style="margin-left: 50px"
       ></course-table-for-plan>
@@ -64,9 +66,11 @@ export default {
         majorid:'',
         termid: '',
         planid:'',
+
       },
     }
-  }
+  },
+
 }
 </script>
 

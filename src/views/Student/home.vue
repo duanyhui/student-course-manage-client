@@ -13,6 +13,8 @@
           <el-descriptions-item label="学院">{{ collegename }}</el-descriptions-item>
           <el-descriptions-item label="专业">{{ majorname }}</el-descriptions-item>
           <el-descriptions-item label="学年">{{ termname }}</el-descriptions-item>
+          <el-descriptions-item label="班级">{{ classid }}班</el-descriptions-item>
+          <el-descriptions-item label="在班编号">{{ onclassid }}</el-descriptions-item>
 
         </el-descriptions>
         </el-card>
@@ -45,6 +47,8 @@ export default {
         collegename: sessionStorage.getItem('college'),
         majorname: sessionStorage.getItem('major'),
         termname: sessionStorage.getItem('term'),
+        classid: sessionStorage.getItem('classid'),
+        onclassid: sessionStorage.getItem('onclassid'),
 
     }
   }

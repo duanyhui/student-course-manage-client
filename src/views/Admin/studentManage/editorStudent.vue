@@ -48,7 +48,7 @@
 <!--        <el-input v-model="ruleForm.college"></el-input>-->
 <!--      </el-form-item>-->
 
-      <el-form-item label="学期" prop="termid">
+      <el-form-item label="学期" prop="term">
         <el-select v-model="ruleForm.termid" placeholder="请选择学期">
           <el-option
               v-for="item in infoList.termList"
@@ -129,21 +129,21 @@ export default {
 
 
       rules: {
-        // sno: [
-        //   {required: true, message: "请输入学号", trigger: "blur"},
-        //   {pattern: /^-?\d+$/, message: "请输入数字", trigger: "blur"},
-        //
-        // ],
-        // sname: [
-        //   {required: true, message: "请输入名称", trigger: "blur"},
-        //   {min: 2, max: 5, message: "长度在 2 到 5 个字符", trigger: "blur"},
-        // ],
+        sno: [
+          {required: true, message: "请输入学号", trigger: "blur"},
+          {pattern: /^-?\d+$/, message: "请输入数字", trigger: "blur"},
+
+        ],
+        sname: [
+          {required: true, message: "请输入名称", trigger: "blur"},
+          {min: 2, max: 5, message: "长度在 2 到 5 个字符", trigger: "blur"},
+        ],
         // ssex: [{required: true, message: "请选择性别", trigger: "blur"}],
         // major: [
         //   {required: true, message: "请输入名称", trigger: "blur"},
         //   {min: 2, max: 10, message: "长度在 2 到 5 个字符", trigger: "blur"},
         // ],
-        term: [{required: true, message: "请选择学期", trigger: "blur"}],
+        // term: [{required: true, message: "请选择学期", trigger: "blur"}],
         college: [{required: true, message: "请输入学院", trigger: "blur"}],
       },
     };

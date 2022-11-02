@@ -12,9 +12,20 @@
         label-width="100px"
         style="width: 60%"
     >
-      <el-form-item label="学生学号" prop="sno">
-        <el-input v-model="ruleForm.sno"></el-input>
+      <el-form-item label="学年" prop="schoolyear">
+        <el-select v-model="ruleForm.schoolyear" placeholder="请选择学年" @focus="getSchoolYearList">
+          <el-option
+              v-for="item in schoolYearList"
+              :key="item.schoolyear"
+              :label="item.schoolyear"
+              :value="item.schoolyear"
+          >
+          </el-option>
+        </el-select>
       </el-form-item>
+<!--      <el-form-item label="学生学号" prop="sno">-->
+<!--        <el-input v-model="ruleForm.sno"></el-input>-->
+<!--      </el-form-item>-->
       <el-form-item label="学生姓名" prop="sname">
         <el-input v-model="ruleForm.sname"></el-input>
       </el-form-item>
@@ -58,19 +69,31 @@
         </el-select>
       </el-form-item>
 
-
-
-      <el-form-item label="学期" prop="termid">
-        <el-select v-model="ruleForm.termid" placeholder="请选择学期">
+      <el-form-item label="学生班级" prop="classid">
+        <el-select v-model="ruleForm.classid" filterable placeholder="请先选择专业" @focus="getClassList">
           <el-option
-              v-for="item in infoList.termList"
-              :key="item.term"
-              :label="item.term"
-              :value="item.termid"
+              v-for="item in classList"
+              :key="item.classid"
+              :label="item.classid+'班'"
+              :value="item.classid"
           >
           </el-option>
         </el-select>
       </el-form-item>
+
+
+
+<!--      <el-form-item label="学期" prop="termid">-->
+<!--        <el-select v-model="ruleForm.termid" placeholder="请选择学期">-->
+<!--          <el-option-->
+<!--              v-for="item in infoList.termList"-->
+<!--              :key="item.term"-->
+<!--              :label="item.term"-->
+<!--              :value="item.termid"-->
+<!--          >-->
+<!--          </el-option>-->
+<!--        </el-select>-->
+<!--      </el-form-item>-->
 
 
 
@@ -87,7 +110,7 @@
   </div>
 </template>
 <script>
-import {getCollegeList, getMajorList} from "@/api/utils";
+import {getClassListByCollegeAndMajorAndSchoolYear, getCollegeList, getMajorList, getSchoolYearList} from "@/api/utils";
 
 export default {
   data() {
@@ -105,14 +128,16 @@ export default {
       majorList: [],
       collegeList: [],
       termList: [],
-
+      schoolYearList: [],
+      classList: [],
 
       ruleForm: {
+        schoolyear: sessionStorage.getItem("schoolyear"),
 
         collegeid: "",
         majorid: "",
         termid: "",
-
+        classid: "",
         sno: "",
         password:123456,
         sname: "",
@@ -147,6 +172,7 @@ export default {
         ],
       },
       rules: {
+
         sno: [
           { required: true, message: "请输入学号", trigger: "blur" },
           { pattern:/^-?\d+$/,message: "请输入数字", trigger: "blur" },
@@ -166,6 +192,9 @@ export default {
         collegeid: [
           { required: true, message: "请输入学院", trigger: "blur" },
         ],
+        classid: [
+          { required: true, message: "请输入班级", trigger: "blur" },
+        ],
       },
     };
   },
@@ -184,7 +213,7 @@ export default {
                 type: "success",
               });
             } else if (resp.data.code===400) {
-              that.$message.error(resp.data.msg);
+              that.$message.error("操作失败");
             }
             //that.$router.push("/studentList");
           });
@@ -227,6 +256,20 @@ export default {
       });
     },
 
+    getSchoolYearList(){
+      const that = this;
+      getSchoolYearList().then((resp) => {
+        console.log(resp.data.data);
+        that.schoolYearList = resp.data.data;
+      });
+    },
+    getClassList(){
+      const that = this;
+      getClassListByCollegeAndMajorAndSchoolYear(that.ruleForm.collegeid,that.ruleForm.majorid,that.ruleForm.schoolyear).then((resp) => {
+        console.log(resp.data.data);
+        that.classList = resp.data.data;
+      });
+    },
 
 
 

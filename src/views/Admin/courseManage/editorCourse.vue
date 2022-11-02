@@ -29,7 +29,7 @@ export default {
   data() {
     return {
       ruleForm: {
-        cno: '',
+        cno: this.$route.query.cno,
         cname: '',
         ccredit: ''
       },

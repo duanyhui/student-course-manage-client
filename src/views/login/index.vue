@@ -52,6 +52,7 @@ export default {
         id: null,
         password: null,
         type: null,
+        schoolyear: null,
       },
       rules: {
         id: [
@@ -102,6 +103,7 @@ export default {
                   sessionStorage.setItem("type", that.ruleForm.type)
                   sessionStorage.setItem("name", name)
                   sessionStorage.setItem("uid", resp.data.data.uid)
+                  sessionStorage.setItem("schoolyear", resp.data.data.schoolyear)
                   that.$router.push('/admin')
                   console.log('管理员姓名: ' + name + ' ' + that.ruleForm.type + ' ' + resp.data.data.uid)
 
@@ -144,6 +146,9 @@ export default {
                       sessionStorage.setItem("term", resp.data.data.termname)
                       sessionStorage.setItem("college", resp.data.data.collegename)
                       sessionStorage.setItem("planid", resp.data.data.planid)
+                      sessionStorage.setItem("schoolyear", resp.data.data.schoolyear)
+                      sessionStorage.setItem("classid", resp.data.data.classid)
+                      sessionStorage.setItem("onclassid", resp.data.data.onclassid)
                       that.$store.commit('setSno', resp.data.data.sno)
                       that.$router.push('/student'
                       )

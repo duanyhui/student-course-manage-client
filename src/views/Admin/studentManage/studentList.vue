@@ -15,18 +15,29 @@
           width="150">
       </el-table-column>
       <el-table-column
+          prop="schoolyear"
+          label="学年"
+          width="70">
+      </el-table-column>
+      <el-table-column
           prop="sname"
           label="姓名"
-          width="150">
+          width="100">
       </el-table-column>
       <el-table-column
           prop="ssex"
           label="性别"
-          width="150">
+          width="50">
       </el-table-column>
       <el-table-column
           prop="termname"
           label="学期"
+          width="100">
+      </el-table-column>
+
+      <el-table-column
+          prop="collegename"
+          label="学院"
           width="150">
       </el-table-column>
       <el-table-column
@@ -35,10 +46,16 @@
           width="150">
       </el-table-column>
       <el-table-column
-          prop="collegename"
-          label="学院"
-          width="150">
+          prop="classid"
+          label="班级"
+          width="50">
       </el-table-column>
+      <el-table-column
+          prop="onclassid"
+          label="在班编号"
+          width="50">
+      </el-table-column>
+
 <!--      <el-table-column-->
 <!--          prop="password"-->
 <!--          label="密码"-->

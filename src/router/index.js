@@ -52,6 +52,7 @@ import addPlanTableCourse from "@/views/Admin/collegeManage/addPlanTableCourse";
 import searchPlanTable from "@/views/Admin/collegeManage/searchPlanTable";
 import myplanlist from "@/views/Student/myplanlist";
 import updateTerm from "@/views/Admin/studentManage/updateTerm";
+import addClassList from "@/views/Admin/addclass/addClassList";
 
 
 Vue.use(VueRouter)
@@ -251,6 +252,18 @@ const routes = [
           },
 
         ]
+      },
+      {
+        name: '班级管理',
+        path: "/classManage",
+        component: addClassList,
+        meta: {requireAuth: true},
+        children: [
+            {
+                path: '/addClass',
+                name: '添加班级',
+                component: addClassList,
+            }]
       },
 
       {

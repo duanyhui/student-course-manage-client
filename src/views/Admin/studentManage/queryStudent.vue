@@ -11,12 +11,62 @@
             <el-form-item label="学生姓名" prop="sname">
               <el-input v-model="ruleForm.sname"></el-input>
             </el-form-item>
-            <el-form-item label="模糊查询" prop="fuzzy">
-              <el-switch
-                  v-model="ruleForm.fuzzy"
-                  @change="changeFuzzy"
-              ></el-switch>
+            <el-form-item label="学生学院" prop="collegeid">
+              <el-select v-model="ruleForm.collegeid" placeholder="请选择" @focus="getCollegeList">
+                <el-option
+                    v-for="item in collegeList"
+                    :key="item.collegeid"
+                    :label="item.collegename"
+                    :value="item.collegeid"
+                >
+                </el-option>
+              </el-select>
             </el-form-item>
+            <el-form-item label="学生专业" prop="majorid">
+              <el-select v-model="ruleForm.majorid" filterable placeholder="请先选择学院" @focus="getMajorList">
+                <el-option
+                    v-for="item in majorList"
+                    :key="item.majorid"
+                    :label="item.majorname"
+                    :value="item.majorid"
+                >
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="学年" prop="schoolyear">
+              <el-select v-model="ruleForm.schoolyear" placeholder="请选择学年" @focus="getSchoolYearList">
+                <el-option
+                    v-for="item in schoolYearList"
+                    :key="item.schoolyear"
+                    :label="item.schoolyear"
+                    :value="item.schoolyear"
+                >
+                </el-option>
+              </el-select>
+            </el-form-item>
+
+            <el-form-item label="学生班级" prop="classid">
+              <el-select v-model="ruleForm.classid" filterable placeholder="请先选择专业" @focus="getClassList">
+                <el-option
+                    v-for="item in classList"
+                    :key="item.classid"
+                    :label="item.classid"
+                    :value="item.classid"
+                >
+                </el-option>
+              </el-select>
+            </el-form-item>
+
+
+
+
+
+<!--            <el-form-item label="模糊查询" prop="fuzzy">-->
+<!--              <el-switch-->
+<!--                  v-model="ruleForm.fuzzy"-->
+<!--                  @change="changeFuzzy"-->
+<!--              ></el-switch>-->
+<!--            </el-form-item>-->
             <el-form-item>
               <el-button type="primary" @click="resetForm('ruleForm')"
               >重置
@@ -33,16 +83,25 @@
 </template>
 <script>
 import StudentList from "@/views/Admin/studentManage/studentList";
+import {getClassListByCollegeAndMajorAndSchoolYear, getCollegeList, getMajorList, getSchoolYearList} from "@/api/utils";
 
 export default {
   components: {StudentList},
   data() {
     return {
+      collegeList: [],
+      majorList: [],
+      schoolYearList: [],
+      classList: [],
+
       ruleForm: {
         sno: '',
         sname: '',
         fuzzy: true,
         password: "fuzzy",
+        schoolyear: '',
+        majorid: '',
+        collegeid: '',
       },
       rules: {}
     };
@@ -54,6 +113,45 @@ export default {
     this.password = "fuzzy";
   },
   methods: {
+
+    getCollegeList() {
+      const that = this;
+      getCollegeList().then((resp) => {
+        console.log(resp.data.data);
+        that.collegeList = resp.data.data;
+        console.log(this.collegeList);
+      });
+    },
+
+    getMajorList() {
+      const that = this;
+      getMajorList(that.ruleForm.collegeid).then((resp) => {
+        if(resp.data.code===400){
+        }
+        that.majorList = resp.data.data;
+
+      });
+    },
+
+    getSchoolYearList(){
+      const that = this;
+      getSchoolYearList().then((resp) => {
+        console.log(resp.data.data);
+        that.schoolYearList = resp.data.data;
+      });
+    },
+
+    getClassList(){
+      const that = this;
+      getClassListByCollegeAndMajorAndSchoolYear(that.ruleForm.collegeid,that.ruleForm.majorid,that.ruleForm.schoolyear).then((resp) => {
+        console.log(resp.data.data);
+        that.classList = resp.data.data;
+      });
+    },
+
+
+
+
     changeFuzzy(ruleForm) {
       let that = this.ruleForm;
       that.fuzzy ? that.password = 'fuzzy' : that.password = 'notfuzzy';

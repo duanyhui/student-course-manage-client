@@ -204,3 +204,46 @@ export function updateTerm_before(){
         method: 'POST'
     })
 }
+
+export function getSchoolYearList(){
+    return axios({
+        url: '/utils/get_schoolyear_list',
+        method: 'GET'
+    })
+}
+
+export function getClassListByCollegeAndMajorAndSchoolYear(collegeid,majorid,schoolyear){
+    return axios({
+        url: '/utils/get_classlist_by_college_major_schoolyear',
+        method: 'GET',
+        params: {
+            collegeid: collegeid,
+            majorid: majorid,
+            schoolyear: schoolyear
+        }
+    })
+}
+
+export function addClass(collegeid,majorid,schoolyear,classid){
+    return axios({
+        url: '/utils/add_class',
+        method: 'POST',
+        params: {
+            collegeid: collegeid,
+            majorid: majorid,
+            schoolyear: schoolyear,
+            classid: classid
+        }
+    })
+}
+
+export function deletePlanByPlanidAndCid(planid,cid){
+    return axios({
+        url: '/plan/delete_plan_table_by_planid_and_cid',
+        method: 'POST',
+        data: {
+            planid: planid,
+            cid: cid
+        }
+    })
+}

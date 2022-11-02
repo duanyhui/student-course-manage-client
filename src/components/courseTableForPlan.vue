@@ -1,5 +1,13 @@
 <template>
   <div>
+
+    <el-form :inline="true" :model="Form"
+              label-width="70px" class="demo-ruleForm">
+      <el-form-item label="课程名" >
+        <el-input v-model="Form.cname"></el-input>
+      </el-form-item>
+    </el-form>
+
     <el-table
         :data="tableData"
         border
@@ -33,6 +41,7 @@
         <template slot-scope="scope">
 
           <el-button @click="editor(scope.row)" type="text" size="small">选择</el-button>
+          <el-button @click="deletePlan(scope.row)" type="text" size="small">退选</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -48,7 +57,7 @@
 </template>
 
 <script>
-import {createPlanTable} from "@/api/utils";
+import {createPlanTable, deletePlanByPlanidAndCid} from "@/api/utils";
 
 export default {
   methods: {
@@ -125,7 +134,9 @@ export default {
             message: '添加成功',
             type: 'success'
           });
-          window.location.reload()
+          setTimeout(function () {
+            window.location.reload()
+          }, 2000)
         }
         else {
           this.$message({
@@ -135,29 +146,63 @@ export default {
           });
         }
       })
+    },
+    deletePlan(row){
+      deletePlanByPlanidAndCid(this.$store.state.planid,row.cid).then(res=>{
+        if(res.data.code === 200){
+          this.$message({
+            showClose: true,
+            message: res.data.msg,
+            type: 'success'
+          });
+
+          setTimeout(function () {
+            window.location.reload()
+          }, 2000)
+        }
+        else {
+          this.$message({
+            showClose: true,
+            message: res.data.msg,
+            type: 'error'
+          });
+        }
+      })
     }
   },
   created() {
     console.log(this.type)
   },
+
   data() {
     return {
       typename: [{
 
       }],
+      Form: {
+        cno: '',
+        cname: '',
+        fuzzy: true,
+      },
+
+      fuzzy:true,
+
       tableData: null,
       pageSize: 10,
       total: null,
       tmpList: null,
       type: sessionStorage.getItem("type"),
+
     }
   },
   props: {
     ruleForm: Object,
-    isActive: Boolean
+    isActive: Boolean,
+    cname: String,
   },
+
   watch: {
-    ruleForm: {
+    Form: {
       handler(newRuleForm, oldRuleForm) {
         console.log("组件监听 form")
         console.log(newRuleForm)
@@ -165,7 +210,7 @@ export default {
         that.tmpList = null
         that.total = null
         that.tableData = null
-        axios.get("/course/getCourseList").then(function (resp) {
+        axios.post("/course/findBySearch", newRuleForm).then(function (resp) {
           console.log("查询结果:");
           console.log(resp)
           that.tmpList = resp.data.data
@@ -181,5 +226,7 @@ export default {
       immediate: true
     }
   },
+
+
 }
 </script>
