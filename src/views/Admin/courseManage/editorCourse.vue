@@ -1,6 +1,7 @@
 <template>
   <div>
-    <el-form style="width: 60%" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+    <el-form ref="ruleForm" :model="ruleForm" :rules="rules" class="demo-ruleForm" label-width="120px"
+             style="width: 60%">
       <el-form-item label="需编辑的课程号" prop="cno">
         <el-input v-model="ruleForm.cno"></el-input>
       </el-form-item>
@@ -58,24 +59,26 @@ export default {
   //   })
   // },
   methods: {
-    quirybycno() {//点击查询按钮查询学号对应学生信息，并且填入对应输入框，选择框中
+    quirybycno() {//点击查询按钮查询学号对应课程信息，并且填入对应输入框，选择框中
       const that = this;
       //try {
       axios
           .get("/course/findByCno/" + this.ruleForm.cno)
           .then(function (resp) {
             // that.ruleForm = resp.data
-            if (resp.data.code === 200) {
+            if (resp.data.data === null) {
+              that.$message.error('查询失败，未查询到该课程号对应的课程');
+
+            } else {
               that.$message({
                 showClose: true,
                 message: "查询到了该课程号对应的课程信息如下",
                 type: "success",
               });
               console.log(resp.data)
-              that.ruleForm = resp.data.data;
+              that.ruleForm.cname = resp.data.data.cname;
+              that.ruleForm.ccredit = resp.data.data.ccredit;
 
-            } else if (resp.data.code === 400) {
-              that.$message.error(resp.data.msg);
             }
           });
       // } catch (error) {
